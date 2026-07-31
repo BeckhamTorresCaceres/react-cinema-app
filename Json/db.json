@@ -1,0 +1,39 @@
+{
+  "roles": [
+    {
+      "id": 1,
+      "name": "admin",
+      "description": "Administrador del sistema"
+    },
+    {
+      "id": 2,
+      "name": "client",
+      "description": "Cliente de la plataforma"
+    }
+  ],
+
+  "users": [
+    {
+      "id": 1,
+      "name": "Administrador",
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "password": "Admin123*",
+      "roleId": 1,
+      "phone": "3001234567",
+      "active": true,
+      "avatar": "https://i.pravatar.cc/150?img=1"
+    },
+    {
+      "id": 2,
+      "name": "Juan Pérez",
+      "username": "juanperez",
+      "email": "cliente@gmail.com",
+      "password": "Cliente123*",
+      "roleId": 2,
+      "phone": "3007654321",
+      "active": true,
+      "avatar": "https://i.pravatar.cc/150?img=2"
+    }
+  ]
+}
