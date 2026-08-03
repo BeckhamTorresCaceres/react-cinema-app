@@ -1,0 +1,1 @@
+// Evita que un usuario que ya inició sesión vuelva a ver /login o /register. Si intenta entrar, lo redirige a la pantalla principal o al dashboard automáticamente. 
