@@ -1,17 +1,51 @@
 import { useState } from "react";
-import { DateSelector } from "./DateSelector";
+import { DateSelector } from "@/features/billboard/components/DataSelector";
 import { MovieCard } from "./MovieCard";
 import { MOCK_MOVIES } from "../data/billboard.mock";
+import { BillboardFilters } from "./BillboardFilters";
 
 export const BillboardSection = () => {
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  const [selectedGenre, setSelectedGenre] = useState("all");
 
-  const filteredMovies = MOCK_MOVIES.filter((m) => {
-    if (!m.isActive) return false;
-    if (selectedGenre !== "all" && m.genre !== selectedGenre) return false;
+  
+  // Estado unificado para la barra de filtros avanzada
+  
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    genre: "all",
+    format: "all",
+    rating: "all",
+    complex: "all",
+  });
+
+  
+  // Manejador para actualizar los filtros dinámicamente
+  
+  const handleFilterChange = (newFilters: Partial<typeof filters>) => {
+    setFilters((prev) => ({ ...prev, ...newFilters }));
+  };
+
+  
+  // ACTUALIZADO: Filtrado con búsqueda por texto y género
+  
+  const filteredMovies = MOCK_MOVIES.filter((movie) => {
+    if (!movie.isActive) return false;
+
+    // Filtro por texto de búsqueda
+    if (
+      filters.searchTerm &&
+      !movie.title.toLowerCase().includes(filters.searchTerm.toLowerCase())
+    ) {
+      return false;
+    }
+
+    // Filtro por género
+    if (filters.genre !== "all" && movie.genre !== filters.genre) {
+      return false;
+    }
+
     return true;
   });
 
@@ -23,17 +57,12 @@ export const BillboardSection = () => {
           <p className="text-sm text-slate-400">Elige tu función y compra tus entradas</p>
         </div>
 
-        {/* Filtro rápido por género */}
-        <select
-          value={selectedGenre}
-          onChange={(e) => setSelectedGenre(e.target.value)}
-          className="rounded-lg border border-[#162E93] bg-[#080616] px-4 py-2 text-sm text-white outline-none focus:border-[#2F2FE4]"
-        >
-          <option value="all">Todos los géneros</option>
-          <option value="Acción">Acción</option>
-          <option value="Ciencia Ficción">Ciencia Ficción</option>
-        </select>
+        {/* 🟡 ELIMINADO: El <select> individual de género anterior se removió 
+            porque ahora está integrado dentro de la barra de filtros. */}
       </div>
+
+      {/* 🟢 AGREGADO: Barra de Filtros Avanzada                         */}
+      <BillboardFilters filters={filters} onFilterChange={handleFilterChange} />
 
       {/* Selector de 7 Días */}
       <DateSelector selectedDate={selectedDate} onSelectDate={setSelectedDate} />

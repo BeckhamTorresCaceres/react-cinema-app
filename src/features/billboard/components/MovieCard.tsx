@@ -1,7 +1,7 @@
 // Tarjeta individual con formato / horarios
 
 import { Play, Ticket, Clock, Star } from "lucide-react";
-import { Movie } from "../types/billboard.types";
+import type { Movie } from "@/features/billboard/types/billboard.types";
 
 interface MovieCardProps {
   movie: Movie;

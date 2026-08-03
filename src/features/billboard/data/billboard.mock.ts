@@ -1,4 +1,4 @@
-import { Movie } from "../../billboard/types/billboard.types";
+import type { Movie } from "@/features/billboard/types/billboard.types";
 
 export const MOCK_MOVIES: Movie[] = [
   {

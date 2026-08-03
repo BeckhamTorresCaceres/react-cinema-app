@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Play, Plus, Heart } from "lucide-react";
 import { Movies } from "../../../../shared/data/movies";
-import { BillboardSection } from "../../../billboard/components/BillboardSection";
+import { BillboardSection } from "@/features/billboard/components/BillboardSection";
+import { CatalogCarousel } from "@/features/Home/components/CatalogCarousel";
 
 export const HomePage = () => {
   // Declaración del estado para la película activa del hero
@@ -118,43 +119,7 @@ export const HomePage = () => {
       <BillboardSection />
 
       {/* CARRUSEL */}
-      <section id="multicine" className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
-        <h2 className="mb-6 text-2xl font-bold sm:mb-8 sm:text-3xl">
-          Explorar Catálogo
-        </h2>
-
-        <div className="flex gap-4 overflow-x-auto pb-4 sm:gap-6">
-          {Movies.map((movie, index) => (
-            <div
-              key={movie.id}
-              onClick={() => setCurrentMovie(index)}
-              className={`min-w-[180px] cursor-pointer overflow-hidden rounded-xl transition duration-300 hover:scale-105 sm:min-w-[220px] ${
-                currentMovie === index
-                  ? "ring-4 ring-[#2F2FE4]"
-                  : "border border-[#162E93]/40 bg-[#1A1953]/50 hover:border-[#2F2FE4]"
-              }`}
-            >
-              <img
-                src={movie.imagen}
-                alt={movie.titulo}
-                className="h-56 w-full object-cover sm:h-72"
-              />
-
-              <div className="p-3 sm:p-4">
-                <h3 className="font-semibold">{movie.titulo}</h3>
-
-                <p className="mt-2 text-sm text-[#8E8EFF]">
-                  ⭐ {movie.puntuacion}
-                </p>
-
-                <p className="text-sm text-slate-400">
-                  {movie.genero}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <CatalogCarousel currentMovie={currentMovie} onSelectMovie={setCurrentMovie} />
     </main>
   );
 };
