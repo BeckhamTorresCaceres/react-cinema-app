@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Play, Plus, Heart } from "lucide-react";
 import { Movies } from "../../../../shared/data/movies";
+import { BillboardSection } from "../../../billboard/components/BillboardSection";
 
 export const HomePage = () => {
+  // Declaración del estado para la película activa del hero
   const [currentMovie, setCurrentMovie] = useState(0);
 
   const nextMovie = useCallback(() => {
@@ -113,53 +115,7 @@ export const HomePage = () => {
       </section>
 
       {/* PELÍCULAS */}
-      <section id="cartelera" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-        <h2 className="mb-6 text-2xl font-bold sm:mb-8 sm:text-3xl">
-          Películas Populares
-        </h2>
-
-        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8">
-          {Movies.map((movie, index) => (
-            <div
-              key={movie.id}
-              onClick={() => setCurrentMovie(index)}
-              className="group cursor-pointer overflow-hidden rounded-xl border border-[#162E93]/40 bg-[#1A1953]/50 transition duration-300 hover:-translate-y-2 hover:border-[#2F2FE4] hover:shadow-2xl hover:shadow-[#080616]"
-            >
-              <div className="overflow-hidden">
-                <img
-                  src={movie.imagen}
-                  alt={movie.titulo}
-                  className="h-64 w-full object-cover transition duration-500 group-hover:scale-110 sm:h-80"
-                />
-              </div>
-
-              <div className="p-4 sm:p-5">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-bold">
-                    {movie.titulo}
-                  </h3>
-
-                  <span className="text-[#8E8EFF]">
-                    ⭐ {movie.puntuacion}
-                  </span>
-                </div>
-
-                <p className="mt-2 text-sm text-slate-300">
-                  {movie.anio} • {movie.genero}
-                </p>
-
-                <p className="mt-2 line-clamp-3 text-sm text-slate-400">
-                  {movie.descripcion}
-                </p>
-
-                <button className="mt-5 w-full rounded-lg bg-[#2F2FE4] py-2 font-semibold transition hover:bg-[#162E93]">
-                  Ver detalles
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <BillboardSection />
 
       {/* CARRUSEL */}
       <section id="multicine" className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
