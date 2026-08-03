@@ -1,8 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router";
-import { HomePage } from "./features/auth/pages/home/HomePage";
+import { HomePage } from "./features/Home/pages/home/HomePage";
 import { LoginPage } from "./features/auth/pages/login/LoginPage";
 import { RegisterPage } from "./features/auth/pages/register/RegisterPage";
-import { AuthLayout } from "./features/auth/layouts/AuthLayout";
+import { HomeLayout } from "./features/Home/layouts/HomeLayout";
 import { ProtectedRoute, PublicOnlyRoute } from "./shared/components/ProtectedRoute";
 
 export const appRouter = createBrowserRouter([
@@ -14,7 +14,7 @@ export const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <AuthLayout />,
+        element: <HomeLayout />,
         children: [
           {
             path: "login",
@@ -33,7 +33,7 @@ export const appRouter = createBrowserRouter([
 
   {
     path: "/",
-    element: <AuthLayout />,
+    element: <HomeLayout />,
     children: [
       {
         index: true, // La pantalla principal ("/")
@@ -48,7 +48,7 @@ export const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <AuthLayout />,
+        element: <HomeLayout />,
         children: [
           {
             path: "perfil",
