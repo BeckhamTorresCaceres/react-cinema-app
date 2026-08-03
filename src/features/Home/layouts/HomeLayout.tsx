@@ -9,23 +9,51 @@ const navigationItems = [
   { label: "Carrito", to: "/checkout", icon: ShoppingCart },
 ];
 
-const listaPaises: Record<string, string[]> = {
-  Colombia: ["Atlántico", "Antioquia", "Bogotá D.C.", "Valle del Cauca"],
-  México: ["CDMX", "Jalisco", "Nuevo León", "Estado de México"],
-  Argentina: ["Buenos Aires", "Córdoba", "Santa Fe", "Mendoza"]
+const listaPaises: Record<string, Record<string, string[]>> = {
+  Colombia: {
+    "Atlántico": ["Barranquilla", "Soledad", "Puerto Colombia"],
+    "Antioquia": ["Medellín", "Envigado", "Bello"],
+    "Bogotá D.C.": ["Bogotá"],
+    "Valle del Cauca": ["Cali", "Palmira", "Yumbo"]
+  },
+  México: {
+    "CDMX": ["Coyoacán", "Polanco", "Iztapalapa"],
+    "Jalisco": ["Guadalajara", "Zapopan", "Tlaquepaque"],
+    "Nuevo León": ["Monterrey", "San Pedro", "Guadalupe"]
+  },
+  Argentina: {
+    "Buenos Aires": ["La Plata", "Mar del Plata", "Tandil"],
+    "Córdoba": ["Córdoba Capital", "Carlos Paz", "Alta Gracia"],
+    "Santa Fe": ["Rosario", "Santa Fe Capital", "Rafaela"]
+  }
 };
 
 export const HomeLayout = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalUbicacion, setModalUbicacion] = useState<boolean>(false);
-  const [pais, setPais] = useState<string>("");
-  const [departamento, setDepartamento] = useState<string>("");
+  const [pais, setPais] = useState<string>(() => {
+    return localStorage.getItem("lumi_pais") || "";
+  });
 
-  const handleAplicar = (e: React.FormEvent<HTMLFormElement>) => {
+  const [departamento, setDepartamento] = useState<string>(() => {
+    return localStorage.getItem("lumi_departamento") || "";
+  });
+
+    const [ciudad, setCiudad] = useState<string>(() => {
+    return localStorage.getItem("lumi_ciudad") || "";
+  });
+
+
+   const handleAplicar = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    localStorage.setItem("lumi_pais", pais);
+    localStorage.setItem("lumi_departamento", departamento);
+    localStorage.setItem("lumi_ciudad", ciudad); // Guarda la ciudad
+
     setModalUbicacion(false);
-    alert(`Ubicación: ${pais}, ${departamento}`);
+    alert(`Ubicación guardada: ${pais}, ${departamento}, ${ciudad}`);
   };
   
   // Se ejecuta al cargar el componente, interceptando de forma aislada
@@ -124,15 +152,21 @@ export const HomeLayout = () => {
                 </div>
               </div>
               
-              <form onSubmit={handleAplicar} className="space-y-4">
+               <form onSubmit={handleAplicar} className="space-y-4">
             
-            {/* Selector de País (Añadido por ti) */}
+            {/* 1. Selector de País */}
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold text-slate-300">País</label>
               <select 
                 required 
                 value={pais} 
-                onChange={(e) => { setPais(e.target.value); setDepartamento(""); }} 
+                onChange={(e) => { 
+                  setPais(e.target.value); 
+                  setDepartamento(""); 
+                  setCiudad("");
+                  localStorage.removeItem("lumi_departamento");
+                  localStorage.removeItem("lumi_ciudad");
+                }} 
                 className="w-full rounded-lg border border-[#162E93]/50 bg-[#141233] px-3 py-2 text-white outline-none focus:border-[#2F2FE4]"
               >
                 <option value="">Selecciona un país</option>
@@ -140,22 +174,43 @@ export const HomeLayout = () => {
               </select>
             </div>
 
-            {/* Selector de Departamento (Añadido por ti) */}
+            {/* 2. Selector de Departamento */}
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold text-slate-300">Departamento / Estado</label>
               <select 
                 required 
                 disabled={!pais} 
                 value={departamento} 
-                onChange={(e) => setDepartamento(e.target.value)} 
+                onChange={(e) => {
+                  setDepartamento(e.target.value);
+                  setCiudad("");
+                  localStorage.removeItem("lumi_ciudad");
+                }} 
                 className="w-full rounded-lg border border-[#162E93]/50 bg-[#141233] px-3 py-2 text-white outline-none focus:border-[#2F2FE4] disabled:opacity-40"
               >
                 <option value="">Selecciona un departamento</option>
-                {pais && listaPaises[pais].map((d) => <option key={d} value={d}>{d}</option>)}
+                {pais && Object.keys(listaPaises[pais]).map((d) => <option key={d} value={d}>{d}</option>)}
+              </select>
+            </div>
+
+            {/* 3. Selector de Ciudad (NUEVO) */}
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-semibold text-slate-300">Ciudad</label>
+              <select 
+                required 
+                disabled={!departamento} 
+                value={ciudad} 
+                onChange={(e) => setCiudad(e.target.value)} 
+                className="w-full rounded-lg border border-[#162E93]/50 bg-[#141233] px-3 py-2 text-white outline-none focus:border-[#2F2FE4] disabled:opacity-40"
+              >
+                <option value="">Selecciona una ciudad</option>
+                {pais && departamento && listaPaises[pais][departamento]?.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
               </select>
             </div>
             
-            <button type="submit" className="w-full bg-[#2F2FE4] py-2.5 rounded-lg font-semibold text-white transition hover:bg-[#162E93]">
+            <button type="submit" className="w-full bg-[#2F2FE4] py-2.5 rounded-lg font-semibold text-white transition hover:bg-[#162E93] cursor-pointer">
               Aplicar
             </button>
           </form>
