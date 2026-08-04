@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import { MapPin, Menu, ShoppingCart, Ticket, User, X } from "lucide-react";
 import { useAuthStore } from "../../auth/store/authStore";
 
@@ -29,7 +29,6 @@ const listaPaises: Record<string, Record<string, string[]>> = {
 };
 
 export const HomeLayout = () => {
-  const location = useLocation();
   const { isAuthenticated, user, logout } = useAuthStore();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -103,16 +102,12 @@ export const HomeLayout = () => {
           <div className="hidden items-center gap-3 sm:flex">
             {!isAuthenticated ? (
               <>
-                {location.pathname !== "/login" && (
                   <Link to="/login" className="rounded-lg border border-[#162E93] bg-[#1A1953]/40 px-4 py-2 text-sm font-medium text-white transition duration-200 hover:border-[#2F2FE4] hover:bg-[#162E93]/50">
                     Iniciar sesión
                   </Link>
-                )}
-                {location.pathname !== "/register" && (
                   <Link to="/register" className="rounded-lg bg-[#2F2FE4] px-4 py-2 text-sm font-semibold text-white shadow-md transition duration-200 hover:bg-[#162E93]">
                     Registrarse
                   </Link>
-                )}
               </>
             ) : (
               <div className="flex items-center gap-2">
@@ -149,16 +144,12 @@ export const HomeLayout = () => {
               <div className="mt-2 border-t border-[#162E93]/30 pt-3">
                 {!isAuthenticated ? (
                   <div className="grid grid-cols-2 gap-3">
-                    {location.pathname !== "/login" && (
                       <Link to="/login" onClick={() => setIsMenuOpen(false)} className="rounded-lg border border-[#162E93] bg-[#1A1953]/40 px-3 py-2 text-center text-sm font-medium">
                         Iniciar sesión
                       </Link>
-                    )}
-                    {location.pathname !== "/register" && (
                       <Link to="/register" onClick={() => setIsMenuOpen(false)} className="rounded-lg bg-[#2F2FE4] px-3 py-2 text-center text-sm font-semibold">
                         Registrarse
                       </Link>
-                    )}
                   </div>
                 ) : (
                   <div className="flex items-center justify-center gap-2">
