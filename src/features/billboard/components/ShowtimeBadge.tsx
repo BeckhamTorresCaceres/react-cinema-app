@@ -1,0 +1,1 @@
+// Horario individual (agotado /activo)
