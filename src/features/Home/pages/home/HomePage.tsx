@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Play, Plus, Heart } from "lucide-react";
 import { Movies } from "../../../../shared/data/movies";
 import { BillboardSection } from "@/features/billboard/components/BillboardSection";
-import { CatalogCarousel } from "@/features/Home/components/CatalogCarousel";
 
 export const HomePage = () => {
   // Declaración del estado para la película activa del hero
@@ -117,9 +116,7 @@ export const HomePage = () => {
 
       {/* PELÍCULAS */}
       <BillboardSection />
-
-      {/* CARRUSEL */}
-      <CatalogCarousel currentMovie={currentMovie} onSelectMovie={setCurrentMovie} />
+      
     </main>
   );
 };

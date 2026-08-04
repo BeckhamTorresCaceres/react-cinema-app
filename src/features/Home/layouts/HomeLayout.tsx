@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
-import { Building2, MapPin, Menu, ShoppingCart, Ticket, User, X } from "lucide-react";
+import { MapPin, Menu, ShoppingCart, Ticket, User, X } from "lucide-react";
 import { useAuthStore } from "../../auth/store/authStore";
 
 const navigationItems = [
   { label: "Ubicación", to: "/#ubicacion", icon: MapPin },
-  { label: "Multicine", to: "/#multicine", icon: Building2 },
   { label: "Cartelera", to: "/#cartelera", icon: Ticket },
   { label: "Carrito", to: "/checkout", icon: ShoppingCart },
 ];
