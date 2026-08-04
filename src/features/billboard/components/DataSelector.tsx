@@ -26,7 +26,7 @@ export  const DateSelector = ({ selectedDate, onSelectDate }: DateSelectorProps)
           <button
             key={item.fullDate}
             onClick={() => onSelectDate(item.fullDate)}
-            className={`flex min-w-[85px] flex-col items-center justify-center rounded-xl p-3 transition duration-200 ${
+            className={`flex min-w-[21.25] flex-col items-center justify-center rounded-xl p-3 transition duration-200 ${
               isSelected
                 ? "bg-[#2F2FE4] text-white shadow-lg shadow-[#2F2FE4]/40"
                 : "border border-[#162E93]/40 bg-[#1A1953]/50 text-slate-300 hover:border-[#2F2FE4]"

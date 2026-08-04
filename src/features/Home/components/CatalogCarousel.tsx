@@ -60,14 +60,13 @@ export const CatalogCarousel = ({ currentMovie, onSelectMovie }: CatalogCarousel
       {/* Contenedor del Carrusel (Sin Scrollbar gris visible) */}
       <div
         ref={containerRef}
-        className="flex gap-4 overflow-x-auto pb-4 scrollbar-none sm:gap-6 [scrollbar-width:none] [-ms-overflow-style:none]"
-        style={{ scrollbarWidth: "none" }}
+        className="flex gap-4 overflow-x-auto pb-4 scrollbar-none sm:gap-6 [-ms-overflow-style:none]"
       >
         {Movies.map((movie, index) => (
           <div
             key={movie.id}
             onClick={() => onSelectMovie(index)}
-            className={`min-w-[180px] shrink-0 cursor-pointer overflow-hidden rounded-xl transition duration-300 hover:scale-105 sm:min-w-[220px] ${
+            className={`min-w-45 shrink-0 cursor-pointer overflow-hidden rounded-xl transition duration-300 hover:scale-105 sm:min-w-55 ${
               currentMovie === index
                 ? "ring-4 ring-[#2F2FE4]"
                 : "border border-[#162E93]/40 bg-[#1A1953]/50 hover:border-[#2F2FE4]"

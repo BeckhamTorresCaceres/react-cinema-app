@@ -48,7 +48,7 @@ export const HomePage = () => {
   return (
     <main className="min-h-screen bg-[#080616] text-white">
       {/* HERO */}
-      <section id="ubicacion" className="relative h-[calc(100svh-4rem)] min-h-[570px] overflow-hidden sm:min-h-[620px]">
+      <section id="ubicacion" className="relative h-[calc(100svh-4rem)] min-h-142.5 overflow-hidden sm:min-h-155">
         <img
           key={heroMovie.id}
           src={heroMovie.imagen}
@@ -57,8 +57,8 @@ export const HomePage = () => {
         />
 
         <div className="absolute inset-0 bg-[#080616]/45" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080616] via-[#080616]/75 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-60 bg-gradient-to-t from-[#080616] to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-[#080616] via-[#080616]/75 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-60 bg-linear-to-t from-[#080616] to-transparent" />
 
         <div className="relative z-10 mx-auto flex h-full max-w-7xl items-end px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-24">
           <div className="max-w-2xl">
