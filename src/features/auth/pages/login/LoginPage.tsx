@@ -1,19 +1,35 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "../../store/authStore";
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+  const { login } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage(null);
 
-    setTimeout(() => {
+    try {
+      await login({ email, password, rememberMe });
+      const { user } = useAuthStore.getState();
+      if (user?.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    } catch (error: any) {
+      setErrorMessage(error.message || "No se pudo iniciar sesión");
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   // Color palet
@@ -50,6 +66,8 @@ export const LoginPage = () => {
             <input
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="correo@ejemplo.com"
               className="w-full rounded-lg border border-[#162E93]/60 bg-[#080616]/70 px-4 py-3 text-white placeholder-slate-500 outline-none transition focus:border-[#2F2FE4] focus:ring-2 focus:ring-[#2F2FE4]/30"
             />
@@ -72,6 +90,8 @@ export const LoginPage = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 className="w-full rounded-lg border border-[#162E93]/60 bg-[#080616]/70 px-4 py-3 text-white placeholder-slate-500 outline-none transition focus:border-[#2F2FE4] focus:ring-2 focus:ring-[#2F2FE4]/30"
               />
@@ -90,6 +110,8 @@ export const LoginPage = () => {
             <input
               type="checkbox"
               id="remember"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
               className="h-4 w-4 rounded border-[#162E93] bg-[#080616] text-[#2F2FE4] focus:ring-[#2F2FE4]"
             />
             <label htmlFor="remember" className="text-xs text-slate-300">

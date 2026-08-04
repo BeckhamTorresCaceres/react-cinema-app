@@ -3,23 +3,35 @@
 
 import { Navigate, Outlet } from 'react-router';
 import { useAuthStore } from '../../features/auth/store/authStore';
+
 export const ProtectedRoute = () => {
   const { isAuthenticated } = useAuthStore();
 
-  // Si no hay sesión activa, redirige al login
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Si hay sesión, muestra el contenido de la ruta privada
   return <Outlet />;
 };
 
 export const PublicOnlyRoute = () => {
   const { isAuthenticated } = useAuthStore();
 
-  // Si YA está autenticado, no lo dejamos ver Login/Register y lo enviamos al Home
   if (isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Outlet />;
+};
+
+export const AdminOnlyRoute = () => {
+  const { isAuthenticated, user } = useAuthStore();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user?.role !== 'admin') {
     return <Navigate to="/" replace />;
   }
 

@@ -3,7 +3,10 @@ import { HomePage } from "./features/Home/pages/home/HomePage";
 import { LoginPage } from "./features/auth/pages/login/LoginPage";
 import { RegisterPage } from "./features/auth/pages/register/RegisterPage";
 import { HomeLayout } from "./features/Home/layouts/HomeLayout";
-import { ProtectedRoute, PublicOnlyRoute } from "./shared/components/ProtectedRoute";
+import { AdminOnlyRoute, ProtectedRoute, PublicOnlyRoute } from "./shared/components/ProtectedRoute";
+import { AdminPage } from "./features/admin/pages/AdminPage";
+import { AdminProfilePage } from "./features/admin/pages/AdminProfilePage";
+import { AdminLayout } from "./features/admin/layouts/AdminLayout.tsx";
 
 export const appRouter = createBrowserRouter([
   // 
@@ -44,7 +47,7 @@ export const appRouter = createBrowserRouter([
 
   // 3. RUTAS PRIVADAS (Solo para usuarios CON sesión)
   {
-    element: <ProtectedRoute />, // <-- Guardia 2: Si NO estás logueado, te manda a Login
+    element: <ProtectedRoute />,
     children: [
       {
         path: "/",
@@ -57,6 +60,27 @@ export const appRouter = createBrowserRouter([
           {
             path: "checkout",
             element: <div>Página de Compras (Solo Usuarios Logueados)</div>,
+          },
+        ],
+      },
+    ],
+  },
+
+  // 4. RUTAS PRIVADAS SOLO PARA ADMIN
+  {
+    element: <AdminOnlyRoute />,
+    children: [
+      {
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+          {
+            index: true,
+            element: <AdminPage />,
+          },
+          {
+            path: "perfil",
+            element: <AdminProfilePage />,
           },
         ],
       },
