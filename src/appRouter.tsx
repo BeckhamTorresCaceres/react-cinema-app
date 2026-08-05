@@ -7,6 +7,8 @@ import { AdminOnlyRoute, ProtectedRoute, PublicOnlyRoute } from "./shared/compon
 import { AdminPage } from "./features/admin/pages/AdminPage";
 import { AdminProfilePage } from "./features/admin/pages/AdminProfilePage";
 import { AdminLayout } from "./features/admin/layouts/AdminLayout.tsx";
+import MyAcount from "./features/Client/pages/MyAcount.tsx";
+
 
 export const appRouter = createBrowserRouter([
   // 
@@ -55,7 +57,7 @@ export const appRouter = createBrowserRouter([
         children: [
           {
             path: "perfil",
-            element: <div>Página de Perfil (Solo Usuarios Logueados)</div>,
+            element: <MyAcount />,
           },
           {
             path: "checkout",
