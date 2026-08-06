@@ -12,12 +12,12 @@ export const MOCK_MOVIES: Movie[] = [
     languages: ["Español", "Inglés", "Subtitulada"],
     formats: ["2D", "IMAX"],
     score: 8.8,
-    isRelease: true,
+    isReleased: true,
     isActive: true,
     showtimes: [
-      { id: "s1", time: "14:00", format: "IMAX", language: "SUB", isSoldOut: false },
-      { id: "s2", time: "17:30", format: "IMAX", language: "SUB", isSoldOut: true },
-      { id: "s3", time: "20:45", format: "2D", language: "DOB", isSoldOut: false },
+      { id: "s1", time: "14:00", format: "IMAX", language: "Subtitulada", isSoldOut: false },
+      { id: "s2", time: "17:30", format: "IMAX", language: "Subtitulada", isSoldOut: true },
+      { id: "s3", time: "20:45", format: "2D", language: "Español", isSoldOut: false },
     ],
   },
   {
@@ -31,11 +31,11 @@ export const MOCK_MOVIES: Movie[] = [
     languages: ["Español", "Inglés"],
     formats: ["2D", "3D"],
     score: 9.0,
-    isRelease: false,
+    isReleased: false,
     isActive: true,
     showtimes: [
-      { id: "s4", time: "15:15", format: "3D", language: "DOB", isSoldOut: false },
-      { id: "s5", time: "19:00", format: "2D", language: "DOB", isSoldOut: false },
+      { id: "s4", time: "15:15", format: "3D", language: "Español", isSoldOut: false },
+      { id: "s5", time: "19:00", format: "2D", language: "Español", isSoldOut: false },
     ],
   },
 ];

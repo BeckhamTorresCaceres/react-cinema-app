@@ -14,16 +14,16 @@ export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/40 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#2F2FE4] hover:shadow-2xl">
       
       {/* Póster e Indicadores */}
-      <div className="relative aspect-[2/3] w-full overflow-hidden">
+      <div className="relative aspect-2/3 w-full overflow-hidden">
         <img
           src={movie.poster}
           alt={movie.title}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#080616] via-transparent to-transparent opacity-90" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#080616] via-transparent to-transparent opacity-90" />
 
         {/* Badge de Estreno */}
-        {movie.isRelease && (
+        {movie.isReleased && (
           <span className="absolute top-3 left-3 rounded-full bg-red-600 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white shadow-md">
             Estreno
           </span>
