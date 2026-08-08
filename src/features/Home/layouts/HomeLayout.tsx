@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
 import { MapPin, Menu, ShoppingCart, Ticket, User, X } from "lucide-react";
 import { useAuthStore } from "../../auth/store/authStore";
+import ElectricBorder from "@/components/ElectricBorder/ElectricBorder";
 
 const navigationItems = [
   { label: "Ubicación", to: "/#ubicacion", icon: MapPin },
@@ -45,19 +46,72 @@ export const HomeLayout = () => {
     return localStorage.getItem("lumi_ciudad") || "";
   });
 
-    const handleLogout = () => {
+  const [shaking, setShaking] = useState<boolean>(false);
+  const [dust, setDust] = useState<
+    { id: number; x: number; y: number; size: number; color: string; dx: number; dy: number }[]
+  >([]);
+
+  const handleLogout = () => {
       logout();
       navigate('/login');
     };
 
 
+   const spawnDust = (fieldId: string) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const field = document.getElementById(fieldId);
+    const card = document.getElementById("ubicacion-modal-card");
+    if (!field || !card) return;
+
+    const fr = field.getBoundingClientRect();
+    const cr = card.getBoundingClientRect();
+    const cx = fr.left - cr.left + fr.width / 2;
+    const cy = fr.top - cr.top + fr.height / 2;
+
+    const colors = [
+      "rgba(148, 163, 184, 0.55)",
+      "rgba(100, 116, 139, 0.5)",
+      "rgba(203, 213, 225, 0.45)",
+    ];
+
+    const now = Date.now();
+    const particles = Array.from({ length: 10 }, (_, i) => ({
+      id: now + i,
+      x: cx + (Math.random() - 0.5) * 140,
+      y: cy + (Math.random() - 0.5) * 20,
+      size: 3 + Math.random() * 3,
+      color: colors[i % colors.length],
+      dx: (Math.random() - 0.5) * 40,
+      dy: 30 + Math.random() * 50,
+    }));
+
+    setDust((current) => [...current, ...particles]);
+    setTimeout(() => {
+      setDust((current) => current.filter((p) => !particles.some((np) => np.id === p.id)));
+    }, 1000);
+  };
+
    const handleAplicar = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
+    if (!pais || !departamento || !ciudad) {
+      const firstMissing = !pais
+        ? "lumi-pais"
+        : !departamento
+          ? "lumi-departamento"
+          : "lumi-ciudad";
+      setShaking(true);
+      spawnDust(firstMissing);
+      return;
+    }
+
+    setDust([]);
     localStorage.setItem("lumi_pais", pais);
     localStorage.setItem("lumi_departamento", departamento);
     localStorage.setItem("lumi_ciudad", ciudad); // Guarda la ciudad
 
+    setShaking(false);
     setModalUbicacion(false);
     alert(`Ubicación guardada: ${pais}, ${departamento}, ${ciudad}`);
   };
@@ -172,12 +226,41 @@ export const HomeLayout = () => {
         )}
       </header>
       {modalUbicacion && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-            <div className="relative w-full max-w-md rounded-2xl border border-[#162E93] bg-[#0A071E] p-6 shadow-2xl">
+          <div className="modal-overlay-enter fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+            <div
+              className={shaking ? "modal-shake w-full max-w-md" : "w-full max-w-md"}
+              onAnimationEnd={() => setShaking(false)}
+            >
+            <ElectricBorder
+              color="#6D5CFF"
+              speed={1.3}
+              chaos={0.16}
+              borderRadius={16}
+              className="electric-border--cinema w-full max-w-md"
+            >
+            <div id="ubicacion-modal-card" className="relative w-full rounded-2xl bg-[#0A071E] p-6 shadow-2xl modal-content-enter">
               
-                <button type="button" onClick={() => setModalUbicacion(false)} className="absolute right-4 top-4 text-slate-400 hover:text-white cursor-pointer">
+                <button type="button" onClick={() => { setModalUbicacion(false); setDust([]); setShaking(false); }} className="absolute right-4 top-4 text-slate-400 hover:text-white cursor-pointer">
                 <X size={20} />
               </button>
+
+              <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden rounded-2xl" aria-hidden="true">
+                {dust.map((p) => (
+                  <span
+                    key={p.id}
+                    className="dust-particle"
+                    style={{
+                      left: p.x,
+                      top: p.y,
+                      width: p.size,
+                      height: p.size,
+                      background: p.color,
+                      "--dust-dx": `${p.dx}px`,
+                      "--dust-dy": `${p.dy}px`,
+                    } as React.CSSProperties}
+                  />
+                ))}
+              </div>
               
               <div className="flex items-center gap-3 mb-6">
                 <MapPin size={24} className="text-[#8E8EFF]" />
@@ -187,12 +270,13 @@ export const HomeLayout = () => {
                 </div>
               </div>
               
-               <form onSubmit={handleAplicar} className="space-y-4">
+               <form onSubmit={handleAplicar} noValidate className="space-y-4">
             
             {/* 1. Selector de País */}
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold text-slate-300">País</label>
               <select 
+                id="lumi-pais"
                 required 
                 value={pais} 
                 onChange={(e) => { 
@@ -213,6 +297,7 @@ export const HomeLayout = () => {
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold text-slate-300">Departamento / Estado</label>
               <select 
+                id="lumi-departamento"
                 required 
                 disabled={!pais} 
                 value={departamento} 
@@ -232,6 +317,7 @@ export const HomeLayout = () => {
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold text-slate-300">Ciudad</label>
               <select 
+                id="lumi-ciudad"
                 required 
                 disabled={!departamento} 
                 value={ciudad} 
@@ -250,6 +336,8 @@ export const HomeLayout = () => {
             </button>
           </form>
 
+            </div>
+            </ElectricBorder>
             </div>
           </div>
         )}
