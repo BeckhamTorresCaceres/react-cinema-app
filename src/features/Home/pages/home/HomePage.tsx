@@ -45,7 +45,7 @@ export const HomePage = () => {
 
   const heroMovie = Movies[currentMovie];
 
-  return (
+  return ( 
     <main className="min-h-screen bg-[#080616] text-white">
       {/* HERO */}
       <section id="ubicacion" className="relative h-[calc(100svh-4rem)] min-h-142.5 overflow-hidden sm:min-h-155">
@@ -66,7 +66,7 @@ export const HomePage = () => {
               ⭐ {heroMovie.puntuacion}
             </span>
 
-            <h1 className="mt-5 text-4xl font-extrabold leading-tight sm:mt-6 sm:text-5xl lg:text-6xl">
+            <h1 className="mt-5 text-4xl fon t-extrabold leading-tight sm:mt-6 sm:text-5xl lg:text-6xl">
               {heroMovie.titulo}
             </h1>
 
