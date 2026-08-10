@@ -1,16 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../store/authStore";
 import StrokeText from "@/components/StrokeText/StrokeText";
 import DriftWall from "@/components/DriftWall/DriftWall";
 import type { DriftWallItem } from "@/components/DriftWall/DriftWall";
-import { Movies } from "@/shared/data/movies";
-
-const driftItems: DriftWallItem[] = Movies.map((movie) => ({
-  image: movie.imagen,
-  title: movie.titulo,
-  description: movie.descripcion,
-}));
+import { getMovies } from "@/features/billboard/services/billboardService";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -21,6 +15,34 @@ export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [driftItems, setDriftItems] = useState<DriftWallItem[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadMovies = async () => {
+      try {
+        const movies = await getMovies();
+        if (isMounted) {
+          setDriftItems(
+            movies.map((movie) => ({
+              image: movie.poster,
+              title: movie.title,
+              description: `${movie.genre} · ${movie.duration} min`,
+            }))
+          );
+        }
+      } catch {
+        // El fondo es decorativo; el formulario de acceso permanece disponible.
+      }
+    };
+
+    void loadMovies();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,8 +57,10 @@ export const LoginPage = () => {
       } else {
         navigate("/");
       }
-    } catch (error: any) {
-      setErrorMessage(error.message || "No se pudo iniciar sesión");
+    } catch (error: unknown) {
+      setErrorMessage(
+        error instanceof Error ? error.message : "No se pudo iniciar sesión"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +87,7 @@ export const LoginPage = () => {
         />
       </div>
       <div className="relative z-10 w-full max-w-md animate-drop-from-sky rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/50 p-8 shadow-2xl backdrop-blur-md">
-        
+
         <div className="text-center">
 
           <div className="mt-1 flex items-center justify-center" role="heading" aria-level={1}>

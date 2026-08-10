@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateSelector } from "@/features/billboard/components/DataSelector";
 import { MovieCard } from "./MovieCard";
-import { MOCK_MOVIES } from "../data/billboard.mock";
 import { BillboardFilters } from "./BillboardFilters";
+import { getMovies } from "../services/billboardService";
+import type { Movie } from "../types/billboard.types";
 
 export const BillboardSection = () => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -27,10 +31,37 @@ export const BillboardSection = () => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
   };
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadMovies = async () => {
+      try {
+        const data = await getMovies();
+        if (isMounted) setMovies(data);
+      } catch (loadError) {
+        if (isMounted) {
+          setError(
+            loadError instanceof Error
+              ? loadError.message
+              : "No fue posible cargar la cartelera."
+          );
+        }
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+
+    void loadMovies();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   
   // ACTUALIZADO: Filtrado con búsqueda por texto y género
   
-  const filteredMovies = MOCK_MOVIES.filter((movie) => {
+  const filteredMovies = movies.filter((movie) => {
     if (!movie.isActive) return false;
 
     // Filtro por texto de búsqueda
@@ -43,6 +74,14 @@ export const BillboardSection = () => {
 
     // Filtro por género
     if (filters.genre !== "all" && movie.genre !== filters.genre) {
+      return false;
+    }
+
+    if (filters.format !== "all" && !movie.formats.includes(filters.format as Movie["formats"][number])) {
+      return false;
+    }
+
+    if (filters.rating !== "all" && movie.rating !== filters.rating) {
       return false;
     }
 
@@ -68,7 +107,15 @@ export const BillboardSection = () => {
       <DateSelector selectedDate={selectedDate} onSelectDate={setSelectedDate} />
 
       {/* Grid de Películas */}
-      {filteredMovies.length > 0 ? (
+      {isLoading ? (
+        <div className="mt-12 py-12 text-center text-slate-400">
+          Cargando cartelera...
+        </div>
+      ) : error ? (
+        <div className="mt-12 rounded-2xl border border-red-500/40 py-12 text-center text-red-300">
+          {error}
+        </div>
+      ) : filteredMovies.length > 0 ? (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredMovies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
