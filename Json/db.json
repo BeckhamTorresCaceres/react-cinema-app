@@ -16,8 +16,8 @@
       "id": "1",
       "name": "Administrador",
       "username": "admin",
-      "email": "admin@gmail.com",
-      "password": "Admin123*",
+      "email": "admin@s.com",
+      "password": "admin123",
       "roleId": 1,
       "phone": "3001234567",
       "active": true,
@@ -35,5 +35,366 @@
       "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE05Ot6D_e7rLeGB2Da-JfR3jMvC2DEiDExir5xbUqRw&s=10"
     }
   ],
-  "$schema": "./node_modules/json-server/schema.json"
+  "movies": [
+    {
+      "id": "1",
+      "title": "The Shawshank Redemption",
+      "poster": "https://picsum.photos/seed/shawshank/400/600",
+      "genre": "Drama",
+      "rating": "R",
+      "duration": 142,
+      "director": "Frank Darabont",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D"],
+      "score": 9.3,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s1", "time": "14:00", "format": "2D", "language": "Español", "isSoldOut": false },
+        { "id": "s2", "time": "18:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "The Godfather",
+      "poster": "https://picsum.photos/seed/godfather/400/600",
+      "genre": "Crimen",
+      "rating": "R",
+      "duration": 175,
+      "director": "Francis Ford Coppola",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D"],
+      "score": 9.2,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s3", "time": "16:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s4", "time": "20:30", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "The Dark Knight",
+      "poster": "https://picsum.photos/seed/darkknight/400/600",
+      "genre": "Acción",
+      "rating": "PG-13",
+      "duration": 152,
+      "director": "Christopher Nolan",
+      "languages": ["Español", "Inglés"],
+      "formats": ["2D", "3D", "IMAX"],
+      "score": 9.0,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s5", "time": "15:15", "format": "3D", "language": "Español", "isSoldOut": false },
+        { "id": "s6", "time": "19:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Pulp Fiction",
+      "poster": "https://picsum.photos/seed/pulpfiction/400/600",
+      "genre": "Crimen",
+      "rating": "R",
+      "duration": 154,
+      "director": "Quentin Tarantino",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D"],
+      "score": 8.9,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s7", "time": "17:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s8", "time": "21:15", "format": "2D", "language": "Español", "isSoldOut": true }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Forrest Gump",
+      "poster": "https://picsum.photos/seed/forrestgump/400/600",
+      "genre": "Drama",
+      "rating": "PG-13",
+      "duration": 142,
+      "director": "Robert Zemeckis",
+      "languages": ["Español", "Inglés"],
+      "formats": ["2D"],
+      "score": 8.8,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s9", "time": "14:30", "format": "2D", "language": "Español", "isSoldOut": false },
+        { "id": "s10", "time": "18:45", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Inception",
+      "poster": "https://picsum.photos/seed/inception/400/600",
+      "genre": "Ciencia ficción",
+      "rating": "PG-13",
+      "duration": 148,
+      "director": "Christopher Nolan",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D", "IMAX"],
+      "score": 8.8,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s11", "time": "14:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s12", "time": "17:30", "format": "IMAX", "language": "Subtitulada", "isSoldOut": true },
+        { "id": "s13", "time": "20:45", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "Fight Club",
+      "poster": "https://picsum.photos/seed/fightclub/400/600",
+      "genre": "Drama",
+      "rating": "R",
+      "duration": 139,
+      "director": "David Fincher",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D"],
+      "score": 8.8,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s14", "time": "19:30", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s15", "time": "22:15", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "8",
+      "title": "The Matrix",
+      "poster": "https://picsum.photos/seed/matrix/400/600",
+      "genre": "Ciencia ficción",
+      "rating": "R",
+      "duration": 136,
+      "director": "Lana y Lilly Wachowski",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D", "3D"],
+      "score": 8.7,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s16", "time": "16:00", "format": "3D", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s17", "time": "19:45", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "9",
+      "title": "Goodfellas",
+      "poster": "https://picsum.photos/seed/goodfellas/400/600",
+      "genre": "Crimen",
+      "rating": "R",
+      "duration": 145,
+      "director": "Martin Scorsese",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D"],
+      "score": 8.7,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s18", "time": "21:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Interstellar",
+      "poster": "https://picsum.photos/seed/interstellar/400/600",
+      "genre": "Ciencia ficción",
+      "rating": "PG-13",
+      "duration": 169,
+      "director": "Christopher Nolan",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D", "IMAX"],
+      "score": 8.7,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s19", "time": "15:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s20", "time": "19:30", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "11",
+      "title": "Parasite",
+      "poster": "https://picsum.photos/seed/parasite/400/600",
+      "genre": "Suspenso",
+      "rating": "R",
+      "duration": 132,
+      "director": "Bong Joon-ho",
+      "languages": ["Español", "Subtitulada"],
+      "formats": ["2D"],
+      "score": 8.5,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s21", "time": "18:15", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s22", "time": "21:00", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "12",
+      "title": "Gladiator",
+      "poster": "https://picsum.photos/seed/gladiator/400/600",
+      "genre": "Acción",
+      "rating": "R",
+      "duration": 155,
+      "director": "Ridley Scott",
+      "languages": ["Español", "Inglés"],
+      "formats": ["2D"],
+      "score": 8.5,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s23", "time": "17:00", "format": "2D", "language": "Español", "isSoldOut": false },
+        { "id": "s24", "time": "20:30", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "13",
+      "title": "The Lion King",
+      "poster": "https://picsum.photos/seed/lionking/400/600",
+      "genre": "Animación",
+      "rating": "G",
+      "duration": 88,
+      "director": "Roger Allers y Rob Minkoff",
+      "languages": ["Español", "Inglés"],
+      "formats": ["2D", "3D"],
+      "score": 8.5,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s25", "time": "13:00", "format": "3D", "language": "Español", "isSoldOut": false },
+        { "id": "s26", "time": "15:30", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "14",
+      "title": "Whiplash",
+      "poster": "https://picsum.photos/seed/whiplash/400/600",
+      "genre": "Drama",
+      "rating": "R",
+      "duration": 106,
+      "director": "Damien Chazelle",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D"],
+      "score": 8.5,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s27", "time": "16:45", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s28", "time": "19:15", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "15",
+      "title": "Back to the Future",
+      "poster": "https://picsum.photos/seed/backfuture/400/600",
+      "genre": "Aventura",
+      "rating": "PG",
+      "duration": 116,
+      "director": "Robert Zemeckis",
+      "languages": ["Español", "Inglés"],
+      "formats": ["2D"],
+      "score": 8.5,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s29", "time": "14:15", "format": "2D", "language": "Español", "isSoldOut": false },
+        { "id": "s30", "time": "18:00", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "16",
+      "title": "Spirited Away",
+      "poster": "https://picsum.photos/seed/spiritedaway/400/600",
+      "genre": "Animación",
+      "rating": "PG",
+      "duration": 125,
+      "director": "Hayao Miyazaki",
+      "languages": ["Español", "Subtitulada"],
+      "formats": ["2D"],
+      "score": 8.6,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s31", "time": "15:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s32", "time": "18:30", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "17",
+      "title": "Coco",
+      "poster": "https://picsum.photos/seed/coco/400/600",
+      "genre": "Animación",
+      "rating": "PG",
+      "duration": 105,
+      "director": "Lee Unkrich",
+      "languages": ["Español", "Inglés"],
+      "formats": ["2D", "3D"],
+      "score": 8.4,
+      "isReleased": false,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s33", "time": "13:30", "format": "3D", "language": "Español", "isSoldOut": false },
+        { "id": "s34", "time": "16:00", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "18",
+      "title": "Joker",
+      "poster": "https://picsum.photos/seed/joker/400/600",
+      "genre": "Drama",
+      "rating": "R",
+      "duration": 122,
+      "director": "Todd Phillips",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D", "IMAX"],
+      "score": 8.3,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s35", "time": "18:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s36", "time": "21:30", "format": "2D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "19",
+      "title": "Avengers: Endgame",
+      "poster": "https://picsum.photos/seed/endgame/400/600",
+      "genre": "Acción",
+      "rating": "PG-13",
+      "duration": 181,
+      "director": "Anthony y Joe Russo",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D", "3D", "IMAX"],
+      "score": 8.4,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s37", "time": "14:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+        { "id": "s38", "time": "18:30", "format": "3D", "language": "Español", "isSoldOut": false }
+      ]
+    },
+    {
+      "id": "20",
+      "title": "The Truman Show",
+      "poster": "https://picsum.photos/seed/trumanshow/400/600",
+      "genre": "Comedia dramática",
+      "rating": "PG",
+      "duration": 103,
+      "director": "Peter Weir",
+      "languages": ["Español", "Inglés", "Subtitulada"],
+      "formats": ["2D"],
+      "score": 8.2,
+      "isReleased": true,
+      "isActive": true,
+      "showtimes": [
+        { "id": "s39", "time": "16:30", "format": "2D", "language": "Español", "isSoldOut": false },
+        { "id": "s40", "time": "19:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
+      ]
+    }
+  ]
 }

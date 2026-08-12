@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../store/authStore";
+import MagicRings from "@/components/MagicRings/MagicRings";
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -68,8 +69,11 @@ export const RegisterPage = () => {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center bg-[#080616] px-6 py-12">
-      <div className="w-full max-w-lg rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/50 p-8 shadow-2xl backdrop-blur-md">
+    <div className="relative flex min-h-[calc(100vh-8rem)] items-center justify-center overflow-hidden bg-[#080616] px-6 py-12">
+      <div className="absolute inset-0 z-0">
+        <MagicRings color="#96c3f6" colorTwo="#3336e1" opacity={0.45} noiseAmount={0.03} speed={0.6} />
+      </div>
+      <div className="relative z-10 w-full max-w-lg animate-drop-from-sky rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/50 p-8 shadow-2xl backdrop-blur-md">
         
         {/* Encabezado */}
         <div className="text-center">

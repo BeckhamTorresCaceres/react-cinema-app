@@ -1,7 +1,7 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-export async function getUserWithRoles() {
-    const response = await fetch(`${API_URL}/users?_expand=role`);
+export async function getUserWithRoles( url:string) {
+    const response = await fetch(`${url}/users?_expand=role`);
     const data = await response.json();
     return data;
 }

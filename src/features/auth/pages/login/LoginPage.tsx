@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../store/authStore";
+import StrokeText from "@/components/StrokeText/StrokeText";
+import DriftWall from "@/components/DriftWall/DriftWall";
+import type { DriftWallItem } from "@/components/DriftWall/DriftWall";
+import { getMovies } from "@/features/billboard/services/billboardService";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -11,6 +15,34 @@ export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [driftItems, setDriftItems] = useState<DriftWallItem[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadMovies = async () => {
+      try {
+        const movies = await getMovies();
+        if (isMounted) {
+          setDriftItems(
+            movies.map((movie) => ({
+              image: movie.poster,
+              title: movie.title,
+              description: `${movie.genre} · ${movie.duration} min`,
+            }))
+          );
+        }
+      } catch {
+        // El fondo es decorativo; el formulario de acceso permanece disponible.
+      }
+    };
+
+    void loadMovies();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,8 +57,10 @@ export const LoginPage = () => {
       } else {
         navigate("/");
       }
-    } catch (error: any) {
-      setErrorMessage(error.message || "No se pudo iniciar sesión");
+    } catch (error: unknown) {
+      setErrorMessage(
+        error instanceof Error ? error.message : "No se pudo iniciar sesión"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -36,14 +70,62 @@ export const LoginPage = () => {
   // #080616, #1A1953, #162E93, #2F2FE4
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#080616] px-6 py-12">
-      <div className="w-full max-w-md rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/50 p-8 shadow-2xl backdrop-blur-md">
-        
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#080616] px-6 py-12">
+      <div className="absolute inset-0 z-0">
+        <DriftWall
+          items={driftItems}
+          columns={5}
+          tileWidth={170}
+          tileHeight={255}
+          gap={18}
+          fade={0.7}
+          speed={10}
+          turn={-22}
+          depth={90}
+          direction="up"
+          overlayColor="#080616"
+        />
+      </div>
+      <div className="relative z-10 w-full max-w-md animate-drop-from-sky rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/50 p-8 shadow-2xl backdrop-blur-md">
+
         <div className="text-center">
 
-          <h1 className="mt-1 text-4xl font-extrabold text-white tracking-tight">
-            Lumi<span className="text-[#2F2FE4]">Films</span>
-          </h1>
+          <div className="mt-1 flex items-center justify-center" role="heading" aria-level={1}>
+            <StrokeText
+              text="Lumi"
+              strokeColor="#FFFFFF"
+              fillColor="#FFFFFF"
+              strokeWidth={1.2}
+              drawDuration={1.2}
+              fillDelay={0.15}
+              stagger={0.05}
+              ease="power2.out"
+              trigger="mount"
+              fillMode="wipe"
+              fontSize={36}
+              fontWeight={800}
+              letterSpacing={-0.9}
+              className="[&_.stroke-text__svg]:w-auto"
+              style={{ display: "inline-block", width: "auto" }}
+            />
+            <StrokeText
+              text="Films"
+              strokeColor="#2F2FE4"
+              fillColor="#2F2FE4"
+              strokeWidth={1.2}
+              drawDuration={1.2}
+              fillDelay={0.15}
+              stagger={0.05}
+              ease="power2.out"
+              trigger="mount"
+              fillMode="wipe"
+              fontSize={36}
+              fontWeight={800}
+              letterSpacing={-0.9}
+              className="[&_.stroke-text__svg]:w-auto"
+              style={{ display: "inline-block", width: "auto" }}
+            />
+          </div>
           <p className="mt-2 text-sm text-slate-300">
             Ingresa a tu cuenta para gestionar tus entradas
           </p>
