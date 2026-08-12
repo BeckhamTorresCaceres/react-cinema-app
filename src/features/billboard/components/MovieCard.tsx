@@ -11,10 +11,10 @@ interface MovieCardProps {
 
 export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps) => {
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/40 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#2F2FE4] hover:shadow-2xl">
+    <div className="group relative flex overflow-hidden rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/40 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#2F2FE4] hover:shadow-2xl sm:flex-col">
       
       {/* Póster e Indicadores */}
-      <div className="relative aspect-2/3 w-full overflow-hidden">
+      <div className="relative w-[38%] shrink-0 overflow-hidden sm:aspect-4/5 sm:w-full">
         <img
           src={movie.poster}
           alt={movie.title}
@@ -37,26 +37,25 @@ export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps
       </div>
 
       {/* Información principal */}
-      <div className="flex flex-1 flex-col justify-between p-5">
+      <div className="flex min-w-0 flex-1 flex-col justify-between p-3 sm:p-4">
         <div>
-          <h3 className="text-xl font-bold text-white group-hover:text-[#8E8EFF]">
+          <h3 className="text-base font-bold leading-tight text-white group-hover:text-[#8E8EFF] sm:text-xl">
             {movie.title}
           </h3>
 
-          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-300">
-            <span className="rounded bg-[#162E93]/60 px-2 py-0.5 font-medium">{movie.rating}</span>
+          <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px] text-slate-300 sm:gap-2 sm:text-xs">
             <span>•</span>
             <span className="flex items-center gap-1"><Clock size={12} /> {movie.duration} min</span>
             <span>•</span>
             <span>{movie.genre}</span>
           </div>
 
-          <p className="mt-2 text-xs text-slate-400">
+          <p className="mt-2 text-[11px] text-slate-400 sm:text-xs">
             Dir: <span className="text-slate-200">{movie.director}</span>
           </p>
 
           {/* Formatos disponibles */}
-          <div className="mt-3 flex flex-wrap gap-1.5">
+          <div className="mt-3 flex flex-wrap gap-1">
             {movie.formats.map((fmt) => (
               <span key={fmt} className="rounded border border-[#2F2FE4]/40 bg-[#2F2FE4]/10 px-2 py-0.5 text-[10px] font-bold text-[#8E8EFF]">
                 {fmt}
@@ -65,15 +64,15 @@ export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps
           </div>
 
           {/* Horarios de funciones */}
-          <div className="mt-4">
-            <span className="text-xs font-semibold uppercase text-slate-400">Horarios:</span>
-            <div className="mt-2 flex flex-wrap gap-2">
+          <div className="mt-3 sm:mt-4">
+            <span className="text-[11px] font-semibold uppercase text-slate-400 sm:text-xs">Horarios:</span>
+            <div className="mt-1.5 flex flex-wrap gap-1.5 sm:mt-2 sm:gap-2">
               {movie.showtimes.map((st) => (
                 <button
                   key={st.id}
                   disabled={st.isSoldOut}
                   onClick={() => onBuyTickets?.(movie.id, st.id)}
-                  className={`rounded-lg px-2.5 py-1.5 text-xs font-medium transition ${
+                  className={`rounded-lg px-2 py-1.5 text-[11px] font-medium transition sm:px-2.5 sm:text-xs ${
                     st.isSoldOut
                       ? "cursor-not-allowed bg-slate-800 text-slate-500 line-through opacity-60"
                       : "bg-[#162E93]/60 text-white hover:bg-[#2F2FE4]"
@@ -88,16 +87,16 @@ export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps
         </div>
 
         {/* Acciones */}
-        <div className="mt-6 flex gap-2 pt-2 border-t border-[#162E93]/30">
+        <div className="mt-4 flex gap-2 border-t border-[#162E93]/30 pt-2 sm:mt-6">
           <button
             onClick={() => onViewDetails?.(movie.id)}
-            className="flex-1 flex items-center justify-center gap-1.5 rounded-lg border border-[#162E93] bg-[#1A1953]/50 py-2.5 text-xs font-semibold text-white transition hover:bg-[#162E93]"
+            className="flex flex-1 items-center justify-center gap-1 rounded-lg border border-[#162E93] bg-[#1A1953]/50 py-2 text-[11px] font-semibold text-white transition hover:bg-[#162E93] sm:gap-1.5 sm:py-2.5 sm:text-xs"
           >
             <Play size={14} /> Ver detalle
           </button>
           <button
             onClick={() => onBuyTickets?.(movie.id, movie.showtimes[0]?.id || "")}
-            className="flex-1 flex items-center justify-center gap-1.5 rounded-lg bg-[#2F2FE4] py-2.5 text-xs font-semibold text-white shadow-lg transition hover:bg-[#162E93]"
+            className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#2F2FE4] py-2 text-[11px] font-semibold text-white shadow-lg transition hover:bg-[#162E93] sm:gap-1.5 sm:py-2.5 sm:text-xs"
           >
             <Ticket size={14} /> Comprar
           </button>

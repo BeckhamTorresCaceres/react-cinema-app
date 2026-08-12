@@ -62,7 +62,7 @@ export const BillboardSection = () => {
   // ACTUALIZADO: Filtrado con búsqueda por texto y género
   
   const filteredMovies = movies.filter((movie) => {
-    if (!movie.isActive) return false;
+    if (!movie.isActive || !movie.isReleased) return false;
 
     // Filtro por texto de búsqueda
     if (
@@ -89,7 +89,7 @@ export const BillboardSection = () => {
   });
 
   return (
-    <section id="cartelera" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <section id="cartelera" className="scroll-mt-20 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h2 className="text-3xl font-extrabold text-white">Cartelera Semanal</h2>

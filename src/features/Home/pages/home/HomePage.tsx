@@ -59,8 +59,9 @@ export const HomePage = () => {
   }, [movies.length, nextMovie, previousMovie]);
 
   const heroMovie = movies[currentMovie];
+  const upcomingMovies = movies.filter((movie) => movie.isActive && !movie.isReleased);
 
-  return (
+  return ( 
     <main className="min-h-screen bg-[#080616] text-white">
       <section id="ubicacion" className="relative h-[calc(100svh-4rem)] min-h-142.5 overflow-hidden sm:min-h-155">
         {heroMovie && (
@@ -100,6 +101,22 @@ export const HomePage = () => {
         </div>
       </section>
       <BillboardSection />
+      <section id="proximamente" className="scroll-mt-20 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mb-6">
+          <h2 className="text-3xl font-extrabold text-white">Próximamente</h2>
+          <p className="text-sm text-slate-400">Estrenos que llegarán muy pronto a LumiFilms.</p>
+        </div>
+        {upcomingMovies.length > 0 ? (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {upcomingMovies.map((movie) => (
+              <article key={movie.id} className="overflow-hidden rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/40">
+                <div className="relative aspect-4/5"><img src={movie.poster} alt={movie.title} className="h-full w-full object-cover" /><span className="absolute left-3 top-3 rounded-full bg-[#2F2FE4] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">Próximamente</span></div>
+                <div className="p-4"><h3 className="text-xl font-bold text-white">{movie.title}</h3><p className="mt-2 text-xs text-slate-400">{movie.genre} · {movie.duration} min · {movie.rating}</p><div className="mt-3 flex flex-wrap gap-1.5">{movie.formats.map((format) => <span key={format} className="rounded border border-[#2F2FE4]/40 bg-[#2F2FE4]/10 px-2 py-0.5 text-[10px] font-bold text-[#8E8EFF]">{format}</span>)}</div></div>
+              </article>
+            ))}
+          </div>
+        ) : <p className="rounded-2xl border border-dashed border-[#162E93]/50 py-12 text-center text-slate-400">Aún no hay próximos estrenos anunciados.</p>}
+      </section>
     </main>
   );
 };
