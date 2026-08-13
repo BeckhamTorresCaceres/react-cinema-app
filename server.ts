@@ -5,11 +5,11 @@ const root = process.cwd();
 const isWindows = process.platform === 'win32';
 const npxCommand = isWindows ? 'npx.cmd' : 'npx';
 
-function findAvailablePort(startPort) {
+function findAvailablePort(startPort: number): Promise<number> {
   return new Promise((resolve, reject) => {
     const tester = net.createServer();
 
-    tester.once('error', (error) => {
+    tester.once('error', (error: NodeJS.ErrnoException) => {
       if (error.code === 'EADDRINUSE') {
         resolve(findAvailablePort(startPort + 1));
         return;
@@ -29,18 +29,24 @@ function findAvailablePort(startPort) {
 const port = await findAvailablePort(3001);
 process.env.VITE_API_URL = `http://localhost:${port}`;
 
-const createProcess = (command, args) => spawn(command, args, {
-  cwd: root,
-  stdio: 'inherit',
-  shell: false,
-  env: {
-    ...process.env,
-    VITE_API_URL: process.env.VITE_API_URL,
-  },
-});
+const createProcess = (command: string, args: string[]) =>
+  spawn(command, args, {
+    cwd: root,
+    stdio: 'inherit',
+    shell: false,
+    env: {
+      ...process.env,
+      VITE_API_URL: process.env.VITE_API_URL,
+    },
+  });
 
 const vite = createProcess(isWindows ? 'cmd.exe' : npxCommand, isWindows ? ['/c', npxCommand, 'vite'] : ['vite']);
-const jsonServer = createProcess(isWindows ? 'cmd.exe' : npxCommand, isWindows ? ['/c', npxCommand, 'json-server', '--watch', 'Json/db.json', '--port', String(port)] : ['json-server', '--watch', 'Json/db.json', '--port', String(port)]);
+const jsonServer = createProcess(
+  isWindows ? 'cmd.exe' : npxCommand,
+  isWindows
+    ? ['/c', npxCommand, 'json-server', '--watch', 'Json/db.json', '--port', String(port)]
+    : ['json-server', '--watch', 'Json/db.json', '--port', String(port)]
+);
 
 const stopAll = () => {
   vite.kill('SIGINT');

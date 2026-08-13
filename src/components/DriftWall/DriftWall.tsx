@@ -371,18 +371,18 @@ const DriftWall = ({
     >
       <div
         ref={planeRef}
-        className="absolute left-1/2 top-1/2 flex cursor-pointer flex-row [transform-style:preserve-3d] [transform-origin:50%_50%] will-change-transform"
+        className="absolute left-1/2 top-1/2 flex cursor-pointer flex-row transform-3d origin-[50%_50%] will-change-transform"
       >
         {columnItems.map((col, c) => {
           const meta = columnMeta[c];
           const copies = Array.from({ length: meta.copies });
           return (
             <div
-              className="relative w-[calc(var(--dw-tile-w)+var(--dw-gap))] [transform-style:preserve-3d]"
+              className="relative w-[calc(var(--dw-tile-w)+var(--dw-gap))] transform-3d"
               key={`col-${c}`}
             >
               <div
-                className="flex flex-col [transform-style:preserve-3d] will-change-transform"
+                className="flex flex-col transform-3d will-change-transform"
                 ref={el => {
                   trackRefs.current[c] = el;
                 }}

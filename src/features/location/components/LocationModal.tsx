@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { MapPin, X } from "lucide-react";
-import ElectricBorder from "@/components/ElectricBorder/ElectricBorder";
 import { LOCATIONS } from "../data/locations";
 
 interface LocationModalProps {
@@ -38,7 +37,8 @@ export const LocationModal = ({ isOpen, onClose, onLocationSelected, required = 
   return (
     <div className={`modal-overlay-enter fixed inset-0 z-50 flex items-center justify-center p-4 ${required ? "bg-[#080616]" : "bg-black/70 backdrop-blur-sm"}`} role="dialog" aria-modal="true" aria-labelledby="location-title">
       <div className={shaking ? "modal-shake w-full max-w-md" : "w-full max-w-md"} onAnimationEnd={() => setShaking(false)}>
-        <ElectricBorder color="#6D5CFF" speed={1.3} chaos={0.16} borderRadius={16} className="electric-border--cinema w-full max-w-md">
+        <div className="relative rounded-2xl border border-[#6D5CFF]/60 bg-[#0A071E] p-[1px] shadow-[0_0_30px_rgba(109,92,255,0.45)]">
+          <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top,_rgba(109,92,255,0.35),_transparent_55%)]" />
           <div className="relative w-full rounded-2xl bg-[#0A071E] p-6 shadow-2xl modal-content-enter">
             {!required && <button type="button" onClick={close} className="absolute right-4 top-4 cursor-pointer text-slate-400 hover:text-white" aria-label="Cerrar selector de ubicación"><X size={20} /></button>}
             <div className="mb-6 flex items-center gap-3"><MapPin size={24} className="text-[#8E8EFF]" /><div><h3 id="location-title" className="text-xl font-bold">Selecciona tu ubicación</h3><p className="text-xs text-slate-400">{required ? "Es necesaria para continuar y ver la cartelera." : "Selecciona tu región para ver la cartelera local"}</p></div></div>
@@ -49,7 +49,7 @@ export const LocationModal = ({ isOpen, onClose, onLocationSelected, required = 
               <button type="submit" className="w-full cursor-pointer rounded-lg bg-[#2F2FE4] py-2.5 font-semibold text-white transition hover:bg-[#162E93]">Aplicar</button>
             </form>
           </div>
-        </ElectricBorder>
+        </div>
       </div>
     </div>
   );

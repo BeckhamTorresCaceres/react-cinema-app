@@ -1,88 +1,116 @@
-# Lumi Films - React Cinema App
+# Lumi Films
 
-Aplicación de cine construida con React, TypeScript y Vite. Incluye autenticación mock, roles de usuario, rutas protegidas, panel de administración y perfil de usuario.
+Aplicación web de cartelera de cine desarrollada con React, TypeScript y Vite. Permite explorar películas, consultar funciones y acceder a secciones según el tipo de usuario.
+
+## Características
+
+- Cartelera obtenida desde una API local con películas, horarios, idiomas y formatos.
+- Película destacada y navegación entre títulos desde la página de inicio.
+- Filtros de cartelera para encontrar películas por sus características.
+- Registro e inicio de sesión simulados.
+- Sesión persistente en el navegador mediante `localStorage`.
+- Rutas protegidas para usuarios autenticados.
+- Panel y perfil exclusivos para administradores.
+- Diseño responsive con Tailwind CSS y componentes visuales reutilizables.
 
 ## Tecnologías
+
 - React 19
 - TypeScript
-- Vite
+- Vite 8
 - React Router 8
-- Tailwind CSS
 - Zustand
-- JSON Server / `Json/db.json` para datos mock
+- Tailwind CSS 4
+- JSON Server
 
-## Cómo ejecutar
-1. Instala dependencias:
+## Requisitos
+
+- Node.js 22.18 o superior. Se recomienda una versión LTS reciente.
+- npm (incluido con Node.js).
+
+## Instalación y ejecución
+
+1. Instala las dependencias:
+
    ```bash
    npm install
    ```
-2. Inicia la aplicación:
+
+2. Inicia la aplicación y la API mock:
+
    ```bash
    npm run dev
    ```
-3. Abre la URL que muestre Vite.
 
-## Estructura principal
-- `src/`: código de la aplicación.
-- `src/features/`: funcionalidad por módulos.
-  - `auth/`: login, registro y store de autenticación.
-  - `Home/`: layout público, home y navegación.
-  - `admin/`: panel y perfil de administrador.
-- `src/shared/`: componentes reutilizables y rutas protegidas.
-- `Json/db.json`: datos de usuarios y roles.
-- `server.js`: servidor de desarrollo / API mock.
+3. Abre la dirección indicada por Vite, normalmente [http://localhost:5173](http://localhost:5173).
 
-## Funcionalidades actuales
-- Login y registro de usuario.
-- Persistencia de sesión con `localStorage` (`token` y `user`).
-- Logout que limpia la sesión.
-- Rutas públicas, privadas y exclusivas para admin.
-- Menú responsive con botones de login, registro y logout.
-- Muestra el nombre de usuario en la cabecera.
-- Perfil de usuario y perfil de admin.
+El comando de desarrollo inicia dos procesos a la vez:
+
+- Vite sirve la interfaz web en el puerto `5173`.
+- JSON Server sirve los datos de prueba en el puerto `3001` (o el siguiente disponible).
+
+En Windows, si PowerShell muestra un error de política de ejecución para `npm.ps1`, usa:
+
+```powershell
+npm.cmd run dev
+```
+
+## Scripts disponibles
+
+| Comando | Descripción |
+| --- | --- |
+| `npm run dev` | Inicia la interfaz y la API local de datos. |
+| `npm run build` | Comprueba TypeScript y genera la versión de producción en `dist/`. |
+| `npm run preview` | Sirve localmente la compilación de producción. |
+| `npm run lint` | Ejecuta las reglas de ESLint. |
+
+## Cómo funciona
+
+Los datos de películas, roles y usuarios están en [`Json/db.json`](Json/db.json). JSON Server los publica como una API REST local. La aplicación consulta, entre otros, estos recursos:
+
+- `GET /movies`: películas y sus horarios.
+- `GET /users?email=...`: usuario usado durante el inicio de sesión.
+- `GET /roles`: roles disponibles.
+
+La URL de la API se establece automáticamente al iniciar el proyecto mediante la variable `VITE_API_URL`. El archivo `server.ts` busca un puerto disponible para JSON Server y lo comparte con Vite.
+
+El inicio de sesión es únicamente demostrativo: compara las credenciales con los usuarios de `db.json`, genera un token simulado y guarda la sesión en `localStorage`. No debe usarse como sistema de autenticación en producción.
 
 ## Rutas principales
-- `/` - Home público.
-- `/login` - Login para usuarios.
-- `/register` - Registro.
-- `/perfil` - Perfil privado de cliente (solo usuarios autenticados).
-- `/checkout` - Ruta privada de checkout.
-- `/admin` - Panel admin (solo admin).
-- `/admin/perfil` - Perfil de administrador.
 
-## Comportamiento de roles
-- Cliente autenticado ve su nombre en la cabecera y puede acceder a `/perfil`.
-- Admin autenticado ve su nombre en el panel de admin y tiene acceso a `/admin` y `/admin/perfil`.
-- `ProtectedRoute` protege rutas privadas.
-- `AdminOnlyRoute` protege rutas exclusivas de admin.
+| Ruta | Acceso | Descripción |
+| --- | --- | --- |
+| `/` | Público | Página principal y cartelera. |
+| `/login` | Sin sesión | Inicio de sesión. |
+| `/register` | Sin sesión | Registro simulado. |
+| `/perfil` | Usuario autenticado | Perfil de cliente. |
+| `/checkout` | Usuario autenticado | Pantalla de compras de ejemplo. |
+| `/admin` | Administrador | Panel de administración. |
+| `/admin/perfil` | Administrador | Perfil del administrador. |
 
-## Datos mock
-El archivo `Json/db.json` contiene:
-- Roles: `admin`, `client`.
-- Usuarios:
-  - `admin@gmail.com` / `Admin123*` (rol `admin`)
-  - `cliente@gmail.com` / `Cliente123*` (rol `client`)
+Las rutas privadas redirigen a quienes no tengan sesión. Las rutas de administración requieren un usuario con rol `admin`.
 
-## Autenticación
-- `src/features/auth/store/authStore.ts` gestiona la sesión.
-- `login()` busca el usuario por email en la API mock.
-- `logout()` borra `token` y `user` de `localStorage`.
-- El nombre de usuario se muestra en `HomeLayout` y `AdminLayout`.
+## Usuarios de prueba
 
-## Puntos clave del código
-- `src/appRouter.tsx`: define la navegación y rutas protegidas.
-- `src/features/Home/layouts/HomeLayout.tsx`: cabecera principal, menu responsive, logout.
-- `src/features/admin/layouts/AdminLayout.tsx`: panel admin con nombre y logout.
-- `src/features/admin/pages/AdminPage.tsx`: dashboard admin.
-- `src/features/admin/pages/AdminProfilePage.tsx`: perfil de admin.
+Los datos iniciales están definidos en `Json/db.json`:
 
-## Comandos útiles
-- `npm install`
-- `npm run dev`
-- `npm run build`
-- `npm run lint`
+| Rol | Correo | Contraseña |
+| --- | --- | --- |
+| Administrador | `admin@s.com` | `admin123` |
+| Cliente | `cliente@gmail.com` | `Cliente123*` |
 
-## Notas
-- El perfil admin está en `/admin/perfil`.
-- El perfil del cliente está en `/perfil`.
-- El nombre de usuario se mantiene visible tras recargar si la sesión está activa.
+## Estructura del proyecto
+
+```text
+src/
+  features/       # Módulos: inicio, autenticación, cartelera, cliente y admin
+  components/     # Componentes visuales reutilizables
+  services/       # Cliente de API y endpoints
+  shared/         # Interfaces y protección de rutas
+Json/db.json      # Base de datos mock
+server.ts         # Arranque coordinado de Vite y JSON Server
+```
+
+## Nota de desarrollo
+
+Al modificar `Json/db.json`, JSON Server detecta los cambios automáticamente. Para cerrar ambos servidores, presiona `Ctrl + C` en la terminal donde ejecutaste `npm run dev`.

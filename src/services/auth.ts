@@ -1,4 +1,5 @@
-import { API_URL } from "./api";
+import { API_URL, type ServerUser } from "./api";
+import { endpoints } from "./endpoints";
 
 export const AUTH_ERRORS = {
     MISING_FIELDS: "Please enter your email and password.",
@@ -6,17 +7,21 @@ export const AUTH_ERRORS = {
     ACCOUNT_INNACTIVE: "Your account is inactive. Please contact the administrator.",
     NETWORK_ERROR: "Could not connect to the server. Please check your internet connection and try again.",
     SERVER_ERROR: "Server error. Please try again later."
-};
+} as const;
 
-export async function loginUser(email, password) {
+type LoginResult =
+    | { success: true; user: Record<string, unknown> }
+    | { success: false; message: string };
+
+export async function loginUser(email: string, password: string): Promise<LoginResult> {
     if (!email || !password) {
-        return { success: false, message: AUTH_ERRORS.MISING_FIELDS };   
+        return { success: false, message: AUTH_ERRORS.MISING_FIELDS };
     }
 
-    let response;
+    let response: Response;
     try {
-        response = await fetch(`${API_URL}/users?email=${email}`);
-    } catch (error) {
+        response = await fetch(`${API_URL}${endpoints.usersByEmail(email)}`);
+    } catch {
         return { success: false, message: AUTH_ERRORS.NETWORK_ERROR };
     }
 
@@ -24,8 +29,8 @@ export async function loginUser(email, password) {
         return { success: false, message: AUTH_ERRORS.SERVER_ERROR };
     }
 
-    const users = await response.json();
-    const user = users[0];
+    const users = (await response.json()) as ServerUser[];
+    const user = users[0] as ServerUser | undefined;
 
     if (!user || user.password !== password) {
         return { success: false, message: AUTH_ERRORS.INVALID_CREDENTIALS };
@@ -35,9 +40,8 @@ export async function loginUser(email, password) {
         return { success: false, message: AUTH_ERRORS.ACCOUNT_INNACTIVE };
     }
 
-    const safeUser = { ...user };
+    const safeUser: Record<string, unknown> = { ...user };
     delete safeUser.password;
 
     return { success: true, user: safeUser };
-
 }

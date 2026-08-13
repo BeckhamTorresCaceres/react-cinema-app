@@ -1,6 +1,7 @@
 // Guardar el token de acceso, la información del usuario logueado y el estado isAuthenticated para todo el proyecto
 import { create } from 'zustand';
 import type { User, LoginCredentials, RegisterCredentials } from '../../../shared/interfaces/auth.interface';
+import { fetchUserByEmail, type RawAuthUser } from '../../../services/authService';
 
 interface AuthState {
   user: User | null;
@@ -12,14 +13,12 @@ interface AuthState {
   logout: () => void;
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
-const normalizeUser = (user: any): User => ({
-  id: String(user.id),
-  email: user.email,
+const normalizeUser = (user: RawAuthUser): User => ({
+  id: String(user.id ?? ''),
+  email: user.email ?? '',
   name: user.name || user.username,
-  role: user.role?.name || user.roleId === 1 ? 'admin' : 'client',
-  isVerified: user.active,
+  role: typeof user.role === 'object' && user.role !== null ? user.role.name : user.roleId === 1 ? 'admin' : 'client',
+  isVerified: Boolean(user.active),
 });
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -27,7 +26,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       const u = localStorage.getItem('user');
       return u ? JSON.parse(u) : null;
-    } catch (e) {
+    } catch {
       return null;
     }
   })(),
@@ -38,13 +37,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (credentials: LoginCredentials) => {
     set({ isLoading: true });
     try {
-      const response = await fetch(`${API_URL}/users?email=${encodeURIComponent(credentials.email)}`);
-
-      if (!response.ok) {
-        throw new Error('Error de conexión');
-      }
-
-      const users = await response.json();
+      const users = await fetchUserByEmail(credentials.email);
       const user = users[0];
 
       if (!user || user.password !== credentials.password) {
@@ -58,11 +51,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       const token = `mock-token-${user.id}`;
       const normalizedUser = normalizeUser(user);
 
-      // Persist token and user so the session survives reloads
       localStorage.setItem('token', token);
       try {
         localStorage.setItem('user', JSON.stringify(normalizedUser));
-      } catch (e) {
+      } catch {
         // ignore storage errors
       }
 
@@ -83,7 +75,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       set({ isLoading: false });
-    } catch (error) {
+    } catch {
       set({ isLoading: false });
       throw new Error('El correo ya se encuentra registrado.');
     }
