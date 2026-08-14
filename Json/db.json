@@ -396,5 +396,163 @@
         { "id": "s40", "time": "19:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
       ]
     }
+  ],
+  "location": [
+    {
+      "id": "col",
+      "nombre": "Colombia",
+      "departamentos": [
+        {
+          "id": "atl",
+          "nombre": "Atlántico",
+          "ciudades": [
+            {
+              "id": "baq",
+              "nombre": "Barranquilla",
+              "cines": [
+                {
+                  "id": "cine-01",
+                  "nombre": "Multicine Viva",
+                  "direccion": "Cra 51B #87-50",
+                  "salasCount": 8
+                },
+                {
+                  "id": "cine-02",
+                  "nombre": "Multicine Buenavista",
+                  "direccion": "Calle 98 #52-115",
+                  "salasCount": 6
+                },
+                {
+                  "id": "cine-03",
+                  "nombre": "Multicine Mallplaza",
+                  "direccion": "Calle 99 #53-40",
+                  "salasCount": 7
+                }
+              ]
+            },
+            {
+              "id": "sol",
+              "nombre": "Soledad",
+              "cines": [
+                {
+                  "id": "cine-04",
+                  "nombre": "Multicine Plaza del Sol",
+                  "direccion": "Calle 30 #30-190",
+                  "salasCount": 5
+                },
+                {
+                  "id": "cine-05",
+                  "nombre": "Multicine Gran Plaza Soledad",
+                  "direccion": "Cra 32 #30-15",
+                  "salasCount": 4
+                }
+              ]
+            },
+            {
+              "id": "pco",
+              "nombre": "Puerto Colombia",
+              "cines": [
+                {
+                  "id": "cine-06",
+                  "nombre": "Multicine Plaza Campestre",
+                  "direccion": "Autopista al Mar Km 7",
+                  "salasCount": 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ant",
+          "nombre": "Antioquia",
+          "ciudades": [
+            {
+              "id": "med",
+              "nombre": "Medellín",
+              "cines": [
+                {
+                  "id": "cine-07",
+                  "nombre": "Multicine El Tesoro",
+                  "direccion": "Cra 25A #1A Sur-45",
+                  "salasCount": 10
+                },
+                {
+                  "id": "cine-08",
+                  "nombre": "Multicine Santafé",
+                  "direccion": "Carrera 43A #7 Sur-170",
+                  "salasCount": 8
+                }
+              ]
+            },
+            {
+              "id": "env",
+              "nombre": "Envigado",
+              "cines": [
+                {
+                  "id": "cine-09",
+                  "nombre": "Multicine Viva Envigado",
+                  "direccion": "Calle 32B Sur #48-45",
+                  "salasCount": 12
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "Cun",
+          "nombre": "Cundinamarca",
+          "ciudades": [
+            {
+              "id": "bog-c",
+              "nombre": "Bogotá",
+              "cines": [
+                {
+                  "id": "cine-10",
+                  "nombre": "Multicine Andino",
+                  "direccion": "Carrera 11 #82-71",
+                  "salasCount": 6
+                },
+                {
+                  "id": "cine-11",
+                  "nombre": "Multicine Titán Plaza",
+                  "direccion": "Av. Boyacá #80-94",
+                  "salasCount": 9
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mex",
+      "nombre": "México",
+      "departamentos": [
+        {
+          "id": "cdmx",
+          "nombre": "Ciudad de México",
+          "ciudades": [
+            {
+              "id": "cdmx-c",
+              "nombre": "Ciudad de México",
+              "cines": [
+                {
+                  "id": "cine-12",
+                  "nombre": "Multicine Perisur",
+                  "direccion": "Anillo Periférico 4690",
+                  "salasCount": 12
+                },
+                {
+                  "id": "cine-13",
+                  "nombre": "Multicine Santa Fe",
+                  "direccion": "Av. Vasco de Quiroga 3800",
+                  "salasCount": 10
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
   ]
-}
+ }

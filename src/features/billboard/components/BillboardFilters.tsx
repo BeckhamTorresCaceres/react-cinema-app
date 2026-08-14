@@ -1,4 +1,5 @@
 import { Search } from "lucide-react";
+import type { CinemaLocation } from "@/services/api";
 
 interface FilterState {
   searchTerm: string;
@@ -11,9 +12,11 @@ interface FilterState {
 interface BillboardFiltersProps {
   filters: FilterState;
   onFilterChange: (newFilters: Partial<FilterState>) => void;
+  complexes: CinemaLocation[];
+  isLoadingComplexes?: boolean;
 }
 
-export const BillboardFilters = ({ filters, onFilterChange }: BillboardFiltersProps) => {
+export const BillboardFilters = ({ filters, onFilterChange, complexes, isLoadingComplexes = false }: BillboardFiltersProps) => {
   return (
     <div className="mb-8 rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/40 p-3 backdrop-blur-md">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
@@ -69,16 +72,15 @@ export const BillboardFilters = ({ filters, onFilterChange }: BillboardFiltersPr
             <option value="+18">+18 Años</option>
           </select>
 
-          {/* Complejo (Sede de la ciudad) */}
+          {/* Complejos disponibles en la ciudad seleccionada */}
           <select
             value={filters.complex}
             onChange={(e) => onFilterChange({ complex: e.target.value })}
+            disabled={isLoadingComplexes || complexes.length === 0}
             className="w-full rounded-xl border border-[#2F2FE4]/80 bg-[#080616]/80 px-3 py-2.5 text-sm font-medium text-white outline-none transition focus:border-[#2F2FE4] focus:ring-1 focus:ring-[#2F2FE4] lg:w-44"
           >
-            <option value="all">Complejo (Sede)</option>
-            <option value="mall-plaza">Mall Plaza</option>
-            <option value="buenavista">CC Buenavista</option>
-            <option value="portal-prado">Portal del Prado</option>
+            <option value="all">{isLoadingComplexes ? "Cargando complejos..." : "Complejo (Sede)"}</option>
+            {complexes.map((complex) => <option key={complex.id} value={complex.id}>{complex.nombre}</option>)}
           </select>
         </div>
 

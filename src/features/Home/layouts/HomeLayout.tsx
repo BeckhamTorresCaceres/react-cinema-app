@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { CalendarClock, MapPin, Menu, ShoppingCart, Ticket, User, X } from "lucide-react";
 import { useAuthStore } from "../../auth/store/authStore";
-import { LocationModal } from "@/features/location/components/LocationModal";
+import { LocationModal } from "@/components/Location/LocationModal";
 
 const navigationItems = [
   { label: "Cartelera", to: "/#cartelera", icon: Ticket, sectionId: "cartelera" },

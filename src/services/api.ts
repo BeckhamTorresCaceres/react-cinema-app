@@ -8,8 +8,43 @@ export type ServerUser = Record<string, unknown> & {
     password?: string;
 };
 
+export interface CinemaLocation {
+    id: string;
+    nombre: string;
+    direccion: string;
+    salasCount: number;
+}
+
+export interface CityLocation {
+    id: string;
+    nombre: string;
+    cines: CinemaLocation[];
+}
+
+export interface DepartmentLocation {
+    id: string;
+    nombre: string;
+    ciudades: CityLocation[];
+}
+
+export interface CountryLocation {
+    id: string;
+    nombre: string;
+    departamentos: DepartmentLocation[];
+}
+
 function buildUrl(path: string): string {
     return `${API_URL}${path}`;
+}
+
+export async function getLocations(): Promise<CountryLocation[]> {
+    const response = await fetch(buildUrl(endpoints.locations));
+
+    if (!response.ok) {
+        throw new Error("No fue posible cargar las ubicaciones.");
+    }
+
+    return (await response.json()) as CountryLocation[];
 }
 
 export async function getUserWithRoles(): Promise<ServerUser[]> {
