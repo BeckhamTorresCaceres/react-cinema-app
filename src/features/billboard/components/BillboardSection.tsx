@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { DateSelector } from "@/features/billboard/components/DataSelector";
 import { MovieCard } from "./MovieCard";
 import { BillboardFilters } from "./BillboardFilters";
-import { getMovies } from "../services/billboardService";
-import type { Movie } from "../types/billboard.types";
+import { getMovies, getShowtimes } from "../services/billboardService";
+import type { Movie, MovieWithShowtimes, Showtime } from "../types/billboard.types";
 import { getLocations, type CinemaLocation, type CountryLocation } from "@/services/api";
 
 interface SelectedLocation {
@@ -20,6 +20,7 @@ const getSavedLocation = (): SelectedLocation => ({
 
 export const BillboardSection = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [showtimes, setShowtimes] = useState<Showtime[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [locations, setLocations] = useState<CountryLocation[]>([]);
@@ -37,6 +38,7 @@ export const BillboardSection = () => {
     genre: "all",
     format: "all",
     rating: "all",
+    language: "all",
     complex: "all",
   });
 
@@ -86,8 +88,11 @@ export const BillboardSection = () => {
 
     const loadMovies = async () => {
       try {
-        const data = await getMovies();
-        if (isMounted) setMovies(data);
+        const [movieData, showtimeData] = await Promise.all([getMovies(), getShowtimes()]);
+        if (isMounted) {
+          setMovies(movieData);
+          setShowtimes(showtimeData);
+        }
       } catch (loadError) {
         if (isMounted) {
           setError(
@@ -109,34 +114,43 @@ export const BillboardSection = () => {
   }, []);
 
   
-  // ACTUALIZADO: Filtrado con búsqueda por texto y género
-  
-  const filteredMovies = movies.filter((movie) => {
-    if (!movie.isActive || !movie.isReleased) return false;
+  const genres = useMemo(() => [...new Set(movies.map((movie) => movie.genre))].sort(), [movies]);
+  const ratings = useMemo(() => [...new Set(movies.map((movie) => movie.rating))].sort(), [movies]);
+  const formats = useMemo(() => [...new Set(showtimes.map((showtime) => showtime.format))].sort(), [showtimes]);
+  const languages = useMemo(() => [...new Set(showtimes.map((showtime) => showtime.language))].sort(), [showtimes]);
+  const cityCinemaIds = useMemo(() => new Set(complexes.map((complex) => complex.id)), [complexes]);
+
+  const filteredMovies = movies.reduce<MovieWithShowtimes[]>((result, movie) => {
+    if (!movie.isActive || !movie.isReleased) return result;
 
     // Filtro por texto de búsqueda
     if (
       filters.searchTerm &&
       !movie.title.toLowerCase().includes(filters.searchTerm.toLowerCase())
     ) {
-      return false;
+      return result;
     }
 
     // Filtro por género
     if (filters.genre !== "all" && movie.genre !== filters.genre) {
-      return false;
-    }
-
-    if (filters.format !== "all" && !movie.formats.includes(filters.format as Movie["formats"][number])) {
-      return false;
+      return result;
     }
 
     if (filters.rating !== "all" && movie.rating !== filters.rating) {
-      return false;
+      return result;
     }
 
-    return true;
-  });
+    const movieShowtimes = showtimes.filter((showtime) => (
+      showtime.movieId === movie.id
+      && cityCinemaIds.has(showtime.cinemaId)
+      && (filters.complex === "all" || showtime.cinemaId === filters.complex)
+      && (filters.format === "all" || showtime.format === filters.format)
+      && (filters.language === "all" || showtime.language === filters.language)
+    ));
+
+    if (movieShowtimes.length > 0) result.push({ ...movie, showtimes: movieShowtimes });
+    return result;
+  }, []);
 
   return (
     <section id="cartelera" className="scroll-mt-20 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -156,6 +170,10 @@ export const BillboardSection = () => {
         onFilterChange={handleFilterChange}
         complexes={complexes}
         isLoadingComplexes={isLoadingLocations}
+        genres={genres}
+        formats={formats}
+        ratings={ratings}
+        languages={languages}
       />
 
       {/* Selector de 7 Días */}

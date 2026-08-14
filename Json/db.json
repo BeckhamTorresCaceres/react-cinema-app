@@ -48,11 +48,7 @@
       "formats": ["2D"],
       "score": 9.3,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s1", "time": "14:00", "format": "2D", "language": "Español", "isSoldOut": false },
-        { "id": "s2", "time": "18:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "2",
@@ -66,11 +62,7 @@
       "formats": ["2D"],
       "score": 9.2,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s3", "time": "16:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s4", "time": "20:30", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "3",
@@ -84,11 +76,7 @@
       "formats": ["2D", "3D", "IMAX"],
       "score": 9.0,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s5", "time": "15:15", "format": "3D", "language": "Español", "isSoldOut": false },
-        { "id": "s6", "time": "19:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "4",
@@ -102,11 +90,7 @@
       "formats": ["2D"],
       "score": 8.9,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s7", "time": "17:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s8", "time": "21:15", "format": "2D", "language": "Español", "isSoldOut": true }
-      ]
+      "isActive": true
     },
     {
       "id": "5",
@@ -120,11 +104,7 @@
       "formats": ["2D"],
       "score": 8.8,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s9", "time": "14:30", "format": "2D", "language": "Español", "isSoldOut": false },
-        { "id": "s10", "time": "18:45", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "6",
@@ -138,12 +118,7 @@
       "formats": ["2D", "IMAX"],
       "score": 8.8,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s11", "time": "14:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s12", "time": "17:30", "format": "IMAX", "language": "Subtitulada", "isSoldOut": true },
-        { "id": "s13", "time": "20:45", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "7",
@@ -157,11 +132,7 @@
       "formats": ["2D"],
       "score": 8.8,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s14", "time": "19:30", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s15", "time": "22:15", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "8",
@@ -175,11 +146,7 @@
       "formats": ["2D", "3D"],
       "score": 8.7,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s16", "time": "16:00", "format": "3D", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s17", "time": "19:45", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "9",
@@ -193,10 +160,7 @@
       "formats": ["2D"],
       "score": 8.7,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s18", "time": "21:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "10",
@@ -210,11 +174,7 @@
       "formats": ["2D", "IMAX"],
       "score": 8.7,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s19", "time": "15:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s20", "time": "19:30", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "11",
@@ -228,11 +188,7 @@
       "formats": ["2D"],
       "score": 8.5,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s21", "time": "18:15", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s22", "time": "21:00", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "12",
@@ -246,11 +202,7 @@
       "formats": ["2D"],
       "score": 8.5,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s23", "time": "17:00", "format": "2D", "language": "Español", "isSoldOut": false },
-        { "id": "s24", "time": "20:30", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "13",
@@ -264,11 +216,7 @@
       "formats": ["2D", "3D"],
       "score": 8.5,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s25", "time": "13:00", "format": "3D", "language": "Español", "isSoldOut": false },
-        { "id": "s26", "time": "15:30", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "14",
@@ -282,11 +230,7 @@
       "formats": ["2D"],
       "score": 8.5,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s27", "time": "16:45", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s28", "time": "19:15", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "15",
@@ -300,11 +244,7 @@
       "formats": ["2D"],
       "score": 8.5,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s29", "time": "14:15", "format": "2D", "language": "Español", "isSoldOut": false },
-        { "id": "s30", "time": "18:00", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "16",
@@ -318,11 +258,7 @@
       "formats": ["2D"],
       "score": 8.6,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s31", "time": "15:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s32", "time": "18:30", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "17",
@@ -336,11 +272,7 @@
       "formats": ["2D", "3D"],
       "score": 8.4,
       "isReleased": false,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s33", "time": "13:30", "format": "3D", "language": "Español", "isSoldOut": false },
-        { "id": "s34", "time": "16:00", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "18",
@@ -354,11 +286,7 @@
       "formats": ["2D", "IMAX"],
       "score": 8.3,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s35", "time": "18:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s36", "time": "21:30", "format": "2D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "19",
@@ -372,11 +300,7 @@
       "formats": ["2D", "3D", "IMAX"],
       "score": 8.4,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s37", "time": "14:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
-        { "id": "s38", "time": "18:30", "format": "3D", "language": "Español", "isSoldOut": false }
-      ]
+      "isActive": true
     },
     {
       "id": "20",
@@ -390,12 +314,50 @@
       "formats": ["2D"],
       "score": 8.2,
       "isReleased": true,
-      "isActive": true,
-      "showtimes": [
-        { "id": "s39", "time": "16:30", "format": "2D", "language": "Español", "isSoldOut": false },
-        { "id": "s40", "time": "19:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
-      ]
+      "isActive": true
     }
+  ],
+  "showtimes": [
+    { "id": "s1", "movieId": "1", "cinemaId": "cine-01", "time": "14:00", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s2", "movieId": "1", "cinemaId": "cine-01", "time": "18:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s3", "movieId": "2", "cinemaId": "cine-02", "time": "16:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s4", "movieId": "2", "cinemaId": "cine-02", "time": "20:30", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s5", "movieId": "3", "cinemaId": "cine-01", "time": "15:15", "format": "3D", "language": "Español", "isSoldOut": false },
+    { "id": "s6", "movieId": "3", "cinemaId": "cine-03", "time": "19:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s7", "movieId": "4", "cinemaId": "cine-04", "time": "17:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s8", "movieId": "4", "cinemaId": "cine-04", "time": "21:15", "format": "2D", "language": "Español", "isSoldOut": true },
+    { "id": "s9", "movieId": "5", "cinemaId": "cine-05", "time": "14:30", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s10", "movieId": "5", "cinemaId": "cine-05", "time": "18:45", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s11", "movieId": "6", "cinemaId": "cine-07", "time": "14:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s12", "movieId": "6", "cinemaId": "cine-07", "time": "17:30", "format": "IMAX", "language": "Subtitulada", "isSoldOut": true },
+    { "id": "s13", "movieId": "6", "cinemaId": "cine-08", "time": "20:45", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s14", "movieId": "7", "cinemaId": "cine-09", "time": "19:30", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s15", "movieId": "7", "cinemaId": "cine-09", "time": "22:15", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s16", "movieId": "8", "cinemaId": "cine-10", "time": "16:00", "format": "3D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s17", "movieId": "8", "cinemaId": "cine-10", "time": "19:45", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s18", "movieId": "9", "cinemaId": "cine-11", "time": "21:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s19", "movieId": "10", "cinemaId": "cine-12", "time": "15:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s20", "movieId": "10", "cinemaId": "cine-12", "time": "19:30", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s21", "movieId": "11", "cinemaId": "cine-13", "time": "18:15", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s22", "movieId": "11", "cinemaId": "cine-13", "time": "21:00", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s23", "movieId": "12", "cinemaId": "cine-01", "time": "17:00", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s24", "movieId": "12", "cinemaId": "cine-01", "time": "20:30", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s25", "movieId": "13", "cinemaId": "cine-02", "time": "13:00", "format": "3D", "language": "Español", "isSoldOut": false },
+    { "id": "s26", "movieId": "13", "cinemaId": "cine-02", "time": "15:30", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s27", "movieId": "14", "cinemaId": "cine-03", "time": "16:45", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s28", "movieId": "14", "cinemaId": "cine-03", "time": "19:15", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s29", "movieId": "15", "cinemaId": "cine-06", "time": "14:15", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s30", "movieId": "15", "cinemaId": "cine-06", "time": "18:00", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s31", "movieId": "16", "cinemaId": "cine-07", "time": "15:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s32", "movieId": "16", "cinemaId": "cine-07", "time": "18:30", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s33", "movieId": "17", "cinemaId": "cine-08", "time": "13:30", "format": "3D", "language": "Español", "isSoldOut": false },
+    { "id": "s34", "movieId": "17", "cinemaId": "cine-08", "time": "16:00", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s35", "movieId": "18", "cinemaId": "cine-10", "time": "18:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s36", "movieId": "18", "cinemaId": "cine-10", "time": "21:30", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s37", "movieId": "19", "cinemaId": "cine-12", "time": "14:00", "format": "IMAX", "language": "Subtitulada", "isSoldOut": false },
+    { "id": "s38", "movieId": "19", "cinemaId": "cine-12", "time": "18:30", "format": "3D", "language": "Español", "isSoldOut": false },
+    { "id": "s39", "movieId": "20", "cinemaId": "cine-01", "time": "16:30", "format": "2D", "language": "Español", "isSoldOut": false },
+    { "id": "s40", "movieId": "20", "cinemaId": "cine-01", "time": "19:00", "format": "2D", "language": "Subtitulada", "isSoldOut": false }
   ],
   "location": [
     {
@@ -555,4 +517,4 @@
       ]
     }
   ]
- }
+}

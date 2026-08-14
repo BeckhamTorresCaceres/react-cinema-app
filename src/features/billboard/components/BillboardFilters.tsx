@@ -6,6 +6,7 @@ interface FilterState {
   genre: string;
   format: string;
   rating: string;
+  language: string;
   complex: string;
 }
 
@@ -14,9 +15,13 @@ interface BillboardFiltersProps {
   onFilterChange: (newFilters: Partial<FilterState>) => void;
   complexes: CinemaLocation[];
   isLoadingComplexes?: boolean;
+  genres: string[];
+  formats: string[];
+  ratings: string[];
+  languages: string[];
 }
 
-export const BillboardFilters = ({ filters, onFilterChange, complexes, isLoadingComplexes = false }: BillboardFiltersProps) => {
+export const BillboardFilters = ({ filters, onFilterChange, complexes, isLoadingComplexes = false, genres, formats, ratings, languages }: BillboardFiltersProps) => {
   return (
     <div className="mb-8 rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/40 p-3 backdrop-blur-md">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
@@ -34,7 +39,7 @@ export const BillboardFilters = ({ filters, onFilterChange, complexes, isLoading
         </div>
 
         {/* Filtros Dropdown */}
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:flex lg:w-auto">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-5 lg:flex lg:w-auto">
           {/* Género */}
           <select
             value={filters.genre}
@@ -42,10 +47,7 @@ export const BillboardFilters = ({ filters, onFilterChange, complexes, isLoading
             className="w-full rounded-xl border border-[#162E93]/60 bg-[#080616]/80 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#2F2FE4] lg:w-36"
           >
             <option value="all">Género</option>
-            <option value="Acción">Acción</option>
-            <option value="Ciencia Ficción">Ciencia Ficción</option>
-            <option value="Drama">Drama</option>
-            <option value="Comedia">Comedia</option>
+            {genres.map((genre) => <option key={genre} value={genre}>{genre}</option>)}
           </select>
 
           {/* Formato */}
@@ -55,9 +57,7 @@ export const BillboardFilters = ({ filters, onFilterChange, complexes, isLoading
             className="w-full rounded-xl border border-[#162E93]/60 bg-[#080616]/80 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#2F2FE4] lg:w-32"
           >
             <option value="all">Formato</option>
-            <option value="2D">2D</option>
-            <option value="3D">3D</option>
-            <option value="IMAX">IMAX</option>
+            {formats.map((format) => <option key={format} value={format}>{format}</option>)}
           </select>
 
           {/* Clasificación */}
@@ -67,9 +67,16 @@ export const BillboardFilters = ({ filters, onFilterChange, complexes, isLoading
             className="w-full rounded-xl border border-[#162E93]/60 bg-[#080616]/80 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#2F2FE4] lg:w-36"
           >
             <option value="all">Clasificación</option>
-            <option value="TP">Todos los públicos</option>
-            <option value="+13">+13 Años</option>
-            <option value="+18">+18 Años</option>
+            {ratings.map((rating) => <option key={rating} value={rating}>{rating}</option>)}
+          </select>
+
+          <select
+            value={filters.language}
+            onChange={(e) => onFilterChange({ language: e.target.value })}
+            className="w-full rounded-xl border border-[#162E93]/60 bg-[#080616]/80 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#2F2FE4] lg:w-36"
+          >
+            <option value="all">Idioma</option>
+            {languages.map((language) => <option key={language} value={language}>{language}</option>)}
           </select>
 
           {/* Complejos disponibles en la ciudad seleccionada */}

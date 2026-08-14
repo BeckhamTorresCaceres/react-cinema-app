@@ -1,10 +1,10 @@
 // Tarjeta individual con formato / horarios
 
 import { Play, Ticket, Clock, Star } from "lucide-react";
-import type { Movie } from "@/features/billboard/types/billboard.types";
+import type { MovieWithShowtimes } from "@/features/billboard/types/billboard.types";
 
 interface MovieCardProps {
-  movie: Movie;
+  movie: MovieWithShowtimes;
   onViewDetails?: (id: string) => void;
   onBuyTickets?: (movieId: string, showtimeId: string) => void;
 }
@@ -79,7 +79,8 @@ export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps
                   }`}
                   title={st.isSoldOut ? "Función Agotada" : `Comprar ${st.format} ${st.language}`}
                 >
-                  {st.time} <span className="text-[10px] opacity-75">({st.format})</span>
+                  {st.time} <span className="text-[10px] opacity-75">({st.format} · {st.language})</span>
+                  {st.isSoldOut && <span className="sr-only"> — Agotada</span>}
                 </button>
               ))}
             </div>

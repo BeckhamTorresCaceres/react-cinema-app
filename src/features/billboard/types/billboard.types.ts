@@ -2,6 +2,8 @@
 
 export interface Showtime {
     id: string;
+    movieId: string;
+    cinemaId: string;
     time: string; // Formato de hora, por ejemplo: "14:30"
     format: "2D" | "3D" | "IMAX" | "4DX"; // Formato de la película
     language: "Español" | "Inglés" | "Subtitulada"; // Idioma de la película    
@@ -22,9 +24,12 @@ export interface Movie {
     score: number;
     isReleased: boolean; // Indica si la película ya fue estrenada
     isActive: boolean; // Indica si la película está activa en cartelera
-    showtimes: Showtime[]; // Lista de funciones disponibles para la película
     cityId?: string; // ID de la ciudad donde se proyecta la película (opcional)
 }
+
+export type MovieWithShowtimes = Movie & {
+    showtimes: Showtime[];
+};
 
 
 export interface BillboardFilters {
