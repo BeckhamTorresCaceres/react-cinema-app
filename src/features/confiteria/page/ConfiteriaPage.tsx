@@ -24,7 +24,7 @@ export const ConfiteriaPage = () => {
   return (
     <div className="min-h-screen bg-[#080616] text-white">
       {/* Hero de sección */}
-      <div className="relative border-b border-[#162E93]/30 bg-[#0D0B2A] px-4 py-12 sm:px-6 lg:px-8">
+      <div className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <h1 className="text-4xl font-extrabold text-white">
             Confi<span className="text-[#2F2FE4]">tería</span>
