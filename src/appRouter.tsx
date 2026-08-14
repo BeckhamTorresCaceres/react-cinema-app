@@ -8,6 +8,8 @@ import { AdminPage } from "./features/admin/pages/AdminPage";
 import { AdminProfilePage } from "./features/admin/pages/AdminProfilePage";
 import { AdminLayout } from "./features/admin/layouts/AdminLayout.tsx";
 import MyAcount from "./features/Client/pages/MyAcount.tsx";
+import { ConfiteriaPage } from "./features/confiteria/page/ConfiteriaPage.tsx";
+
 
 
 export const appRouter = createBrowserRouter([
@@ -15,7 +17,7 @@ export const appRouter = createBrowserRouter([
   // 1. RUTAS PÚBLICAS (Solo para usuarios SIN sesión)
   // 
   {
-    element: <PublicOnlyRoute />, 
+    element: <PublicOnlyRoute />,
     children: [
       {
         path: "/",
@@ -43,6 +45,10 @@ export const appRouter = createBrowserRouter([
       {
         index: true, // La pantalla principal ("/")
         element: <HomePage />,
+      },
+      {
+        path: "confiteria",
+        element: <ConfiteriaPage />,
       },
     ],
   },

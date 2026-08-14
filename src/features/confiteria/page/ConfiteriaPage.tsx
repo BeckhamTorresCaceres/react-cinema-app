@@ -1,0 +1,70 @@
+import { useState } from "react";
+import { MOCK_SNACKS, CATEGORIES } from "../data/confiteria.mock";
+import { ConfiteriaCard } from "../components/ConfiteriaCard";
+import { ConfiteriaCategorias } from "../components/ConfiteriaCategories";
+import { ConfiteriaBuscador } from "../components/ConfiteriaBuscador";
+import type { SnackProduct } from "../types/confiteria.types";
+
+export const ConfiteriaPage = () => {
+  const [selectedCategory, setSelectedCategory] = useState("Todos");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredProducts = MOCK_SNACKS.filter((product) => {
+    const matchesCategory = selectedCategory === "Todos" || product.category === selectedCategory;
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  
+  
+  const handleAddToCart = (product: SnackProduct) => {
+    console.log("Agregar al carrito:", product);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#080616] text-white">
+      {/* Hero de sección */}
+      <div className="relative border-b border-[#162E93]/30 bg-[#0D0B2A] px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <h1 className="text-4xl font-extrabold text-white">
+            Confi<span className="text-[#2F2FE4]">tería</span>
+          </h1>
+          <p className="mt-2 text-slate-400">
+            Elige tus snacks favoritos y Disfrutalos con la funcion.
+          </p>
+        </div>
+      </div>
+
+      {/* Contenido principal */}
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+
+        {/* Barra de filtros */}
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <ConfiteriaCategorias
+            categories={CATEGORIES}
+            selected={selectedCategory}
+            onSelect={setSelectedCategory}
+          />
+          <ConfiteriaBuscador value={searchTerm} onChange={setSearchTerm} />
+        </div>
+
+        {/* Grid de productos */}
+        {filteredProducts.length > 0 ? (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredProducts.map((product) => (
+              <ConfiteriaCard
+                key={product.id}
+                product={product}
+                onAddToCart={handleAddToCart}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-dashed border-[#162E93]/50 py-16 text-center">
+            <p className="text-slate-400">No se encontraron productos.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

@@ -3,10 +3,12 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { CalendarClock, MapPin, Menu, ShoppingCart, Ticket, User, X } from "lucide-react";
 import { useAuthStore } from "../../auth/store/authStore";
 import { LocationModal } from "@/features/location/components/LocationModal";
+import { Popcorn } from "lucide-react";
 
 const navigationItems = [
   { label: "Cartelera", to: "/#cartelera", icon: Ticket, sectionId: "cartelera" },
   { label: "Próximamente", to: "/#proximamente", icon: CalendarClock, sectionId: "proximamente" },
+  { label: "Confitería", to: "/confiteria", icon: Popcorn },
   { label: "Carrito", to: "/checkout", icon: ShoppingCart },
 ];
 
