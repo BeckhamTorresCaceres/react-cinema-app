@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapPin, X } from "lucide-react";
-import { LOCATIONS } from "../data/locations";
+import { getLocations, type CountryLocation } from "@/services/api";
 
 interface LocationModalProps {
   isOpen: boolean;
@@ -14,6 +14,33 @@ export const LocationModal = ({ isOpen, onClose, onLocationSelected, required = 
   const [region, setRegion] = useState(() => localStorage.getItem("lumi_departamento") || "");
   const [city, setCity] = useState(() => localStorage.getItem("lumi_ciudad") || "");
   const [shaking, setShaking] = useState(false);
+  const [locations, setLocations] = useState<CountryLocation[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!isOpen || locations.length) return;
+
+    let isMounted = true;
+    setIsLoading(true);
+    setError("");
+
+    getLocations()
+      .then((data) => {
+        if (isMounted) setLocations(data);
+      })
+      .catch(() => {
+        if (isMounted) setError("No pudimos cargar las ubicaciones. Inténtalo nuevamente.");
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
+      });
+
+    return () => { isMounted = false; };
+  }, [isOpen, locations.length]);
+
+  const selectedCountry = locations.find((item) => item.nombre === country);
+  const selectedDepartment = selectedCountry?.departamentos.find((item) => item.nombre === region);
 
   if (!isOpen) return null;
 
@@ -30,6 +57,7 @@ export const LocationModal = ({ isOpen, onClose, onLocationSelected, required = 
     localStorage.setItem("lumi_pais", country);
     localStorage.setItem("lumi_departamento", region);
     localStorage.setItem("lumi_ciudad", city);
+    window.dispatchEvent(new Event("lumi-location-changed"));
     onLocationSelected?.();
     close();
   };
@@ -43,10 +71,12 @@ export const LocationModal = ({ isOpen, onClose, onLocationSelected, required = 
             {!required && <button type="button" onClick={close} className="absolute right-4 top-4 cursor-pointer text-slate-400 hover:text-white" aria-label="Cerrar selector de ubicación"><X size={20} /></button>}
             <div className="mb-6 flex items-center gap-3"><MapPin size={24} className="text-[#8E8EFF]" /><div><h3 id="location-title" className="text-xl font-bold">Selecciona tu ubicación</h3><p className="text-xs text-slate-400">{required ? "Es necesaria para continuar y ver la cartelera." : "Selecciona tu región para ver la cartelera local"}</p></div></div>
             <form onSubmit={apply} noValidate className="space-y-4">
-              <LocationSelect label="País" value={country} onChange={(value) => { setCountry(value); setRegion(""); setCity(""); }}><option value="">Selecciona un país</option>{Object.keys(LOCATIONS).map((value) => <option key={value} value={value}>{value}</option>)}</LocationSelect>
-              <LocationSelect label="Departamento / Estado" value={region} disabled={!country} onChange={(value) => { setRegion(value); setCity(""); }}><option value="">Selecciona un departamento</option>{country && Object.keys(LOCATIONS[country]).map((value) => <option key={value} value={value}>{value}</option>)}</LocationSelect>
-              <LocationSelect label="Ciudad" value={city} disabled={!region} onChange={setCity}><option value="">Selecciona una ciudad</option>{country && region && LOCATIONS[country][region]?.map((value) => <option key={value} value={value}>{value}</option>)}</LocationSelect>
-              <button type="submit" className="w-full cursor-pointer rounded-lg bg-[#2F2FE4] py-2.5 font-semibold text-white transition hover:bg-[#162E93]">Aplicar</button>
+              <LocationSelect label="País" value={country} disabled={isLoading} onChange={(value) => { setCountry(value); setRegion(""); setCity(""); }}><option value="">Selecciona un país</option>{locations.map((item) => <option key={item.id} value={item.nombre}>{item.nombre}</option>)}</LocationSelect>
+              <LocationSelect label="Departamento / Estado" value={region} disabled={!selectedCountry || isLoading} onChange={(value) => { setRegion(value); setCity(""); }}><option value="">Selecciona un departamento</option>{selectedCountry?.departamentos.map((item) => <option key={item.id} value={item.nombre}>{item.nombre}</option>)}</LocationSelect>
+              <LocationSelect label="Ciudad" value={city} disabled={!selectedDepartment || isLoading} onChange={setCity}><option value="">Selecciona una ciudad</option>{selectedDepartment?.ciudades.map((item) => <option key={item.id} value={item.nombre}>{item.nombre}</option>)}</LocationSelect>
+              {isLoading && <p className="text-xs text-slate-400">Cargando ubicaciones...</p>}
+              {error && <p className="text-xs text-red-400" role="alert">{error}</p>}
+              <button type="submit" disabled={isLoading || Boolean(error)} className="w-full cursor-pointer rounded-lg bg-[#2F2FE4] py-2.5 font-semibold text-white transition hover:bg-[#162E93] disabled:cursor-not-allowed disabled:opacity-50">Aplicar</button>
             </form>
           </div>
         </div>

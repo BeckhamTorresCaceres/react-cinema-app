@@ -1,14 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateSelector } from "@/features/billboard/components/DataSelector";
 import { MovieCard } from "./MovieCard";
 import { BillboardFilters } from "./BillboardFilters";
 import { getMovies } from "../services/billboardService";
 import type { Movie } from "../types/billboard.types";
+import { getLocations, type CinemaLocation, type CountryLocation } from "@/services/api";
+
+interface SelectedLocation {
+  country: string;
+  department: string;
+  city: string;
+}
+
+const getSavedLocation = (): SelectedLocation => ({
+  country: localStorage.getItem("lumi_pais") || "",
+  department: localStorage.getItem("lumi_departamento") || "",
+  city: localStorage.getItem("lumi_ciudad") || "",
+});
 
 export const BillboardSection = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [locations, setLocations] = useState<CountryLocation[]>([]);
+  const [isLoadingLocations, setIsLoadingLocations] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState<SelectedLocation>(getSavedLocation);
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -30,6 +46,40 @@ export const BillboardSection = () => {
   const handleFilterChange = (newFilters: Partial<typeof filters>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
   };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    getLocations()
+      .then((data) => {
+        if (isMounted) setLocations(data);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoadingLocations(false);
+      });
+
+    return () => { isMounted = false; };
+  }, []);
+
+  useEffect(() => {
+    const updateSelectedLocation = () => setSelectedLocation(getSavedLocation());
+    window.addEventListener("lumi-location-changed", updateSelectedLocation);
+    return () => window.removeEventListener("lumi-location-changed", updateSelectedLocation);
+  }, []);
+
+  const complexes = useMemo<CinemaLocation[]>(() => {
+    const country = locations.find((item) => item.nombre === selectedLocation.country);
+    const department = country?.departamentos.find((item) => item.nombre === selectedLocation.department);
+    return department?.ciudades.find((item) => item.nombre === selectedLocation.city)?.cines ?? [];
+  }, [locations, selectedLocation]);
+
+  useEffect(() => {
+    setFilters((previous) => (
+      previous.complex === "all" || complexes.some((complex) => complex.id === previous.complex)
+        ? previous
+        : { ...previous, complex: "all" }
+    ));
+  }, [complexes]);
 
   useEffect(() => {
     let isMounted = true;
@@ -101,7 +151,12 @@ export const BillboardSection = () => {
       </div>
 
       {/* 🟢 AGREGADO: Barra de Filtros Avanzada                         */}
-      <BillboardFilters filters={filters} onFilterChange={handleFilterChange} />
+      <BillboardFilters
+        filters={filters}
+        onFilterChange={handleFilterChange}
+        complexes={complexes}
+        isLoadingComplexes={isLoadingLocations}
+      />
 
       {/* Selector de 7 Días */}
       <DateSelector selectedDate={selectedDate} onSelectDate={setSelectedDate} />
