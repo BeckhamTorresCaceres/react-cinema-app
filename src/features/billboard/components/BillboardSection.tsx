@@ -139,6 +139,7 @@ export const BillboardSection = () => {
     if (filters.rating !== "all" && movie.rating !== filters.rating) {
       return result;
     }
+    
 
     const movieShowtimes = showtimes.filter((showtime) => (
       showtime.movieId === movie.id
