@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { DateSelector } from "@/features/billboard/components/DataSelector";
+import { ALL_DATES, DateSelector } from "@/features/billboard/components/DataSelector";
 import { MovieCard } from "./MovieCard";
 import { BillboardFilters } from "./BillboardFilters";
 import { getMovies, getShowtimes } from "../services/billboardService";
@@ -142,6 +142,7 @@ export const BillboardSection = () => {
 
     const movieShowtimes = showtimes.filter((showtime) => (
       showtime.movieId === movie.id
+      && (selectedDate === ALL_DATES || showtime.date === selectedDate)
       && cityCinemaIds.has(showtime.cinemaId)
       && (filters.complex === "all" || showtime.cinemaId === filters.complex)
       && (filters.format === "all" || showtime.format === filters.format)

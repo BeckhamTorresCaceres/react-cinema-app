@@ -5,6 +5,8 @@ interface DateSelectorProps {
   onSelectDate: (dateStr: string) => void;
 }
 
+export const ALL_DATES = "all";
+
 export  const DateSelector = ({ selectedDate, onSelectDate }: DateSelectorProps) => {
   // Generar los próximos 7 días a partir de hoy
   const days = Array.from({ length: 7 }, (_, i) => {
@@ -20,6 +22,18 @@ export  const DateSelector = ({ selectedDate, onSelectDate }: DateSelectorProps)
 
   return (
     <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-thin">
+      <button
+        type="button"
+        onClick={() => onSelectDate(ALL_DATES)}
+        className={`flex min-w-[5.5rem] flex-col items-center justify-center rounded-xl p-3 transition duration-200 ${
+          selectedDate === ALL_DATES
+            ? "bg-[#2F2FE4] text-white shadow-lg shadow-[#2F2FE4]/40"
+            : "border border-[#162E93]/40 bg-[#1A1953]/50 text-slate-300 hover:border-[#2F2FE4]"
+        }`}
+      >
+        <span className="text-sm font-bold">Todas</span>
+        <span className="text-[10px] uppercase font-semibold opacity-80">las fechas</span>
+      </button>
       {days.map((item) => {
         const isSelected = selectedDate === item.fullDate;
         return (
