@@ -12,6 +12,10 @@ interface MovieCardProps {
 export const MovieCard = ({ movie, onBuyTickets }: MovieCardProps) => {
   const navigate = useNavigate();
   const openDetails = () => navigate(`/Movie/${movie.id}`);
+  const buyTickets = (showtimeId: string) => {
+    onBuyTickets?.(movie.id, showtimeId);
+    navigate(`/checkout?movieId=${movie.id}&showtimeId=${showtimeId}`);
+  };
   const availableFormats = [...new Set(movie.showtimes.map((showtime) => showtime.format))];
 
   return (
@@ -89,7 +93,7 @@ export const MovieCard = ({ movie, onBuyTickets }: MovieCardProps) => {
                   disabled={st.isSoldOut}
                   onClick={(event) => {
                     event.stopPropagation();
-                    onBuyTickets?.(movie.id, st.id);
+                    buyTickets(st.id);
                   }}
                   className={`rounded-lg px-2 py-1.5 text-[11px] font-medium transition sm:px-2.5 sm:text-xs ${
                     st.isSoldOut

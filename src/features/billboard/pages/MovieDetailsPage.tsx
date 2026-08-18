@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, Clock, Play, Star } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, Play, Star, Ticket } from "lucide-react";
 import { Link, useParams } from "react-router";
 import { getMovies, getShowtimes } from "../services/billboardService";
 import type { Movie, Showtime } from "../types/billboard.types";
@@ -70,6 +70,9 @@ export const MovieDetailsPage = () => {
   const minutes = movie.duration % 60;
   const availableLanguages = [...new Set(showtimes.map((showtime) => showtime.language))];
   const availableFormats = [...new Set(showtimes.map((showtime) => showtime.format))];
+  const availableShowtimes = showtimes
+    .filter((showtime) => showtime.status === "Estreno")
+    .sort((first, second) => `${first.date} ${first.time}`.localeCompare(`${second.date} ${second.time}`));
 
   return (
     <main className="min-h-screen bg-[#080616] pb-20 text-white">
@@ -218,6 +221,44 @@ export const MovieDetailsPage = () => {
 
         </div>
       </div>
+
+      <section className="mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-5">
+          <h2 className="text-2xl font-extrabold text-white">Horarios y entradas</h2>
+          <p className="mt-1 text-sm text-slate-400">Selecciona una función para comprar tus tickets.</p>
+        </div>
+
+        {availableShowtimes.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {availableShowtimes.map((showtime) => (
+              <article key={showtime.id} className="rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/30 p-5 backdrop-blur-md">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="flex items-center gap-2 text-sm text-slate-300">
+                    <CalendarDays size={17} className="text-[#8E8EFF]" />
+                    {new Intl.DateTimeFormat("es-CO", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" }).format(new Date(`${showtime.date}T00:00:00Z`))}
+                  </span>
+                  <span className="rounded-lg bg-[#080616]/70 px-3 py-1 text-lg font-bold text-white">{showtime.time}</span>
+                </div>
+                <p className="mt-4 text-sm text-slate-300">{showtime.format} · {showtime.language}</p>
+                <Link
+                  to={`/checkout?movieId=${movie.id}&showtimeId=${showtime.id}`}
+                  aria-disabled={showtime.isSoldOut}
+                  onClick={(event) => showtime.isSoldOut && event.preventDefault()}
+                  className={`mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+                    showtime.isSoldOut
+                      ? "cursor-not-allowed bg-slate-800 text-slate-500"
+                      : "bg-[#2F2FE4] text-white hover:bg-[#162E93]"
+                  }`}
+                >
+                  <Ticket size={17} /> {showtime.isSoldOut ? "Agotada" : "Comprar tickets"}
+                </Link>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="rounded-2xl border border-dashed border-[#162E93]/50 py-10 text-center text-slate-400">No hay horarios disponibles para compra.</p>
+        )}
+      </section>
 
       {/* Modal para el reproductor de Tráiler */}
       {showTrailerModal && trailerUrl && (
