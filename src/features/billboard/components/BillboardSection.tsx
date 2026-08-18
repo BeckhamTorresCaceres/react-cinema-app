@@ -121,7 +121,7 @@ export const BillboardSection = () => {
   const cityCinemaIds = useMemo(() => new Set(complexes.map((complex) => complex.id)), [complexes]);
 
   const filteredMovies = movies.reduce<MovieWithShowtimes[]>((result, movie) => {
-    if (!movie.isActive || !movie.isReleased) return result;
+    if (!movie.isActive) return result;
 
     // Filtro por texto de búsqueda
     if (
@@ -142,6 +142,7 @@ export const BillboardSection = () => {
 
     const movieShowtimes = showtimes.filter((showtime) => (
       showtime.movieId === movie.id
+      && showtime.status === "Estreno"
       && (selectedDate === ALL_DATES || showtime.date === selectedDate)
       && cityCinemaIds.has(showtime.cinemaId)
       && (filters.complex === "all" || showtime.cinemaId === filters.complex)
@@ -155,9 +156,11 @@ export const BillboardSection = () => {
 
   return (
     <section id="cartelera" className="scroll-mt-20 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-center">
+      <div className="mb-6">
         <div>
-          <h2 className="text-3xl font-extrabold text-white">Cartelera Semanal</h2>
+          <h2 className="text-3xl font-extrabold text-white">
+            Cartelera Semanal{selectedLocation.city && <span className="text-[#8E8EFF]"> {selectedLocation.city}</span>}
+          </h2>
           <p className="text-sm text-slate-400">Elige tu función y compra tus entradas</p>
         </div>
 

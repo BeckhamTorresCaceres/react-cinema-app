@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { Play, Plus, Heart } from "lucide-react";
-import { getMovies } from "@/features/billboard/services/billboardService";
+import { getMovies, getShowtimes } from "@/features/billboard/services/billboardService";
 import { BillboardSection } from "@/features/billboard/components/BillboardSection";
-import type { Movie } from "@/features/billboard/types/billboard.types";
+import type { Movie, Showtime } from "@/features/billboard/types/billboard.types";
 
 export const HomePage = () => {
   const [currentMovie, setCurrentMovie] = useState(0);
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [showtimes, setShowtimes] = useState<Showtime[]>([]);
   const [isLoadingMovies, setIsLoadingMovies] = useState(true);
 
   useEffect(() => {
@@ -14,8 +15,11 @@ export const HomePage = () => {
 
     const loadMovies = async () => {
       try {
-        const data = await getMovies();
-        if (isMounted) setMovies(data.filter((movie) => movie.isActive));
+        const [movieData, showtimeData] = await Promise.all([getMovies(), getShowtimes()]);
+        if (isMounted) {
+          setMovies(movieData.filter((movie) => movie.isActive));
+          setShowtimes(showtimeData);
+        }
       } finally {
         if (isMounted) setIsLoadingMovies(false);
       }
@@ -59,7 +63,10 @@ export const HomePage = () => {
   }, [movies.length, nextMovie, previousMovie]);
 
   const heroMovie = movies[currentMovie];
-  const upcomingMovies = movies.filter((movie) => movie.isActive && !movie.isReleased);
+  const upcomingMovies = movies.filter((movie) => {
+    const movieShowtimes = showtimes.filter((showtime) => showtime.movieId === movie.id);
+    return movieShowtimes.length > 0 && movieShowtimes.every((showtime) => showtime.status === "Próximamente");
+  });
 
   return ( 
     <main className="min-h-screen bg-[#080616] text-white">
@@ -82,7 +89,7 @@ export const HomePage = () => {
                 <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-slate-300 sm:mt-4 sm:gap-4 sm:text-base">
                   <span>{heroMovie.genre}</span><span>•</span><span>{heroMovie.duration} min</span><span>•</span><span>{heroMovie.rating}</span>
                 </div>
-                <p className="mt-5 text-sm leading-6 text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">Dirigida por {heroMovie.director}. Disponible en {heroMovie.languages.join(", ")}.</p>
+                <p className="mt-5 text-sm leading-6 text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">Dirigida por {heroMovie.director}.</p>
                 <div className="mt-6 flex flex-wrap gap-3 sm:mt-8 sm:gap-4">
                   <button className="flex items-center gap-2 rounded-lg bg-[#2F2FE4] px-5 py-3 text-sm font-semibold shadow-md shadow-[#2F2FE4]/30 transition hover:bg-[#162E93] sm:px-6 sm:text-base"><Play size={18} />Ver ahora</button>
                   <button className="rounded-lg border border-[#162E93] bg-[#1A1953]/60 p-3 backdrop-blur transition hover:border-[#2F2FE4] hover:bg-[#162E93]/50"><Plus /></button>
@@ -111,7 +118,7 @@ export const HomePage = () => {
             {upcomingMovies.map((movie) => (
               <article key={movie.id} className="overflow-hidden rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/40">
                 <div className="relative aspect-4/5"><img src={movie.poster} alt={movie.title} className="h-full w-full object-cover" /><span className="absolute left-3 top-3 rounded-full bg-[#2F2FE4] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">Próximamente</span></div>
-                <div className="p-4"><h3 className="text-xl font-bold text-white">{movie.title}</h3><p className="mt-2 text-xs text-slate-400">{movie.genre} · {movie.duration} min · {movie.rating}</p><div className="mt-3 flex flex-wrap gap-1.5">{movie.formats.map((format) => <span key={format} className="rounded border border-[#2F2FE4]/40 bg-[#2F2FE4]/10 px-2 py-0.5 text-[10px] font-bold text-[#8E8EFF]">{format}</span>)}</div></div>
+                <div className="p-4"><h3 className="text-xl font-bold text-white">{movie.title}</h3><p className="mt-2 text-xs text-slate-400">{movie.genre} · {movie.duration} min · {movie.rating}</p></div>
               </article>
             ))}
           </div>

@@ -1,17 +1,33 @@
 // Tarjeta individual con formato / horarios
 
-import { Play, Ticket, Clock, Star } from "lucide-react";
+import { Clock, Star } from "lucide-react";
+import { useNavigate } from "react-router";
 import type { MovieWithShowtimes } from "@/features/billboard/types/billboard.types";
 
 interface MovieCardProps {
   movie: MovieWithShowtimes;
-  onViewDetails?: (id: string) => void;
   onBuyTickets?: (movieId: string, showtimeId: string) => void;
 }
 
-export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps) => {
+export const MovieCard = ({ movie, onBuyTickets }: MovieCardProps) => {
+  const navigate = useNavigate();
+  const openDetails = () => navigate(`/Movie/${movie.id}`);
+  const availableFormats = [...new Set(movie.showtimes.map((showtime) => showtime.format))];
+
   return (
-    <div className="group relative flex overflow-hidden rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/40 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#2F2FE4] hover:shadow-2xl sm:flex-col">
+    <article
+      role="link"
+      tabIndex={0}
+      aria-label={`Ver detalles de ${movie.title}`}
+      onClick={openDetails}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openDetails();
+        }
+      }}
+      className="group relative flex cursor-pointer overflow-hidden rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/40 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#2F2FE4] hover:shadow-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8E8EFF] sm:flex-col"
+    >
       
       {/* Póster e Indicadores */}
       <div className="relative w-[38%] shrink-0 overflow-hidden sm:aspect-4/5 sm:w-full">
@@ -23,7 +39,7 @@ export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps
         <div className="absolute inset-0 bg-linear-to-t from-[#080616] via-transparent to-transparent opacity-90" />
 
         {/* Badge de Estreno */}
-        {movie.isReleased && (
+        {movie.showtimes.some((showtime) => showtime.status === "Estreno") && (
           <span className="absolute top-3 left-3 rounded-full bg-red-600 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white shadow-md">
             Estreno
           </span>
@@ -56,7 +72,7 @@ export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps
 
           {/* Formatos disponibles */}
           <div className="mt-3 flex flex-wrap gap-1">
-            {movie.formats.map((fmt) => (
+            {availableFormats.map((fmt) => (
               <span key={fmt} className="rounded border border-[#2F2FE4]/40 bg-[#2F2FE4]/10 px-2 py-0.5 text-[10px] font-bold text-[#8E8EFF]">
                 {fmt}
               </span>
@@ -71,7 +87,10 @@ export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps
                 <button
                   key={st.id}
                   disabled={st.isSoldOut}
-                  onClick={() => onBuyTickets?.(movie.id, st.id)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onBuyTickets?.(movie.id, st.id);
+                  }}
                   className={`rounded-lg px-2 py-1.5 text-[11px] font-medium transition sm:px-2.5 sm:text-xs ${
                     st.isSoldOut
                       ? "cursor-not-allowed bg-slate-800 text-slate-500 line-through opacity-60"
@@ -87,22 +106,7 @@ export const MovieCard = ({ movie, onViewDetails, onBuyTickets }: MovieCardProps
           </div>
         </div>
 
-        {/* Acciones */}
-        <div className="mt-4 flex gap-2 border-t border-[#162E93]/30 pt-2 sm:mt-6">
-          <button
-            onClick={() => onViewDetails?.(movie.id)}
-            className="flex flex-1 items-center justify-center gap-1 rounded-lg border border-[#162E93] bg-[#1A1953]/50 py-2 text-[11px] font-semibold text-white transition hover:bg-[#162E93] sm:gap-1.5 sm:py-2.5 sm:text-xs"
-          >
-            <Play size={14} /> Ver detalle
-          </button>
-          <button
-            onClick={() => onBuyTickets?.(movie.id, movie.showtimes[0]?.id || "")}
-            className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#2F2FE4] py-2 text-[11px] font-semibold text-white shadow-lg transition hover:bg-[#162E93] sm:gap-1.5 sm:py-2.5 sm:text-xs"
-          >
-            <Ticket size={14} /> Comprar
-          </button>
-        </div>
       </div>
-    </div>
+    </article>
   );
 };
