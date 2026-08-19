@@ -23,3 +23,23 @@ export async function getShowtimes(): Promise<Showtime[]> {
 
   return response.json() as Promise<Showtime[]>;
 }
+
+export async function getShowtimeById(showtimeId: string): Promise<Showtime> {
+  const response = await fetch(`${API_URL}${endpoints.showtimes}/${showtimeId}`);
+
+  if (!response.ok) {
+    throw new Error("No fue posible cargar la función.");
+  }
+
+  return response.json() as Promise<Showtime>;
+}
+
+export async function getMovieById(movieId: string): Promise<Movie> {
+  const response = await fetch(`${API_URL}${endpoints.movies}/${movieId}`);
+
+  if (!response.ok) {
+    throw new Error("No fue posible cargar la película.");
+  }
+
+  return response.json() as Promise<Movie>;
+}

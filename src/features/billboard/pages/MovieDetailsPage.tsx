@@ -1,8 +1,22 @@
-import { useEffect, useState } from "react";
-import { ArrowLeft, CalendarDays, Clock, Play, Star, Ticket } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowLeft, Clock, Play, Star } from "lucide-react";
 import { Link, useParams } from "react-router";
 import { getMovies, getShowtimes } from "../services/billboardService";
 import type { Movie, Showtime } from "../types/billboard.types";
+import { ShowtimesSelector } from "../components/ShowtimesSelector";
+import { getLocations, type CinemaLocation, type CountryLocation } from "@/services/api";
+
+interface SelectedLocation {
+  country: string;
+  department: string;
+  city: string;
+}
+
+const getSavedLocation = (): SelectedLocation => ({
+  country: localStorage.getItem("lumi_pais") || "",
+  department: localStorage.getItem("lumi_departamento") || "",
+  city: localStorage.getItem("lumi_ciudad") || "",
+});
 
 const getYouTubeVideoId = (url: string | undefined): string | null => {
   if (!url) return null;
@@ -16,17 +30,40 @@ export const MovieDetailsPage = () => {
   const { movieId } = useParams<{ movieId: string }>();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [showtimes, setShowtimes] = useState<Showtime[]>([]);
+  const [locations, setLocations] = useState<CountryLocation[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<SelectedLocation>(getSavedLocation);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingLocations, setIsLoadingLocations] = useState(true);
   const [showTrailerModal, setShowTrailerModal] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
+    getLocations()
+      .then((data) => {
+        if (isMounted) setLocations(data);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoadingLocations(false);
+      });
+
+    return () => { isMounted = false; };
+  }, []);
+
+  useEffect(() => {
+    const updateSelectedLocation = () => setSelectedLocation(getSavedLocation());
+    window.addEventListener("lumi-location-changed", updateSelectedLocation);
+    return () => window.removeEventListener("lumi-location-changed", updateSelectedLocation);
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
     Promise.all([getMovies(), getShowtimes()])
-      .then(([movies, showtimes]) => {
+      .then(([movies, fetchedShowtimes]) => {
         if (isMounted) {
           setMovie(movies.find((item) => item.id === movieId) ?? null);
-          setShowtimes(showtimes.filter((showtime) => showtime.movieId === movieId));
+          setShowtimes(fetchedShowtimes.filter((st) => st.movieId === movieId));
         }
       })
       .catch((error) => {
@@ -38,6 +75,19 @@ export const MovieDetailsPage = () => {
 
     return () => { isMounted = false; };
   }, [movieId]);
+
+  const cinemas = useMemo<CinemaLocation[]>(() => {
+    const country = locations.find((item) => item.nombre === selectedLocation.country);
+    const department = country?.departamentos.find((item) => item.nombre === selectedLocation.department);
+    return department?.ciudades.find((item) => item.nombre === selectedLocation.city)?.cines ?? [];
+  }, [locations, selectedLocation]);
+
+  const cityCinemaIds = useMemo(() => new Set(cinemas.map((cinema) => cinema.id)), [cinemas]);
+
+  const localShowtimes = useMemo(
+    () => showtimes.filter((showtime) => cityCinemaIds.has(showtime.cinemaId)),
+    [showtimes, cityCinemaIds]
+  );
 
   if (isLoading) {
     return (
@@ -68,37 +118,30 @@ export const MovieDetailsPage = () => {
 
   const hours = Math.floor(movie.duration / 60);
   const minutes = movie.duration % 60;
-  const availableLanguages = [...new Set(showtimes.map((showtime) => showtime.language))];
-  const availableFormats = [...new Set(showtimes.map((showtime) => showtime.format))];
-  const availableShowtimes = showtimes
-    .filter((showtime) => showtime.status === "Estreno")
-    .sort((first, second) => `${first.date} ${first.time}`.localeCompare(`${second.date} ${second.time}`));
+  const availableLanguages = [...new Set(localShowtimes.map((s) => s.language))];
+  const availableFormats = [...new Set(localShowtimes.map((s) => s.format))];
 
   return (
     <main className="min-h-screen bg-[#080616] pb-20 text-white">
-<div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
-  <Link
-    to="/#cartelera"
-    className="group inline-flex items-center gap-2 rounded-full border border-[#162E93]/40 bg-[#1A1953]/30 px-4 py-2 text-xs sm:text-sm font-medium text-slate-300 backdrop-blur-md shadow-md transition-all duration-200 hover:border-[#2F2FE4] hover:bg-[#2F2FE4]/30 hover:text-white hover:shadow-[#2F2FE4]/20 active:scale-95"
-  >
-    <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-1" />
-    <span>Volver a cartelera</span>
-  </Link>
-</div>
+      {/* Botón de regresar */}
+      <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+        <Link
+          to="/#cartelera"
+          className="group inline-flex items-center gap-2 rounded-full border border-[#162E93]/40 bg-[#1A1953]/30 px-4 py-2 text-xs sm:text-sm font-medium text-slate-300 backdrop-blur-md shadow-md transition-all duration-200 hover:border-[#2F2FE4] hover:bg-[#2F2FE4]/30 hover:text-white hover:shadow-[#2F2FE4]/20 active:scale-95"
+        >
+          <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-1" />
+          <span>Volver a cartelera</span>
+        </Link>
+      </div>
 
-      {/* Hero Banner e Imagen Flotante Alineada a la Izquierda */}
+      {/* Hero Banner e Imagen Flotante */}
       <div className="relative mt-6 w-full">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          
-          {/* Contenedor del Banner Principal */}
           <div className="relative h-[340px] sm:h-[420px] w-full overflow-hidden rounded-3xl border border-[#162E93]/30 shadow-2xl">
-            {/* Fondo con poster difuminado */}
             <div 
               className="absolute inset-0 bg-cover bg-center filter brightness-90 blur-sm scale-105"
               style={{ backgroundImage: `url(${movie.poster})` }}
             />
-            
-            {/* Gradiente oscuro superior e inferior */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#080616] via-[#080616]/60 to-black/30" />
 
             {/* Botón Central de Tráiler */}
@@ -123,7 +166,6 @@ export const MovieDetailsPage = () => {
               )}
             </div>
 
-            {/* Título y badge desplazados a la derecha de la carátula */}
             <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 pl-[220px] sm:pl-[270px] md:pl-[300px] transition-all">
               <div className="max-w-2xl">
                 <h1 className="text-2xl font-extrabold tracking-tight sm:text-4xl md:text-5xl text-white drop-shadow-md">
@@ -134,7 +176,7 @@ export const MovieDetailsPage = () => {
                   <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-slate-200 backdrop-blur-md">
                     {movie.rating}
                   </span>
-                  {showtimes.some((showtime) => showtime.status === "Estreno") && (
+                  {localShowtimes.some((s) => s.status === "Estreno") && (
                     <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-widest text-white shadow-md">
                       Estreno
                     </span>
@@ -144,24 +186,19 @@ export const MovieDetailsPage = () => {
             </div>
           </div>
 
-          {/* Carátula flotante exactamente a la izquierda sobrepuesta (Estilo Cine Colombia) */}
           <div className="relative z-20 -mt-36 sm:-mt-48 ml-8 sm:ml-12 w-fit">
             <img
               src={movie.poster}
               alt={movie.title}
               className="w-36 sm:w-48 md:w-56 aspect-[2/3] rounded-2xl object-cover shadow-2xl border-4 border-[#080616] ring-1 ring-white/10"
             />
-          
           </div>
-
         </div>
       </div>
 
       {/* Grid de Información Inferior */}
       <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-3">
-          
-          {/* Detalles Principales */}
           <div className="space-y-6 md:col-span-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 rounded-3xl border border-[#162E93]/40 bg-[#1A1953]/30 p-6 sm:p-8 backdrop-blur-md">
               <div>
@@ -202,7 +239,6 @@ export const MovieDetailsPage = () => {
             </div>
           </div>
 
-          {/* Columna Lateral */}
           <div className="space-y-6">
             <div className="rounded-3xl border border-[#162E93]/40 bg-[#1A1953]/30 p-6 sm:p-8 backdrop-blur-md space-y-6">
               <div>
@@ -218,47 +254,17 @@ export const MovieDetailsPage = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
-      <section className="mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-5">
-          <h2 className="text-2xl font-extrabold text-white">Horarios y entradas</h2>
-          <p className="mt-1 text-sm text-slate-400">Selecciona una función para comprar tus tickets.</p>
-        </div>
-
-        {availableShowtimes.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {availableShowtimes.map((showtime) => (
-              <article key={showtime.id} className="rounded-2xl border border-[#162E93]/40 bg-[#1A1953]/30 p-5 backdrop-blur-md">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="flex items-center gap-2 text-sm text-slate-300">
-                    <CalendarDays size={17} className="text-[#8E8EFF]" />
-                    {new Intl.DateTimeFormat("es-CO", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" }).format(new Date(`${showtime.date}T00:00:00Z`))}
-                  </span>
-                  <span className="rounded-lg bg-[#080616]/70 px-3 py-1 text-lg font-bold text-white">{showtime.time}</span>
-                </div>
-                <p className="mt-4 text-sm text-slate-300">{showtime.format} · {showtime.language}</p>
-                <Link
-                  to={`/checkout?movieId=${movie.id}&showtimeId=${showtime.id}`}
-                  aria-disabled={showtime.isSoldOut}
-                  onClick={(event) => showtime.isSoldOut && event.preventDefault()}
-                  className={`mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
-                    showtime.isSoldOut
-                      ? "cursor-not-allowed bg-slate-800 text-slate-500"
-                      : "bg-[#2F2FE4] text-white hover:bg-[#162E93]"
-                  }`}
-                >
-                  <Ticket size={17} /> {showtime.isSoldOut ? "Agotada" : "Comprar tickets"}
-                </Link>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <p className="rounded-2xl border border-dashed border-[#162E93]/50 py-10 text-center text-slate-400">No hay horarios disponibles para compra.</p>
-        )}
-      </section>
+      {/* COMPONENTE DE HORARIOS */}
+      <ShowtimesSelector
+        movieId={movie.id}
+        showtimes={localShowtimes}
+        city={selectedLocation.city}
+        cinemas={cinemas}
+        isLoadingCinemas={isLoadingLocations}
+      />
 
       {/* Modal para el reproductor de Tráiler */}
       {showTrailerModal && trailerUrl && (
