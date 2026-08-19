@@ -246,7 +246,7 @@ export const ShowtimesSelector = ({
                               {times.map((showtime) => (
                                 <Link
                                   key={showtime.id}
-                                  to={`/checkout?movieId=${movieId}&showtimeId=${showtime.id}`}
+                                  to={`/asientos?movieId=${movieId}&showtimeId=${showtime.id}`}
                                   aria-disabled={showtime.isSoldOut}
                                   onClick={(event) => showtime.isSoldOut && event.preventDefault()}
                                   className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-95 ${

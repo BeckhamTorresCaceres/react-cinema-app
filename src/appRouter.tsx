@@ -10,6 +10,7 @@ import { AdminLayout } from "./features/admin/layouts/AdminLayout.tsx";
 import MyAcount from "./features/Client/pages/MyAcount.tsx";
 import { ConfiteriaPage } from "./features/confiteria/page/ConfiteriaPage.tsx";
 import { MovieDetailsPage } from "./features/billboard/pages/MovieDetailsPage.tsx";
+import { SeatSelectionPage } from "./features/seats/pages/SeatSelectionPage.tsx";
 
 
 
@@ -54,6 +55,10 @@ export const appRouter = createBrowserRouter([
       {
         path: "Movie/:movieId",
         element: <MovieDetailsPage />,
+      },
+      {
+        path: "asientos",
+        element: <SeatSelectionPage />,
       },
     ],
   },

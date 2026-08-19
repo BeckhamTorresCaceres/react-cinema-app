@@ -14,7 +14,7 @@ export const MovieCard = ({ movie, onBuyTickets }: MovieCardProps) => {
   const openDetails = () => navigate(`/Movie/${movie.id}`);
   const buyTickets = (showtimeId: string) => {
     onBuyTickets?.(movie.id, showtimeId);
-    navigate(`/checkout?movieId=${movie.id}&showtimeId=${showtimeId}`);
+    navigate(`/asientos?movieId=${movie.id}&showtimeId=${showtimeId}`);
   };
   const availableFormats = [...new Set(movie.showtimes.map((showtime) => showtime.format))];
 

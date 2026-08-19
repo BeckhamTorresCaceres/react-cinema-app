@@ -561,26 +561,5 @@
     }
   ],
   "seats": [
-    { "id": "s5", "occupied": ["C5", "C6", "D7", "F2", "A10"] },
-    { "id": "s6", "occupied": ["B4", "B5", "E8", "E9", "G1", "H12"] },
-    { "id": "s7", "occupied": ["A1", "A2", "D6", "F11"] },
-    { "id": "s8", "occupied": ["A3", "A4", "A5", "B3", "B4", "C6", "C7", "D8", "E2", "E3", "F5", "G9", "H1", "H2"] },
-    { "id": "s9", "occupied": ["C8", "C9"] },
-    { "id": "s10", "occupied": ["D4", "D5", "D6"] },
-    { "id": "s11", "occupied": ["B11", "F7"] },
-    { "id": "s12", "occupied": ["E5", "E6", "H8"] },
-    { "id": "s13", "occupied": ["A7", "G3", "G4"] },
-    { "id": "s19", "occupied": ["C1", "C2", "F8"] },
-    { "id": "s20", "occupied": ["B6", "B7"] },
-    { "id": "s25", "occupied": ["D10", "D11", "H5"] },
-    { "id": "s26", "occupied": ["A12", "E1"] },
-    { "id": "s27", "occupied": ["C4", "G10", "G11"] },
-    { "id": "s28", "occupied": ["F3", "F4"] },
-    { "id": "s33", "occupied": ["B2", "D9"] },
-    { "id": "s34", "occupied": ["A6", "E7", "H6"] },
-    { "id": "s35", "occupied": ["C10", "C11"] },
-    { "id": "s36", "occupied": ["D1", "D2", "F12"] },
-    { "id": "s37", "occupied": ["B9", "G6"] },
-    { "id": "s38", "occupied": ["A8", "A9", "E11"] }
   ]
 }
