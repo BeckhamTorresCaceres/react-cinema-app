@@ -1,5 +1,4 @@
-import { API_URL } from "./api";
-import { endpoints } from "./endpoints";
+import { getUsersByEmail } from "./users";
 
 export type RawAuthUser = {
   id?: string | number;
@@ -7,6 +6,7 @@ export type RawAuthUser = {
   password?: string;
   name?: string;
   username?: string;
+  avatar?: string;
   active?: boolean;
   role?: {
     name?: string;
@@ -15,11 +15,6 @@ export type RawAuthUser = {
 };
 
 export async function fetchUserByEmail(email: string): Promise<RawAuthUser[]> {
-  const response = await fetch(`${API_URL}${endpoints.usersByEmail(email)}`);
-
-  if (!response.ok) {
-    throw new Error("Error de conexión");
-  }
-
-  return (await response.json()) as RawAuthUser[];
+  const users = await getUsersByEmail(email);
+  return users as RawAuthUser[];
 }

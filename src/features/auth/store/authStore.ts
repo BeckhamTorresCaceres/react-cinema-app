@@ -1,7 +1,8 @@
 // Guardar el token de acceso, la información del usuario logueado y el estado isAuthenticated para todo el proyecto
-import { create } from 'zustand';
-import type { User, LoginCredentials, RegisterCredentials } from '../../../shared/interfaces/auth.interface';
-import { fetchUserByEmail, type RawAuthUser } from '../../../services/authService';
+import { create } from "zustand";
+import type { User, LoginCredentials, RegisterCredentials } from "../../../shared/interfaces/auth.interface";
+import { fetchUserByEmail, type RawAuthUser } from "../../../services/authService";
+import { getUserById } from "../../../services/users";
 
 interface AuthState {
   user: User | null;
@@ -10,28 +11,54 @@ interface AuthState {
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
+  refreshProfile: () => Promise<void>;
   logout: () => void;
 }
 
 const normalizeUser = (user: RawAuthUser): User => ({
-  id: String(user.id ?? ''),
-  email: user.email ?? '',
+  id: String(user.id ?? ""),
+  email: user.email ?? "",
   name: user.name || user.username,
-  role: typeof user.role === 'object' && user.role !== null ? user.role.name : user.roleId === 1 ? 'admin' : 'client',
+  username: user.username,
+  avatar: user.avatar,
+  role: typeof user.role === "object" && user.role !== null ? user.role.name : user.roleId === 1 ? "admin" : "client",
   isVerified: Boolean(user.active),
 });
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: (() => {
-    try {
-      const u = localStorage.getItem('user');
-      return u ? JSON.parse(u) : null;
-    } catch {
-      return null;
-    }
-  })(),
-  token: localStorage.getItem('token') || null,
-  isAuthenticated: !!localStorage.getItem('token'),
+const persistUser = (user: User) => {
+  try {
+    localStorage.setItem("user", JSON.stringify(user));
+  } catch {
+    // ignore storage errors
+  }
+};
+
+const readStoredUser = (): User | null => {
+  try {
+    const raw = localStorage.getItem("user");
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw) as Partial<User>;
+    if (!parsed?.id) return null;
+
+    return {
+      id: String(parsed.id),
+      email: String(parsed.email ?? ""),
+      name: parsed.name,
+      username: parsed.username,
+      avatar: parsed.avatar,
+      role: parsed.role,
+      isVerified: parsed.isVerified,
+    };
+  } catch {
+    return null;
+  }
+};
+
+export const useAuthStore = create<AuthState>((set, get) => ({
+  user: readStoredUser(),
+  token: localStorage.getItem("token") || null,
+  isAuthenticated: !!localStorage.getItem("token"),
   isLoading: false,
 
   login: async (credentials: LoginCredentials) => {
@@ -41,22 +68,18 @@ export const useAuthStore = create<AuthState>((set) => ({
       const user = users[0];
 
       if (!user || user.password !== credentials.password) {
-        throw new Error('Credenciales inválidas o cuenta inactiva');
+        throw new Error("Credenciales inválidas o cuenta inactiva");
       }
 
       if (!user.active) {
-        throw new Error('Credenciales inválidas o cuenta inactiva');
+        throw new Error("Credenciales inválidas o cuenta inactiva");
       }
 
       const token = `mock-token-${user.id}`;
       const normalizedUser = normalizeUser(user);
 
-      localStorage.setItem('token', token);
-      try {
-        localStorage.setItem('user', JSON.stringify(normalizedUser));
-      } catch {
-        // ignore storage errors
-      }
+      localStorage.setItem("token", token);
+      persistUser(normalizedUser);
 
       set({
         token,
@@ -66,7 +89,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       });
     } catch (error) {
       set({ isLoading: false });
-      throw new Error((error as Error).message || 'Credenciales inválidas o cuenta inactiva');
+      throw new Error((error as Error).message || "Credenciales inválidas o cuenta inactiva");
     }
   },
 
@@ -77,13 +100,31 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ isLoading: false });
     } catch {
       set({ isLoading: false });
-      throw new Error('El correo ya se encuentra registrado.');
+      throw new Error("El correo ya se encuentra registrado.");
     }
   },
 
+  refreshProfile: async () => {
+    const current = get().user;
+    if (!current?.id) return;
+
+    const fullUser = await getUserById(current.id);
+    const nextUser: User = {
+      ...current,
+      name: fullUser.name || current.name,
+      username: fullUser.username || current.username,
+      email: fullUser.email || current.email,
+      avatar: fullUser.avatar || current.avatar,
+      role: fullUser.roleId === 1 ? "admin" : fullUser.roleId === 2 ? "client" : current.role,
+    };
+
+    persistUser(nextUser);
+    set({ user: nextUser });
+  },
+
   logout: () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     set({ user: null, token: null, isAuthenticated: false });
   },
 }));

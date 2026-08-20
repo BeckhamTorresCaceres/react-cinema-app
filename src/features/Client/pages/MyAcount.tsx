@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MembershipCard } from "./Membership";
-// Importamos tu componente de tarjeta desde su archivo correspondien
+import { getUserById, replaceUser } from "@/services/users";
 interface User {
   id: number;
   name: string;
@@ -31,21 +31,31 @@ const MyAccount = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:3001/users/2")
-      .then((response) => response.json())
+    getUserById(2)
       .then((data) => {
-        setUser(data);
+        const mappedUser: User = {
+          id: Number(data.id),
+          name: String(data.name ?? ""),
+          username: String(data.username ?? ""),
+          email: String(data.email ?? ""),
+          phone: String(data.phone ?? ""),
+          avatar: String(data.avatar ?? ""),
+          membershipId: String(data.membershipId ?? "8420 9153 0074"),
+          memberSince: String(data.memberSince ?? "08 / 2024"),
+          expiryDate: String(data.expiryDate ?? "08 / 2027"),
+          status: data.status === "INACTIVO" ? "INACTIVO" : "ACTIVO",
+        };
+        setUser(mappedUser);
         setFormData({
-          name: data.name,
-          username: data.username,
-          email: data.email,
-          phone: data.phone,
-          avatar: data.avatar,
-          // Mapeo de datos desde el JSON recibido
-          membershipId: data.membershipId || "8420 9153 0074",
-          memberSince: data.memberSince || "08 / 2024",
-          expiryDate: data.expiryDate || "08 / 2027",
-          status: data.status || "ACTIVO",
+          name: mappedUser.name,
+          username: mappedUser.username,
+          email: mappedUser.email,
+          phone: mappedUser.phone,
+          avatar: mappedUser.avatar,
+          membershipId: mappedUser.membershipId,
+          memberSince: mappedUser.memberSince,
+          expiryDate: mappedUser.expiryDate,
+          status: mappedUser.status,
         });
       })
       .catch((error) => console.error(error));
@@ -59,14 +69,13 @@ const MyAccount = () => {
   const handleSave = () => {
     if (!user) return;
 
-    fetch(`http://localhost:3001/users/${user.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...user, ...formData }),
-    })
-      .then((response) => response.json())
-      .then((updatedUser) => {
-        setUser(updatedUser);
+    replaceUser(user.id, { ...user, ...formData })
+      .then((data) => {
+        setUser({
+          ...user,
+          ...formData,
+          id: Number(data.id ?? user.id),
+        });
         setIsEditing(false);
       })
       .catch((error) => console.error("Error al actualizar:", error));

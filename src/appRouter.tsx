@@ -11,13 +11,12 @@ import MyAcount from "./features/Client/pages/MyAcount.tsx";
 import { ConfiteriaPage } from "./features/confiteria/page/ConfiteriaPage.tsx";
 import { MovieDetailsPage } from "./features/billboard/pages/MovieDetailsPage.tsx";
 import { SeatSelectionPage } from "./features/seats/pages/SeatSelectionPage.tsx";
+import { AdminMoviesPage } from "./features/admin/pages/AdminMoviesPage.tsx";
 
 
 
 export const appRouter = createBrowserRouter([
-  // 
-  // 1. RUTAS PÚBLICAS (Solo para usuarios SIN sesión)
-  // 
+  // 1. RUTAS PÚBLICAS (Solo usuarios SIN sesión)
   {
     element: <PublicOnlyRoute />,
     children: [
@@ -25,21 +24,14 @@ export const appRouter = createBrowserRouter([
         path: "/",
         element: <HomeLayout />,
         children: [
-          {
-            path: "login",
-            element: <LoginPage />,
-          },
-          {
-            path: "register",
-            element: <RegisterPage />,
-          },
+          { path: "login", element: <LoginPage /> },
+          { path: "register", element: <RegisterPage /> },
         ],
       },
     ],
   },
 
-  // 2. RUTAS PÚBLICAS / GENERALES (Accesibles para todos)
-
+  // 2. RUTAS PÚBLICAS GENERALES
   {
     path: "/",
     element: <HomeLayout />,
@@ -63,7 +55,7 @@ export const appRouter = createBrowserRouter([
     ],
   },
 
-  // 3. RUTAS PRIVADAS (Solo para usuarios CON sesión)
+  // 3. RUTAS PRIVADAS CLIENTES
   {
     element: <ProtectedRoute />,
     children: [
@@ -71,14 +63,8 @@ export const appRouter = createBrowserRouter([
         path: "/",
         element: <HomeLayout />,
         children: [
-          {
-            path: "perfil",
-            element: <MyAcount />,
-          },
-          {
-            path: "checkout",
-            element: <div>Página de Compras (Solo Usuarios Logueados)</div>,
-          },
+          { path: "perfil", element: <MyAcount /> },
+          { path: "checkout", element: <div>Página de Compras</div> },
         ],
       },
     ],
@@ -92,14 +78,9 @@ export const appRouter = createBrowserRouter([
         path: "/admin",
         element: <AdminLayout />,
         children: [
-          {
-            index: true,
-            element: <AdminPage />,
-          },
-          {
-            path: "perfil",
-            element: <AdminProfilePage />,
-          },
+          { index: true, element: <AdminPage /> },
+          { path: "movies", element: <AdminMoviesPage /> },
+          { path: "perfil", element: <AdminProfilePage /> },
         ],
       },
     ],
