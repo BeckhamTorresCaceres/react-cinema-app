@@ -10,6 +10,7 @@ import { AdminLayout } from "./features/admin/layouts/AdminLayout.tsx";
 import MyAcount from "./features/Client/pages/MyAcount.tsx";
 import { ConfiteriaPage } from "./features/confiteria/page/ConfiteriaPage.tsx";
 
+import BenefitsMembership from "./features/Client/pages/BenefitsMembership.tsx"; 
 
 
 export const appRouter = createBrowserRouter([
@@ -37,7 +38,6 @@ export const appRouter = createBrowserRouter([
   },
 
   // 2. RUTAS PÚBLICAS / GENERALES (Accesibles para todos)
-
   {
     path: "/",
     element: <HomeLayout />,
@@ -50,6 +50,10 @@ export const appRouter = createBrowserRouter([
         path: "confiteria",
         element: <ConfiteriaPage />,
       },
+      {
+        path: "benefits-membership",
+        element: <BenefitsMembership />,
+      }
     ],
   },
 
@@ -96,7 +100,6 @@ export const appRouter = createBrowserRouter([
   },
 
   // CUALQUIER OTRA RUTA REDIRIGE A HOME
-
   {
     path: "*",
     element: <Navigate to="/" replace />,

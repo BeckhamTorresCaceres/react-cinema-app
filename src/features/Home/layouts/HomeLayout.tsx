@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
-import { CalendarClock, MapPin, Menu, ShoppingCart, Ticket, User, X } from "lucide-react";
+import { CalendarClock, MapPin, Menu, ShoppingCart, Ticket, User, X,CreditCard  } from "lucide-react";
 import { useAuthStore } from "../../auth/store/authStore";
 import { LocationModal } from "@/components/Location/LocationModal";
 import { Popcorn } from "lucide-react";
@@ -10,6 +10,10 @@ const navigationItems = [
   { label: "Próximamente", to: "/#proximamente", icon: CalendarClock, sectionId: "proximamente" },
   { label: "Confitería", to: "/confiteria", icon: Popcorn },
   { label: "Carrito", to: "/checkout", icon: ShoppingCart },
+  {  label: "Membresía", to: "/benefits-membership", icon: () => (<CreditCard className="w-5 h-5 text-amber-400 drop-shadow-[0_0_4px_rgba(251,191,36,0.5)]" />
+  ) 
+}
+,
 ];
 
 export const HomeLayout = () => {
