@@ -6,16 +6,13 @@ import { HomeLayout } from "./features/Home/layouts/HomeLayout";
 import { AdminOnlyRoute, ProtectedRoute, PublicOnlyRoute } from "./shared/components/ProtectedRoute";
 import { AdminPage } from "./features/admin/pages/AdminPage";
 import { AdminProfilePage } from "./features/admin/pages/AdminProfilePage";
-import { AdminLayout } from "./features/admin/layouts/AdminLayout.tsx";
-import MyAcount from "./features/Client/pages/MyAcount.tsx";
-import { ConfiteriaPage } from "./features/confiteria/page/ConfiteriaPage.tsx";
-
-
+import { AdminLayout } from "./features/admin/layouts/AdminLayout";
+import MyAcount from "./features/Client/pages/MyAcount";
+import { ConfiteriaPage } from "./features/confiteria/page/ConfiteriaPage";
+import { AdminMoviesPage } from "./features/admin/pages/AdminMoviesPage";
 
 export const appRouter = createBrowserRouter([
-  // 
-  // 1. RUTAS PÚBLICAS (Solo para usuarios SIN sesión)
-  // 
+  // 1. RUTAS PÚBLICAS (Solo usuarios SIN sesión)
   {
     element: <PublicOnlyRoute />,
     children: [
@@ -23,37 +20,24 @@ export const appRouter = createBrowserRouter([
         path: "/",
         element: <HomeLayout />,
         children: [
-          {
-            path: "login",
-            element: <LoginPage />,
-          },
-          {
-            path: "register",
-            element: <RegisterPage />,
-          },
+          { path: "login", element: <LoginPage /> },
+          { path: "register", element: <RegisterPage /> },
         ],
       },
     ],
   },
 
-  // 2. RUTAS PÚBLICAS / GENERALES (Accesibles para todos)
-
+  // 2. RUTAS PÚBLICAS GENERALES
   {
     path: "/",
     element: <HomeLayout />,
     children: [
-      {
-        index: true, // La pantalla principal ("/")
-        element: <HomePage />,
-      },
-      {
-        path: "confiteria",
-        element: <ConfiteriaPage />,
-      },
+      { index: true, element: <HomePage /> },
+      { path: "confiteria", element: <ConfiteriaPage /> },
     ],
   },
 
-  // 3. RUTAS PRIVADAS (Solo para usuarios CON sesión)
+  // 3. RUTAS PRIVADAS CLIENTES
   {
     element: <ProtectedRoute />,
     children: [
@@ -61,14 +45,8 @@ export const appRouter = createBrowserRouter([
         path: "/",
         element: <HomeLayout />,
         children: [
-          {
-            path: "perfil",
-            element: <MyAcount />,
-          },
-          {
-            path: "checkout",
-            element: <div>Página de Compras (Solo Usuarios Logueados)</div>,
-          },
+          { path: "perfil", element: <MyAcount /> },
+          { path: "checkout", element: <div>Página de Compras</div> },
         ],
       },
     ],
@@ -82,23 +60,14 @@ export const appRouter = createBrowserRouter([
         path: "/admin",
         element: <AdminLayout />,
         children: [
-          {
-            index: true,
-            element: <AdminPage />,
-          },
-          {
-            path: "perfil",
-            element: <AdminProfilePage />,
-          },
+          { index: true, element: <AdminPage /> },
+          { path: "movies", element: <AdminMoviesPage /> },
+          { path: "perfil", element: <AdminProfilePage /> },
         ],
       },
     ],
   },
 
-  // CUALQUIER OTRA RUTA REDIRIGE A HOME
-
-  {
-    path: "*",
-    element: <Navigate to="/" replace />,
-  },
+  // REDIRECCIÓN 404
+  { path: "*", element: <Navigate to="/" replace /> },
 ]);
