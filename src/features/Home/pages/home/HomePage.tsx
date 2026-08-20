@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
-import { Play, Plus, Heart } from "lucide-react";
+import { useEffect, useState } from "react";
 import { getMovies, getShowtimes } from "@/features/billboard/services/billboardService";
 import { BillboardSection } from "@/features/billboard/components/BillboardSection";
+import { HeroSection } from "@/features/Home/components/HeroSection";
 import type { Movie, Showtime } from "@/features/billboard/types/billboard.types";
 
 export const HomePage = () => {
-  const [currentMovie, setCurrentMovie] = useState(0);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [showtimes, setShowtimes] = useState<Showtime[]>([]);
   const [isLoadingMovies, setIsLoadingMovies] = useState(true);
@@ -31,82 +30,22 @@ export const HomePage = () => {
     };
   }, []);
 
-  const nextMovie = useCallback(() => {
-    setCurrentMovie((previous) =>
-      movies.length ? (previous + 1) % movies.length : 0
-    );
-  }, [movies.length]);
-
-  const previousMovie = useCallback(() => {
-    setCurrentMovie((previous) =>
-      movies.length ? (previous - 1 + movies.length) % movies.length : 0
-    );
-  }, [movies.length]);
-
-  useEffect(() => {
-    let blocked = false;
-    const handleWheel = (event: WheelEvent) => {
-      if (blocked || !movies.length) return;
-      blocked = true;
-      if (event.deltaY > 0) {
-        nextMovie();
-      } else {
-        previousMovie();
-      }
-      setTimeout(() => {
-        blocked = false;
-      }, 300);
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [movies.length, nextMovie, previousMovie]);
-
-  const heroMovie = movies[currentMovie];
   const upcomingMovies = movies.filter((movie) => {
     const movieShowtimes = showtimes.filter((showtime) => showtime.movieId === movie.id);
     return movieShowtimes.length > 0 && movieShowtimes.every((showtime) => showtime.status === "Próximamente");
   });
 
-  return ( 
+  return (
     <main className="min-h-screen bg-[#080616] text-white">
-      <section id="ubicacion" className="relative h-[calc(100svh-4rem)] min-h-142.5 overflow-hidden sm:min-h-155">
-        {heroMovie && (
-          <img key={heroMovie.id} src={heroMovie.poster} alt={heroMovie.title} className="absolute inset-0 h-full w-full object-cover transition-all duration-700" />
-        )}
-        <div className="absolute inset-0 bg-[#080616]/45" />
-        <div className="absolute inset-0 bg-linear-to-r from-[#080616] via-[#080616]/75 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-60 bg-linear-to-t from-[#080616] to-transparent" />
-
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl items-end px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-24">
-          <div className="max-w-2xl">
-            {isLoadingMovies ? (
-              <p className="text-lg text-slate-300">Cargando película destacada...</p>
-            ) : heroMovie ? (
-              <>
-                <span className="rounded-full bg-[#2F2FE4] px-3 py-1 text-xs font-semibold shadow-md shadow-[#2F2FE4]/30 sm:text-sm">⭐ {heroMovie.score}</span>
-                <h1 className="mt-5 text-4xl font-extrabold leading-tight sm:mt-6 sm:text-5xl lg:text-6xl">{heroMovie.title}</h1>
-                <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-slate-300 sm:mt-4 sm:gap-4 sm:text-base">
-                  <span>{heroMovie.genre}</span><span>•</span><span>{heroMovie.duration} min</span><span>•</span><span>{heroMovie.rating}</span>
-                </div>
-                <p className="mt-5 text-sm leading-6 text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">Dirigida por {heroMovie.director}.</p>
-                <div className="mt-6 flex flex-wrap gap-3 sm:mt-8 sm:gap-4">
-                  <button className="flex items-center gap-2 rounded-lg bg-[#2F2FE4] px-5 py-3 text-sm font-semibold shadow-md shadow-[#2F2FE4]/30 transition hover:bg-[#162E93] sm:px-6 sm:text-base"><Play size={18} />Ver ahora</button>
-                  <button className="rounded-lg border border-[#162E93] bg-[#1A1953]/60 p-3 backdrop-blur transition hover:border-[#2F2FE4] hover:bg-[#162E93]/50"><Plus /></button>
-                  <button className="rounded-lg border border-[#162E93] bg-[#1A1953]/60 p-3 backdrop-blur transition hover:border-[#2F2FE4] hover:bg-[#162E93]/50"><Heart /></button>
-                </div>
-                <div className="mt-6 flex gap-2 sm:mt-8 sm:gap-3">
-                  {movies.map((movie, index) => (
-                    <button key={movie.id} onClick={() => setCurrentMovie(index)} className={`h-3 w-3 rounded-full transition ${currentMovie === index ? "w-8 bg-[#2F2FE4]" : "bg-slate-400/50 hover:bg-slate-200"}`} />
-                  ))}
-                </div>
-              </>
-            ) : (
-              <p className="text-lg text-slate-300">No hay películas destacadas disponibles.</p>
-            )}
+      {isLoadingMovies ? (
+        <section className="relative h-[calc(100svh-4rem)] min-h-142.5 overflow-hidden sm:min-h-155 bg-[#080616]">
+          <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center justify-center px-4">
+            <p className="text-lg text-slate-400">Cargando película destacada...</p>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <HeroSection allMovies={movies} showtimes={showtimes} />
+      )}
       <BillboardSection />
       <section id="proximamente" className="scroll-mt-20 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-6">

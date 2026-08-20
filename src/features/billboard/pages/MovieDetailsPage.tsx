@@ -5,26 +5,8 @@ import { getMovies, getShowtimes } from "../services/billboardService";
 import type { Movie, Showtime } from "../types/billboard.types";
 import { ShowtimesSelector } from "../components/ShowtimesSelector";
 import { getLocations, type CinemaLocation, type CountryLocation } from "@/services/api";
-
-interface SelectedLocation {
-  country: string;
-  department: string;
-  city: string;
-}
-
-const getSavedLocation = (): SelectedLocation => ({
-  country: localStorage.getItem("lumi_pais") || "",
-  department: localStorage.getItem("lumi_departamento") || "",
-  city: localStorage.getItem("lumi_ciudad") || "",
-});
-
-const getYouTubeVideoId = (url: string | undefined): string | null => {
-  if (!url) return null;
-  const match = url.match(
-    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))([\w-]{11})/
-  );
-  return match ? match[1] : null;
-};
+import { getSavedLocation, type SelectedLocation } from "@/utils/location";
+import { getYouTubeVideoId } from "@/utils/youtube";
 
 export const MovieDetailsPage = () => {
   const { movieId } = useParams<{ movieId: string }>();

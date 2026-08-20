@@ -5,18 +5,7 @@ import { BillboardFilters } from "./BillboardFilters";
 import { getMovies, getShowtimes } from "../services/billboardService";
 import type { Movie, MovieWithShowtimes, Showtime } from "../types/billboard.types";
 import { getLocations, type CinemaLocation, type CountryLocation } from "@/services/api";
-
-interface SelectedLocation {
-  country: string;
-  department: string;
-  city: string;
-}
-
-const getSavedLocation = (): SelectedLocation => ({
-  country: localStorage.getItem("lumi_pais") || "",
-  department: localStorage.getItem("lumi_departamento") || "",
-  city: localStorage.getItem("lumi_ciudad") || "",
-});
+import { getSavedLocation, type SelectedLocation } from "@/utils/location";
 
 export const BillboardSection = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
