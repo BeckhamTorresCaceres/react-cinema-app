@@ -46,6 +46,7 @@
       "duration": 175,
       "director": "Francis Ford Coppola",
       "score": 9.2,
+      "year": 1972,
       "isActive": true
     },
     {
@@ -58,6 +59,7 @@
       "duration": 152,
       "director": "Christopher Nolan",
       "score": 9.0,
+      "year": 2008,
       "isActive": true
     },
     {
@@ -70,6 +72,7 @@
       "duration": 154,
       "director": "Quentin Tarantino",
       "score": 8.9,
+      "year": 1994,
       "isActive": true
     },
     {
@@ -82,6 +85,7 @@
       "duration": 142,
       "director": "Robert Zemeckis",
       "score": 8.8,
+      "year": 1994,
       "isActive": true
     },
     {
@@ -94,6 +98,7 @@
       "duration": 148,
       "director": "Christopher Nolan",
       "score": 8.8,
+      "year": 2010,
       "isActive": true
     },
     {
@@ -106,6 +111,7 @@
       "duration": 169,
       "director": "Christopher Nolan",
       "score": 8.7,
+      "year": 2014,
       "isActive": true
     },
     {
@@ -118,6 +124,7 @@
       "duration": 88,
       "director": "Roger Allers y Rob Minkoff",
       "score": 8.5,
+      "year": 1994,
       "isActive": true
     },
     {
@@ -130,6 +137,7 @@
       "duration": 106,
       "director": "Damien Chazelle",
       "score": 8.5,
+      "year": 2014,
       "isActive": true
     },
     {
@@ -142,6 +150,7 @@
       "duration": 105,
       "director": "Lee Unkrich",
       "score": 8.4,
+      "year": 2017,
       "isActive": true
     },
     {
@@ -154,6 +163,7 @@
       "duration": 122,
       "director": "Todd Phillips",
       "score": 8.3,
+      "year": 2019,
       "isActive": true
     },
     {
@@ -166,6 +176,7 @@
       "duration": 181,
       "director": "Anthony y Joe Russo",
       "score": 8.4,
+      "year": 2019,
       "isActive": true
     }
   ],

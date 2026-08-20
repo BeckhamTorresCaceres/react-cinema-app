@@ -132,3 +132,83 @@
   animation: dust-fall 0.9s ease-out forwards;
   will-change: opacity, transform;
 }
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-fade {
+  animation: hero-fade-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes hero-fade-in-delayed {
+  0%, 30% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-fade-delayed {
+  animation: hero-fade-in-delayed 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+@keyframes hero-fade-in-delayed-2 {
+  0%, 45% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-fade-delayed-2 {
+  animation: hero-fade-in-delayed-2 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+@keyframes progress-fill {
+  from {
+    width: 0%;
+  }
+}
+
+.animate-progress-fill {
+  animation: progress-fill 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes countdown-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-countdown-pulse {
+  animation: countdown-pulse 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-fade,
+  .animate-hero-fade-delayed,
+  .animate-hero-fade-delayed-2,
+  .animate-progress-fill {
+    animation: none;
+  }
+  .animate-countdown-pulse {
+    animation: none;
+  }
+}

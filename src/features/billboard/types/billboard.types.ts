@@ -24,6 +24,7 @@ export interface Movie {
     duration: number; // Duración de la película en minutos
     director: string;
     score: number;
+    year: number; // Año de estreno de la película
     isActive: boolean; // Indica si la película está activa en cartelera
     cityId?: string; // ID de la ciudad donde se proyecta la película (opcional)
 }
