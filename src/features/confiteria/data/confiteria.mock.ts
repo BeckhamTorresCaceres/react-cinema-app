@@ -1,6 +1,6 @@
 import type { SnackProduct } from "../types/confiteria.types";
 
-export const CATEGORIES = ["Todos", "Combos", "Bebidas", "Dulces", "Salados"];
+export const CATEGORIES = ["Todos", "Combos", "Bebidas", "Dulces", "Salados", "Promos"];
 
 export const MOCK_SNACKS: SnackProduct[] = [
     {
@@ -8,29 +8,30 @@ export const MOCK_SNACKS: SnackProduct[] = [
         name: "Combo Familiar",
         description: "Palomitas grandes + 2 bebidas medianas + nachos con queso.",
         price: 45000,
-        image: "https://images.unsplash.com/photo-1585647347483-22b66260dfff?w=400&q=80",
+        image: "https://i.pinimg.com/236x/8a/62/f0/8a62f0b2252249e8d80cd9f9713845ab.jpg",
         category: "Combos",
         isAvailable: true,
         hasPromo: true,
-        promoLabel: "20% OFF",
-        discountPercent: 20,
+        promoLabel: "15% OFF",
+        discountPercent: 15,
+        isFeatured: true
     },
     {
         id: "2",
         name: "Palomitas Grandes",
         description: "Palomitas de maíz recién hechas, tamaño grande con mantequilla.",
         price: 18000,
-        image: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=400&q=80",
+        image: "https://images.unsplash.com/photo-1512149177596-f817c7ef5d4c?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         category: "Salados",
         isAvailable: true,
         hasPromo: false,
     },
     {
         id: "3",
-        name: "Coca-Cola 500ml",
-        description: "Bebida refrescante fría, presentación personal 500ml.",
+        name: "Coca-Cola",
+        description: "Bebida refrescante fría, presentación personal.",
         price: 8000,
-        image: "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400&q=80",
+        image: "https://pbs.twimg.com/media/CBF6vrqXIAABL8r.jpg",
         category: "Bebidas",
         isAvailable: true,
         hasPromo: false,
@@ -51,7 +52,7 @@ export const MOCK_SNACKS: SnackProduct[] = [
         name: "M&Ms",
         description: "Chocolates M&Ms, presentación mediana 200g.",
         price: 9000,
-        image: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&q=80",
+        image: "https://ca.britishessentials.com/cdn/shop/products/May3106_x700.jpg?v=1622426236",
         category: "Dulces",
         isAvailable: true,
         hasPromo: false,
@@ -61,12 +62,12 @@ export const MOCK_SNACKS: SnackProduct[] = [
         name: "Combo Pareja",
         description: "2 palomitas medianas + 2 bebidas grandes + 1 dulce a elección.",
         price: 38000,
-        image: "https://images.unsplash.com/photo-1595769816263-9b910be24d5f?w=400&q=80",
+        image: "https://i.pinimg.com/236x/9f/ed/2d/9fed2d4834a8cbd01f4ae4367feb9c75.jpg",
         category: "Combos",
         isAvailable: true,
         hasPromo: true,
-        promoLabel: "30% OFF",
-        discountPercent: 30,
+        promoLabel: "20% OFF",
+        discountPercent: 20,
 
 
     },
@@ -75,7 +76,7 @@ export const MOCK_SNACKS: SnackProduct[] = [
         name: "Agua Cristal",
         description: "Agua mineral sin gas, presentación 600ml.",
         price: 5000,
-        image: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80",
+        image: "https://i.pinimg.com/236x/95/00/43/950043f7270da47c38c76de5d117dafe.jpg",
         category: "Bebidas",
         isAvailable: true,
         hasPromo: false,
@@ -85,7 +86,7 @@ export const MOCK_SNACKS: SnackProduct[] = [
         name: "Kit Kat",
         description: "Chocolate Kit Kat, presentación 4 dedos.",
         price: 7500,
-        image: "https://images.unsplash.com/photo-1614088685112-0a760b71a3c8?w=400&q=80",
+        image: "https://i.pinimg.com/736x/2c/bc/af/2cbcaf4b25b97c8b40489cca1afde486.jpg",
         category: "Dulces",
         isAvailable: true,
         hasPromo: true,

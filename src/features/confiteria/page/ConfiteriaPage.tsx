@@ -10,7 +10,7 @@ export const ConfiteriaPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredProducts = MOCK_SNACKS.filter((product) => {
-    const matchesCategory = selectedCategory === "Todos" || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === "Todos" ? true : selectedCategory === "Promos" ? product.hasPromo : product.category === selectedCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
@@ -50,7 +50,7 @@ export const ConfiteriaPage = () => {
 
         {/* Grid de productos */}
         {filteredProducts.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
             {filteredProducts.map((product) => (
               <ConfiteriaCard
                 key={product.id}

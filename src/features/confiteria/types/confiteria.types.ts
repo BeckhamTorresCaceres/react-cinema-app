@@ -9,6 +9,7 @@ export interface SnackProduct {
   hasPromo: boolean;
   promoLabel?: string;
   discountPercent?: number;
+  isFeatured?: boolean;
 }
 
 export interface CartItem {

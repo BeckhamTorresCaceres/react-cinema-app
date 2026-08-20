@@ -16,7 +16,7 @@ export const ConfiteriaCard = ({ product, onAddToCart }: ConfiteriaCardProps) =>
 
   return (
     <div className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-[#1A1953]/40 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:shadow-2xl ${product.isAvailable ? "border-[#162E93]/40 hover:border-[#2F2FE4]" : "border-slate-700/40 opacity-60"}`}>
-      
+
       {/* Imagen */}
       <div className="relative aspect-square w-full overflow-hidden">
         <img
@@ -25,6 +25,15 @@ export const ConfiteriaCard = ({ product, onAddToCart }: ConfiteriaCardProps) =>
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-linear-to-t from-[#080616] via-transparent to-transparent opacity-80" />
+
+
+        {product.isFeatured && (
+          <span className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-blue-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
+            ⭐️ Combo Estrella
+          </span>
+        )}
+
+
 
         {/* Badge promo */}
         {product.hasPromo && (
@@ -64,11 +73,10 @@ export const ConfiteriaCard = ({ product, onAddToCart }: ConfiteriaCardProps) =>
           <button
             disabled={!product.isAvailable}
             onClick={() => onAddToCart(product)}
-            className={`mt-3 flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition ${
-              product.isAvailable
+            className={`mt-3 flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition ${product.isAvailable
                 ? "bg-[#2F2FE4] text-white hover:bg-[#162E93]"
                 : "cursor-not-allowed bg-slate-800 text-slate-500"
-            }`}
+              }`}
           >
             <ShoppingCart size={15} />
             {product.isAvailable ? "Agregar al carrito" : "No disponible"}
