@@ -5,6 +5,10 @@ import { getShowtimes } from "@/services/showtimes";
 import { getUsers } from "@/services/users";
 import { getLocations } from "@/services/locations";
 
+interface UserItem {
+  roleId?: number;
+}
+
 export const AdminPage = () => {
   const [data, setData] = useState({
     moviesCount: 0,
@@ -29,8 +33,8 @@ export const AdminPage = () => {
         setData({
           moviesCount: movies.length,
           usersCount: users.length,
-          adminsCount: users.filter((u: any) => u.roleId === 1).length,
-          clientsCount: users.filter((u: any) => u.roleId === 2).length,
+          adminsCount: users.filter((u: UserItem) => u.roleId === 1).length,
+          clientsCount: users.filter((u: UserItem) => u.roleId === 2).length,
           showtimesCount: showtimes.length,
           countriesCount: locations.length,
         });
@@ -53,11 +57,9 @@ export const AdminPage = () => {
         <p className="mt-1 text-sm text-slate-400">Resumen general consolidado de la plataforma</p>
       </div>
 
-      {/* PANEL UNIFICADO DE ESTADÍSTICAS */}
       <div className="rounded-3xl border border-[#162E93]/50 bg-[#1A1953]/20 p-6 backdrop-blur-md shadow-xl">
         <div className="grid grid-cols-1 divide-y divide-[#162E93]/40 md:grid-cols-4 md:divide-x md:divide-y-0">
           
-          {/* Bloque 1: Películas */}
           <div className="flex items-center gap-4 py-4 md:py-0 md:px-6 first:pl-0">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#2F2FE4]/20 text-[#8E8EFF]">
               <Film size={24} />
@@ -68,7 +70,6 @@ export const AdminPage = () => {
             </div>
           </div>
 
-          {/* Bloque 2: Usuarios */}
           <div className="flex items-center gap-4 py-4 md:py-0 md:px-6">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/20 text-purple-400">
               <Users size={24} />
@@ -83,7 +84,6 @@ export const AdminPage = () => {
             </div>
           </div>
 
-          {/* Bloque 3: Funciones */}
           <div className="flex items-center gap-4 py-4 md:py-0 md:px-6">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-400">
               <CalendarCheck size={24} />
@@ -94,7 +94,6 @@ export const AdminPage = () => {
             </div>
           </div>
 
-          {/* Bloque 4: Países */}
           <div className="flex items-center gap-4 py-4 md:py-0 md:px-6 last:pr-0">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-400">
               <MapPin size={24} />

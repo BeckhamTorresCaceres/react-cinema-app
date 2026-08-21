@@ -10,34 +10,42 @@ interface User {
   avatar?: string;
 }
 
+interface ApiUser {
+  id?: string | number;
+  name?: string;
+  username?: string;
+  email?: string;
+  roleId?: number;
+  avatar?: string;
+}
+
 export const AdminUsersPage = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchUsers = async () => {
-    try {
-      const data = await getUsers();
-      setUsers(
-        data.map((user) => ({
-          id: String(user.id ?? ""),
-          name: String(user.name ?? user.username ?? ""),
-          email: String(user.email ?? ""),
-          roleId: Number(user.roleId ?? 2),
-          avatar: user.avatar,
-        })),
-      );
-    } catch (err) {
-      console.error("Error al cargar usuarios:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const data: ApiUser[] = await getUsers();
+        setUsers(
+          data.map((user) => ({
+            id: String(user.id ?? ""),
+            name: String(user.name ?? user.username ?? ""),
+            email: String(user.email ?? ""),
+            roleId: Number(user.roleId ?? 2),
+            avatar: user.avatar,
+          }))
+        );
+      } catch (err) {
+        console.error("Error al cargar usuarios:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchUsers();
   }, []);
 
-  // Cambiar rol de usuario en db.json (1 = Admin, 2 = Cliente)
   const handleRoleChange = async (userId: string, newRoleId: number) => {
     try {
       await updateUser(userId, { roleId: newRoleId });
