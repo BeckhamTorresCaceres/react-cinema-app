@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MembershipCard } from "./Membership";
+import { MembershipCard } from "../components";
 import { getUserById, replaceUser } from "@/services/users";
 interface User {
   id: number;

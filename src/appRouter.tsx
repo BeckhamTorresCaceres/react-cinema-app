@@ -13,6 +13,7 @@ import { MovieDetailsPage } from "./features/billboard/pages/MovieDetailsPage.ts
 import { SeatSelectionPage } from "./features/seats/pages/SeatSelectionPage.tsx";
 import { AdminMoviesPage } from "./features/admin/pages/AdminMoviesPage.tsx";
 
+import { BenefitsMembership } from "./features/Client/pages";
 
 
 export const appRouter = createBrowserRouter([
@@ -52,6 +53,10 @@ export const appRouter = createBrowserRouter([
         path: "asientos",
         element: <SeatSelectionPage />,
       },
+      {
+        path: "benefits-membership",
+        element: <BenefitsMembership />,
+      }
     ],
   },
 
@@ -87,7 +92,6 @@ export const appRouter = createBrowserRouter([
   },
 
   // CUALQUIER OTRA RUTA REDIRIGE A HOME
-
   {
     path: "*",
     element: <Navigate to="/" replace />,
