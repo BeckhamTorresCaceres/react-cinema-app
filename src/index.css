@@ -133,7 +133,7 @@
   will-change: opacity, transform;
 }
 
-/* ── Film strip (35mm Celuloid) ──────────────────────────────── */
+/* ── Carousel selector ──────────────────────────────────────── */
 
 .scrollbar-hide {
   -ms-overflow-style: none;
@@ -143,76 +143,33 @@
   display: none;
 }
 
-/* Track — inline-flex, only as wide as frames */
 .strip-track {
   display: inline-flex;
   align-items: stretch;
+  gap: 20px;
   position: relative;
-  background-color: #0c0b09;
-  padding-top: 36px;
-  padding-bottom: 36px;
 }
 
-/* Sprocket rails — SVG rounded-rect holes based on real 35mm KS perforation */
-.strip-track::before,
-.strip-track::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 36px;
-  background-color: #0c0b09;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 36'%3E%3Crect x='13.5' y='4.5' width='19' height='27' rx='3' fill='%23888'/%3E%3C/svg%3E");
-  background-size: 46px 36px;
-  background-repeat: repeat-x;
-  pointer-events: none;
-  z-index: 2;
-}
-.strip-track::before {
-  top: 0;
-}
-.strip-track::after {
-  bottom: 0;
-}
-
-/* Film cell — each frame unit */
 .film-cell {
   flex-shrink: 0;
-  width: 150px;
-  height: 95px;
+  width: 200px;
+  height: 140px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  border-right: 2px solid #0c0b09;
-  opacity: 0.4;
-  filter: grayscale(30%) sepia(15%) brightness(0.85);
+  border-radius: 12px;
+  border: 2px solid rgba(47, 47, 228, 0.35);
+  opacity: 0.5;
   transform: scale(0.95);
   transition:
     opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.4s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
-    0 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 .film-cell:last-child {
-  border-right: none;
-}
-
-/* Film grain overlay */
-.film-cell::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.015) 0 1px,
-    transparent 1px 3px
-  );
-  pointer-events: none;
-  mix-blend-mode: overlay;
-  z-index: 1;
+  margin-right: 0;
 }
 
 .film-cell img {
@@ -220,6 +177,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 10px;
 }
 
 .film-cell__title {
@@ -227,69 +185,49 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 8px 4px 4px;
-  font-size: 10px;
+  padding: 20px 8px 6px;
+  font-size: 11px;
   font-weight: 500;
   color: white;
   text-align: center;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 1.3;
+  border-radius: 0 0 10px 10px;
   z-index: 1;
 }
 
-/* Active state */
 .film-cell--active {
   opacity: 1;
-  filter: grayscale(0%) sepia(0%) brightness(1);
-  transform: scale(1.1);
+  transform: scale(1.08);
   z-index: 10;
+  border-color: #2F2FE4;
   box-shadow:
-    inset 0 0 0 1px rgba(47, 47, 228, 0.3),
-    0 0 24px rgba(47, 47, 228, 0.35),
-    0 4px 20px rgba(0, 0, 0, 0.5);
+    0 0 20px rgba(47, 47, 228, 0.3),
+    0 6px 24px rgba(0, 0, 0, 0.5);
 }
 .film-cell--active .film-cell__title {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-}
-
-@keyframes film-glow {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 1px rgba(47, 47, 228, 0.3),
-      0 0 20px rgba(47, 47, 228, 0.25),
-      0 4px 20px rgba(0, 0, 0, 0.5);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 1px rgba(47, 47, 228, 0.4),
-      0 0 32px rgba(47, 47, 228, 0.45),
-      0 4px 24px rgba(0, 0, 0, 0.5);
-  }
-}
-.film-cell--active {
-  animation: film-glow 3s ease-in-out infinite;
 }
 
 @media (min-width: 640px) {
   .film-cell {
-    width: 190px;
-    height: 115px;
+    width: 240px;
+    height: 170px;
   }
   .film-cell__title {
-    font-size: 11px;
+    font-size: 12px;
   }
   .film-cell--active .film-cell__title {
-    font-size: 13px;
+    font-size: 14px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .film-cell {
-    transition: opacity 0.15s ease, filter 0.15s ease;
-    animation: none;
+    transition: opacity 0.15s ease;
   }
 }

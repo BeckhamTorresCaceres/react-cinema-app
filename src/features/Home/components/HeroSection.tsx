@@ -179,14 +179,15 @@ export const HeroSection = ({ allMovies, showtimes }: HeroSectionProps) => {
     [safeIndex, heroMovies.length, goToMovie]
   );
 
-  const cellWidth = isMobile ? 150 : 190;
-  const cellStep = cellWidth + CELL_BORDER;
-  const totalContentWidth = heroMovies.length * cellWidth;
-  const leftPad = isMobile ? 24 : 40;
-  const rawScroll = safeIndex * cellStep;
-  const maxScroll = Math.max(0, totalContentWidth + leftPad * 2 - containerWidth);
-  const clampedScroll = Math.min(rawScroll, maxScroll);
-  const translateX = leftPad - clampedScroll;
+  const cellWidth = isMobile ? 200 : 240;
+  const cellGap = 20;
+  const cellStep = cellWidth + cellGap;
+  const totalTrackWidth = heroMovies.length * cellWidth + Math.max(0, heroMovies.length - 1) * cellGap;
+  const rawOffset = safeIndex * cellStep;
+  const maxScroll = Math.max(0, totalTrackWidth - containerWidth);
+  const clampedScroll = Math.min(rawOffset, maxScroll);
+  const centerOffset = (containerWidth - cellWidth) / 2;
+  const translateX = centerOffset - clampedScroll;
 
   if (!heroMovie) {
     return (
@@ -200,7 +201,7 @@ export const HeroSection = ({ allMovies, showtimes }: HeroSectionProps) => {
 
   return (
     <section className="relative h-[calc(100svh-4rem)] min-h-142.5 overflow-hidden sm:min-h-155">
-      <div className="absolute inset-0 bottom-[170px] sm:bottom-[190px] overflow-hidden">
+      <div className="absolute inset-0 bottom-[200px] sm:bottom-[230px] overflow-hidden">
         {videoId ? (
           <iframe
             key={videoId}
@@ -230,9 +231,9 @@ export const HeroSection = ({ allMovies, showtimes }: HeroSectionProps) => {
         />
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-[170px] sm:h-[190px] bg-linear-to-t from-[#080616] via-[#080616]/50 to-transparent z-[5]" />
+      <div className="absolute bottom-0 left-0 right-0 h-[200px] sm:h-[230px] bg-linear-to-t from-[#080616] via-[#080616]/50 to-transparent z-[5]" />
 
-      <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-56 sm:px-6 sm:pb-60 lg:px-8 lg:pb-60">
+      <div className="relative z-10 mx-auto flex h-full max-w-4xl flex-col items-center justify-end px-4 pb-56 text-center sm:px-6 sm:pb-60 lg:px-8 lg:pb-60">
         <div className="max-w-2xl">
           <span className="rounded-full bg-[#2F2FE4] px-3 py-1 text-xs font-semibold shadow-md shadow-[#2F2FE4]/30 sm:text-sm">
             ⭐ {heroMovie.score}
@@ -243,7 +244,7 @@ export const HeroSection = ({ allMovies, showtimes }: HeroSectionProps) => {
           >
             {heroMovie.title}
           </h1>
-          <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-slate-300 sm:mt-4 sm:gap-4 sm:text-base">
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-slate-300 sm:mt-4 sm:gap-4 sm:text-base">
             <span>{heroMovie.genre}</span>
             <span>•</span>
             <span>{heroMovie.duration} min</span>
@@ -253,7 +254,7 @@ export const HeroSection = ({ allMovies, showtimes }: HeroSectionProps) => {
           <p className="mt-3 text-sm leading-6 text-slate-300 sm:mt-4 sm:text-lg sm:leading-8">
             Dirigida por {heroMovie.director}.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3 sm:mt-6 sm:gap-4">
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:mt-6 sm:gap-4">
             <button className="flex items-center gap-2 rounded-lg bg-[#2F2FE4] px-5 py-3 text-sm font-semibold shadow-md shadow-[#2F2FE4]/30 transition hover:bg-[#162E93] sm:px-6 sm:text-base">
               <Play size={18} /> Ver trailer
             </button>
