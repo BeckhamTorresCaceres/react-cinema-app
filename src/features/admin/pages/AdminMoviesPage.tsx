@@ -18,18 +18,19 @@ export const AdminMoviesPage = () => {
     score: 8.0,
   });
 
+  useEffect(() => {
+    getMovies()
+      .then(setMovies)
+      .catch((error: unknown) => console.error(error));
+  }, []);
+
   const fetchMovies = async () => {
     try {
-      const data = await getMovies();
-      setMovies(data);
-    } catch (err) {
-      console.error(err);
+      setMovies(await getMovies());
+    } catch (error) {
+      console.error(error);
     }
   };
-
-  useEffect(() => {
-    fetchMovies();
-  }, []);
 
   // Abrir Modal de Edición cargando datos actuales
   const handleOpenEdit = (movie: MovieRecord) => {

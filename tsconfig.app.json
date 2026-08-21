@@ -2,7 +2,7 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2023",
-    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "lib": ["ES2023", "ES2022.Error", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
@@ -18,10 +18,8 @@
     "jsx": "react-jsx",
 
     /* Configuración de Aliases @ */
-    "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
 
     /* Linting / Chequeos estrictos */

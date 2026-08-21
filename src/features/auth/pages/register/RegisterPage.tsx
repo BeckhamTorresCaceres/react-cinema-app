@@ -63,8 +63,8 @@ export const RegisterPage = () => {
       setTimeout(() => {
         navigate("/login");
       }, 2000);
-    } catch (error: any) {
-      setErrorMessage(error.message || "Ocurrió un error al crear la cuenta.");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Ocurrió un error al crear la cuenta.");
     }
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, Film, MapPin } from "lucide-react";
 import { Link } from "react-router";
 import type { Showtime } from "../types/billboard.types";
@@ -68,13 +68,9 @@ export const ShowtimesSelector = ({
   const [selectedDate, setSelectedDate] = useState("");
   const [openCinemaId, setOpenCinemaId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!availableDates.includes(selectedDate)) {
-      setSelectedDate(availableDates[0] || "");
-    }
-  }, [availableDates, selectedDate]);
+  const activeDate = availableDates.includes(selectedDate) ? selectedDate : (availableDates[0] ?? "");
 
-  const selectedDateIndex = availableDates.indexOf(selectedDate);
+  const selectedDateIndex = availableDates.indexOf(activeDate);
 
   const goToPreviousDate = () => {
     if (selectedDateIndex > 0) setSelectedDate(availableDates[selectedDateIndex - 1]);
@@ -90,7 +86,7 @@ export const ShowtimesSelector = ({
     const groups = new Map<string, Record<string, Showtime[]>>();
 
     showtimes
-      .filter((showtime) => showtime.date === selectedDate)
+      .filter((showtime) => showtime.date === activeDate)
       .sort((a, b) => a.time.localeCompare(b.time))
       .forEach((showtime) => {
         const cinema = cinemaById.get(showtime.cinemaId);
@@ -109,14 +105,11 @@ export const ShowtimesSelector = ({
         cinema,
         formats: groups.get(cinema.id) ?? {},
       }));
-  }, [showtimes, selectedDate, cinemaById, cinemas]);
+  }, [showtimes, activeDate, cinemaById, cinemas]);
 
-  useEffect(() => {
-    if (!openCinemaId) return;
-    if (!cinemaOptions.some(({ cinema }) => cinema.id === openCinemaId)) {
-      setOpenCinemaId(null);
-    }
-  }, [cinemaOptions, openCinemaId]);
+  const activeCinemaId = cinemaOptions.some(({ cinema }) => cinema.id === openCinemaId)
+    ? openCinemaId
+    : null;
 
   const toggleCinema = (cinemaId: string) => {
     setOpenCinemaId((current) => (current === cinemaId ? null : cinemaId));
@@ -152,7 +145,7 @@ export const ShowtimesSelector = ({
             <div className="flex flex-1 items-center justify-center gap-3 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {availableDates.map((dateStr) => {
                 const { dayName, dayNum } = formatDateChip(dateStr);
-                const isSelected = selectedDate === dateStr;
+                const isSelected = activeDate === dateStr;
 
                 return (
                   <button
@@ -194,7 +187,7 @@ export const ShowtimesSelector = ({
           <div className="mt-5 overflow-hidden rounded-3xl border border-[#162E93]/40 bg-[#1A1953]/40 shadow-[0_0_40px_rgba(22,46,147,0.18)] backdrop-blur-md">
             {cinemaOptions.length > 0 ? (
               cinemaOptions.map(({ cinema, formats }, index) => {
-                const isOpen = openCinemaId === cinema.id;
+                const isOpen = activeCinemaId === cinema.id;
 
                 return (
                   <div

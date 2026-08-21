@@ -14,27 +14,23 @@ export const AdminUsersPage = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchUsers = async () => {
-    try {
-      const data = await getUsers();
-      setUsers(
-        data.map((user) => ({
-          id: String(user.id ?? ""),
-          name: String(user.name ?? user.username ?? ""),
-          email: String(user.email ?? ""),
-          roleId: Number(user.roleId ?? 2),
-          avatar: user.avatar,
-        })),
-      );
-    } catch (err) {
-      console.error("Error al cargar usuarios:", err);
-    } finally {
-      setLoading(false);
-    }
+  const normalizeUsers = (data: Awaited<ReturnType<typeof getUsers>>) => {
+    setUsers(
+      data.map((user) => ({
+        id: String(user.id ?? ""),
+        name: String(user.name ?? user.username ?? ""),
+        email: String(user.email ?? ""),
+        roleId: Number(user.roleId ?? 2),
+        avatar: user.avatar,
+      })),
+    );
   };
 
   useEffect(() => {
-    fetchUsers();
+    getUsers()
+      .then(normalizeUsers)
+      .catch((error: unknown) => console.error("Error al cargar usuarios:", error))
+      .finally(() => setLoading(false));
   }, []);
 
   // Cambiar rol de usuario en db.json (1 = Admin, 2 = Cliente)

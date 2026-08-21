@@ -22,8 +22,11 @@ export const LocationModal = ({ isOpen, onClose, onLocationSelected, required = 
     if (!isOpen || locations.length) return;
 
     let isMounted = true;
-    setIsLoading(true);
-    setError("");
+    queueMicrotask(() => {
+      if (!isMounted) return;
+      setIsLoading(true);
+      setError("");
+    });
 
     getLocations()
       .then((data) => {

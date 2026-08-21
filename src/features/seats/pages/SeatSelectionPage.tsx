@@ -49,18 +49,15 @@ export const SeatSelectionPage = () => {
   const [cinema, setCinema] = useState<CinemaLocation | null>(null);
   const [occupied, setOccupied] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const hasRequiredParams = Boolean(movieId && showtimeId);
+  const [isLoading, setIsLoading] = useState(hasRequiredParams);
+  const [error, setError] = useState<string | null>(hasRequiredParams ? null : "Falta la película o la función.");
   const setSelection = useBookingStore((state) => state.setSelection);
 
   useEffect(() => {
     let isMounted = true;
 
-    if (!movieId || !showtimeId) {
-      setError("Falta la película o la función.");
-      setIsLoading(false);
-      return;
-    }
+    if (!movieId || !showtimeId) return;
 
     Promise.all([
       getMovieById(movieId),

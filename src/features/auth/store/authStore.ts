@@ -89,11 +89,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
     } catch (error) {
       set({ isLoading: false });
-      throw new Error((error as Error).message || "Credenciales inválidas o cuenta inactiva");
+      throw new Error(
+        error instanceof Error ? error.message : "Credenciales inválidas o cuenta inactiva",
+        { cause: error },
+      );
     }
   },
 
-  register: async (_credentials: RegisterCredentials) => {
+  register: async () => {
     set({ isLoading: true });
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));

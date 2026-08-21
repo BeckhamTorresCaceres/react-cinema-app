@@ -29,8 +29,8 @@ export const AdminPage = () => {
         setData({
           moviesCount: movies.length,
           usersCount: users.length,
-          adminsCount: users.filter((u: any) => u.roleId === 1).length,
-          clientsCount: users.filter((u: any) => u.roleId === 2).length,
+          adminsCount: users.filter((user) => user.roleId === 1).length,
+          clientsCount: users.filter((user) => user.roleId === 2).length,
           showtimesCount: showtimes.length,
           countriesCount: locations.length,
         });

@@ -1,4 +1,5 @@
 export { API_URL } from "./config";
+export { getAvailableSnacks, getSnackById, getSnacks, getSnacksByCategory } from "./snacks";
 export {
   getLocations,
   type CinemaLocation,

@@ -18,7 +18,7 @@ export async function request<T>(path: string, config?: AxiosRequestConfig): Pro
     return response.data;
   } catch (error) {
     const status = axios.isAxiosError(error) ? error.response?.status : undefined;
-    throw new Error(`Error en la petición (${status ?? "red"}).`);
+    throw new Error(`Error en la petición (${status ?? "red"}).`, { cause: error });
   }
 }
 
@@ -32,6 +32,6 @@ export async function requestAllowNotFound<T>(path: string, fallback: T): Promis
     }
 
     const status = axios.isAxiosError(error) ? error.response?.status : undefined;
-    throw new Error(`Error en la petición (${status ?? "red"}).`);
+    throw new Error(`Error en la petición (${status ?? "red"}).`, { cause: error });
   }
 }

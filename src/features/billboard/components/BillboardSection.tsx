@@ -75,13 +75,9 @@ export const BillboardSection = () => {
     return department?.ciudades.find((item) => item.nombre === selectedLocation.city)?.cines ?? [];
   }, [locations, selectedLocation]);
 
-  useEffect(() => {
-    setFilters((previous) => (
-      previous.complex === "all" || complexes.some((complex) => complex.id === previous.complex)
-        ? previous
-        : { ...previous, complex: "all" }
-    ));
-  }, [complexes]);
+  const selectedComplex = filters.complex === "all" || complexes.some((complex) => complex.id === filters.complex)
+    ? filters.complex
+    : "all";
 
   useEffect(() => {
     let isMounted = true;
@@ -146,7 +142,7 @@ export const BillboardSection = () => {
       && showtime.status === "Estreno"
       && (selectedDate === ALL_DATES || showtime.date === selectedDate)
       && cityCinemaIds.has(showtime.cinemaId)
-      && (filters.complex === "all" || showtime.cinemaId === filters.complex)
+      && (selectedComplex === "all" || showtime.cinemaId === selectedComplex)
       && (filters.format === "all" || showtime.format === filters.format)
       && (filters.language === "all" || showtime.language === filters.language)
     ));
@@ -171,7 +167,7 @@ export const BillboardSection = () => {
 
       {/* 🟢 AGREGADO: Barra de Filtros Avanzada                         */}
       <BillboardFilters
-        filters={filters}
+        filters={{ ...filters, complex: selectedComplex }}
         onFilterChange={handleFilterChange}
         complexes={complexes}
         isLoadingComplexes={isLoadingLocations}

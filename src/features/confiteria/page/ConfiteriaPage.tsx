@@ -1,15 +1,33 @@
-import { useState } from "react";
-import { MOCK_SNACKS, CATEGORIES } from "../data/confiteria.mock";
+import { useEffect, useState } from "react";
+import { CATEGORIES } from "../data/confiteria.mock";
 import { ConfiteriaCard } from "../components/ConfiteriaCard";
 import { ConfiteriaCategorias } from "../components/ConfiteriaCategories";
 import { ConfiteriaBuscador } from "../components/ConfiteriaBuscador";
 import type { SnackProduct } from "../types/confiteria.types";
+import { getSnacks } from "@/services/snacks";
 
 export const ConfiteriaPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [searchTerm, setSearchTerm] = useState("");
+  const [products, setProducts] = useState<SnackProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredProducts = MOCK_SNACKS.filter((product) => {
+  useEffect(() => {
+    const loadSnacks = async () => {
+      try {
+        setProducts(await getSnacks());
+      } catch (loadError) {
+        setError(loadError instanceof Error ? loadError.message : "No fue posible cargar los productos.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    void loadSnacks();
+  }, []);
+
+  const filteredProducts = products.filter((product) => {
     const matchesCategory = selectedCategory === "Todos" || product.category === selectedCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
@@ -49,7 +67,13 @@ export const ConfiteriaPage = () => {
         </div>
 
         {/* Grid de productos */}
-        {filteredProducts.length > 0 ? (
+        {isLoading ? (
+          <div className="py-16 text-center text-slate-400">Cargando productos...</div>
+        ) : error ? (
+          <div className="rounded-2xl border border-dashed border-red-500/50 py-16 text-center">
+            <p className="text-red-300">{error}</p>
+          </div>
+        ) : filteredProducts.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredProducts.map((product) => (
               <ConfiteriaCard
