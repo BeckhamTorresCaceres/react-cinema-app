@@ -7,7 +7,7 @@ export const MembershipBenefitCard = ({ benefit }: { benefit: MembershipBenefit 
     <div className="relative">
       <div className="mb-4 flex items-center justify-between">
         <div className="rounded-xl border border-[#162E93]/40 bg-[#080616]/60 p-3 shadow-inner transition-colors group-hover:border-[#2F2FE4]/40">
-          <MembershipBenefitIcon name={benefit.icon} alternateColor={benefit.id % 2 === 0} />
+          <MembershipBenefitIcon name={benefit.icon} alternateColor={Number(benefit.id) % 2 === 0} />
         </div>
         {benefit.tag && <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold tracking-wider ${benefit.tag === "VIP" ? "border-purple-800/50 bg-purple-950/40 text-purple-400" : "border-cyan-800/50 bg-cyan-950/40 text-cyan-400"}`}>{benefit.tag}</span>}
       </div>

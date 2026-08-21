@@ -1,5 +1,6 @@
 export { API_URL } from "./config";
 export { getAvailableSnacks, getSnackById, getSnacks, getSnacksByCategory } from "./snacks";
+export { getMembershipBenefitById, getMembershipBenefits } from "./membership";
 export {
   getLocations,
   type CinemaLocation,

@@ -11,7 +11,7 @@ export interface MembershipCardData {
 export type MembershipBenefitIcon = "premier" | "tickets" | "snacks" | "presale" | "events" | "community";
 
 export interface MembershipBenefit {
-  id: number;
+  id: string;
   title: string;
   description: string;
   icon: MembershipBenefitIcon;

@@ -7,6 +7,8 @@ export const endpoints = {
   snackById: (id: string | number) => `/snacks/${id}`,
   snacksByCategory: (category: string) => `/snacks?category=${encodeURIComponent(category)}`,
   availableSnacks: "/snacks?isAvailable=true",
+  membershipBenefits: "/membershipBenefits",
+  membershipBenefitById: (id: string | number) => `/membershipBenefits/${id}`,
   seatsByShowtime: (showtimeId: string) => `/seats/${showtimeId}`,
   movieById: (id: string | number) => `/movies/${id}`,
   showtimeById: (id: string | number) => `/showtimes/${id}`,
