@@ -9,9 +9,11 @@ import { AdminProfilePage } from "./features/admin/pages/AdminProfilePage";
 import { AdminLayout } from "./features/admin/layouts/AdminLayout.tsx";
 import MyAcount from "./features/Client/pages/MyAcount.tsx";
 import { ConfiteriaPage } from "./features/confiteria/page/ConfiteriaPage.tsx";
+import { CarritoPage } from "./features/confiteria/page/CarritoPage.tsx";
 import { MovieDetailsPage } from "./features/billboard/pages/MovieDetailsPage.tsx";
 import { SeatSelectionPage } from "./features/seats/pages/SeatSelectionPage.tsx";
 import { AdminMoviesPage } from "./features/admin/pages/AdminMoviesPage.tsx";
+import { AdminConfiteriaPage } from "./features/admin/pages/AdminConfiteriaPage.tsx";
 
 import { BenefitsMembership } from "./features/Client/pages";
 
@@ -69,7 +71,7 @@ export const appRouter = createBrowserRouter([
         element: <HomeLayout />,
         children: [
           { path: "perfil", element: <MyAcount /> },
-          { path: "checkout", element: <div>Página de Compras</div> },
+          { path: "checkout", element: <CarritoPage /> },
         ],
       },
     ],
@@ -85,6 +87,7 @@ export const appRouter = createBrowserRouter([
         children: [
           { index: true, element: <AdminPage /> },
           { path: "movies", element: <AdminMoviesPage /> },
+          { path: "confiteria", element: <AdminConfiteriaPage /> },
           { path: "perfil", element: <AdminProfilePage /> },
         ],
       },

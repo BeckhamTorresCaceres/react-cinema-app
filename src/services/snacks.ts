@@ -21,3 +21,23 @@ export async function getSnacksByCategory(category: string): Promise<SnackProduc
 export async function getAvailableSnacks(): Promise<SnackProduct[]> {
   return request<SnackProduct[]>(endpoints.availableSnacks);
 }
+
+export async function createSnack(snack: Record<string, unknown>): Promise<SnackProduct> {
+  return request<SnackProduct>(endpoints.snacks, {
+    method: "POST",
+    data: snack,
+  });
+}
+
+export async function updateSnack(id: string | number, snack: Record<string, unknown>): Promise<SnackProduct> {
+  return request<SnackProduct>(endpoints.snackById(id), {
+    method: "PUT",
+    data: snack,
+  });
+}
+
+export async function deleteSnack(id: string | number): Promise<void> {
+  await request<void>(endpoints.snackById(id), {
+    method: "DELETE",
+  });
+}

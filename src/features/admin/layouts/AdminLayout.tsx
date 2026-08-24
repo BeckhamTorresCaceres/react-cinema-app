@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, NavLink, Link, useNavigate } from "react-router";
 import { useAuthStore } from "../../auth/store/authStore";
-import { Clapperboard, LayoutDashboard, Film, Users, ExternalLink, LogOut } from "lucide-react";
+import { Clapperboard, LayoutDashboard, Film, Users, ExternalLink, LogOut, Popcorn } from "lucide-react";
 import { getAvatarUrl } from "@/shared/utils/avatar";
 
 export const AdminLayout = () => {
@@ -25,6 +25,7 @@ export const AdminLayout = () => {
   const navItems = [
     { label: "Dashboard", path: "/admin", icon: LayoutDashboard, end: true },
     { label: "Películas", path: "/admin/movies", icon: Film, end: false },
+    { label: "Confitería", path: "/admin/confiteria", icon: Popcorn, end: false },
     { label: "Usuarios", path: "/admin/users", icon: Users, end: false },
   ];
 
