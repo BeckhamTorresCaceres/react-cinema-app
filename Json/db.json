@@ -57,7 +57,7 @@
       "rating": "PG-13",
       "duration": 152,
       "director": "Christopher Nolan",
-      "score": 9.0,
+      "score": 9,
       "isActive": true
     },
     {
@@ -400,6 +400,50 @@
       "language": "Español",
       "isSoldOut": false,
       "status": "Estreno"
+    },
+    {
+      "movieId": null,
+      "cinemaId": "cine-01",
+      "date": "2026-08-23",
+      "time": "20:09",
+      "format": "2D",
+      "language": "Español",
+      "status": "Estreno",
+      "isSoldOut": false,
+      "id": "rrUamF1ziOQ"
+    },
+    {
+      "id": "s-godfather-1",
+      "movieId": "2",
+      "cinemaId": "cine-01",
+      "date": "2026-08-18",
+      "time": "15:00",
+      "format": "2D",
+      "language": "Español",
+      "status": "Estreno",
+      "isSoldOut": false
+    },
+    {
+      "id": "s-godfather-2",
+      "movieId": "2",
+      "cinemaId": "cine-02",
+      "date": "2026-08-19",
+      "time": "18:30",
+      "format": "2D",
+      "language": "Subtitulada",
+      "status": "Estreno",
+      "isSoldOut": false
+    },
+    {
+      "movieId": "10",
+      "cinemaId": "cine-06",
+      "date": "2026-08-26",
+      "time": "15:45",
+      "format": "IMAX",
+      "language": "Subtitulada",
+      "status": "Estreno",
+      "isSoldOut": false,
+      "id": "hz8w_KvCdmg"
     }
   ],
   "location": [
@@ -560,8 +604,7 @@
       ]
     }
   ],
-  "seats": [
-  ],
+  "seats": [],
   "snacks": [
     {
       "id": "1",
@@ -689,5 +732,6 @@
       "description": "Acceso a ciclos de cine independiente y debates mensuales organizados exclusivamente para miembros Platinum.",
       "icon": "community"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

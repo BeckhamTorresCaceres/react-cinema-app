@@ -12,6 +12,7 @@ import { ConfiteriaPage } from "./features/confiteria/page/ConfiteriaPage.tsx";
 import { MovieDetailsPage } from "./features/billboard/pages/MovieDetailsPage.tsx";
 import { SeatSelectionPage } from "./features/seats/pages/SeatSelectionPage.tsx";
 import { AdminMoviesPage } from "./features/admin/pages/AdminMoviesPage.tsx";
+import { AdminShowtimesPage } from "./features/admin/pages/AdminShowtimesPage";
 
 import { BenefitsMembership } from "./features/Client/pages";
 
@@ -86,6 +87,7 @@ export const appRouter = createBrowserRouter([
           { index: true, element: <AdminPage /> },
           { path: "movies", element: <AdminMoviesPage /> },
           { path: "perfil", element: <AdminProfilePage /> },
+          { path: "showtimes", element: <AdminShowtimesPage /> },
         ],
       },
     ],
