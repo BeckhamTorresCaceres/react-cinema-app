@@ -57,7 +57,7 @@
       "rating": "PG-13",
       "duration": 152,
       "director": "Christopher Nolan",
-      "score": 9.0,
+      "score": 9,
       "isActive": true
     },
     {
@@ -561,6 +561,14 @@
     }
   ],
   "seats": [
+    {
+      "id": "k3bhx7zOI2Q",
+      "occupied": [
+        "E11",
+        "F11",
+        "G11"
+      ]
+    }
   ],
   "snacks": [
     {
@@ -650,6 +658,42 @@
       "promoLabel": "Lleva 3x2"
     }
   ],
+  "orders": [
+    {
+      "userId": "2",
+      "status": "confirmed",
+      "paymentStatus": "mock_paid",
+      "confirmationCode": "LUMI-BD2EA524",
+      "createdAt": "2026-08-24T06:36:57.894Z",
+      "total": 72000,
+      "items": [
+        {
+          "id": "ticket-s5-E11-F11-G11",
+          "kind": "ticket",
+          "name": "The Dark Knight",
+          "showtimeId": "s5",
+          "cinemaName": "Multicine Viva",
+          "showtimeLabel": "martes, 18 de agosto · 15:15",
+          "seats": [
+            "E11",
+            "F11",
+            "G11"
+          ],
+          "unitPrice": 18000,
+          "quantity": 3
+        },
+        {
+          "id": "snack-2",
+          "kind": "snack",
+          "name": "Palomitas Grandes",
+          "description": "Palomitas de maíz recién hechas, tamaño grande con mantequilla.",
+          "unitPrice": 18000,
+          "quantity": 1
+        }
+      ],
+      "id": "AcVmQDIuQFM"
+    }
+  ],
   "membershipBenefits": [
     {
       "id": "1",
@@ -689,5 +733,6 @@
       "description": "Acceso a ciclos de cine independiente y debates mensuales organizados exclusivamente para miembros Platinum.",
       "icon": "community"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

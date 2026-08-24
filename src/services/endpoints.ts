@@ -10,6 +10,8 @@ export const endpoints = {
   membershipBenefits: "/membershipBenefits",
   membershipBenefitById: (id: string | number) => `/membershipBenefits/${id}`,
   seatsByShowtime: (showtimeId: string) => `/seats/${showtimeId}`,
+  seats: "/seats",
+  orders: "/orders",
   movieById: (id: string | number) => `/movies/${id}`,
   showtimeById: (id: string | number) => `/showtimes/${id}`,
   userWithRoles: "/users?_expand=role",

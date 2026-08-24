@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { CATEGORIES } from "../data/confiteria.mock";
 import { ConfiteriaCard } from "../components/ConfiteriaCard";
 import { ConfiteriaCategorias } from "../components/ConfiteriaCategories";
 import { ConfiteriaBuscador } from "../components/ConfiteriaBuscador";
 import type { SnackProduct } from "../types/confiteria.types";
 import { getSnacks } from "@/services/snacks";
+import { useCartStore } from "@/features/cart/store/cartStore";
+import { useAuthStore } from "@/features/auth/store/authStore";
 
 export const ConfiteriaPage = () => {
+  const navigate = useNavigate();
+  const addSnack = useCartStore((state) => state.addSnack);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState<SnackProduct[]>([]);
@@ -36,7 +42,11 @@ export const ConfiteriaPage = () => {
   
   
   const handleAddToCart = (product: SnackProduct) => {
-    console.log("Agregar al carrito:", product);
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+    addSnack(product);
   };
 
   return (

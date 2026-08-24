@@ -12,6 +12,7 @@ import { ConfiteriaPage } from "./features/confiteria/page/ConfiteriaPage.tsx";
 import { MovieDetailsPage } from "./features/billboard/pages/MovieDetailsPage.tsx";
 import { SeatSelectionPage } from "./features/seats/pages/SeatSelectionPage.tsx";
 import { AdminMoviesPage } from "./features/admin/pages/AdminMoviesPage.tsx";
+import { CheckoutPage } from "./features/checkout/pages/CheckoutPage";
 
 import { BenefitsMembership } from "./features/Client/pages";
 
@@ -69,7 +70,7 @@ export const appRouter = createBrowserRouter([
         element: <HomeLayout />,
         children: [
           { path: "perfil", element: <MyAcount /> },
-          { path: "checkout", element: <div>Página de Compras</div> },
+          { path: "checkout", element: <CheckoutPage /> },
         ],
       },
     ],

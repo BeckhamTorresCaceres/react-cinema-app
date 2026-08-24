@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "../../auth/store/authStore";
 import { LocationModal } from "@/components/Location/LocationModal";
-import { CartModal } from "@/components/Cart/CartModal";
+import { CartModal } from "@/features/cart/components";
+import { useCartStore } from "@/features/cart/store/cartStore";
 import { Popcorn } from "lucide-react";
 
 const navigationItems = [
@@ -36,7 +37,10 @@ export const HomeLayout = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const isCartOpen = useCartStore((state) => state.isOpen);
+  const openCart = useCartStore((state) => state.openCart);
+  const closeCart = useCartStore((state) => state.closeCart);
+  const cartItemsCount = useCartStore((state) => state.items.reduce((total, item) => total + item.quantity, 0));
   const [hasLocation, setHasLocation] = useState(() =>
     Boolean(
       localStorage.getItem("lumi_pais") &&
@@ -124,11 +128,11 @@ export const HomeLayout = () => {
             )}
             <button
               type="button"
-              onClick={() => setIsCartOpen(true)}
+              onClick={openCart}
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-[#1A1953]/60 hover:text-white"
             >
               <ShoppingCart size={16} />
-              Carrito
+              Carrito{cartItemsCount > 0 ? ` (${cartItemsCount})` : ""}
             </button>
           </nav>
           <div className="hidden items-center gap-3 sm:flex">
@@ -213,7 +217,7 @@ export const HomeLayout = () => {
                 type="button"
                 onClick={() => {
                   closeMenu();
-                  setIsCartOpen(true);
+                  openCart();
                 }}
                 className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm text-slate-200"
               >
@@ -288,7 +292,7 @@ export const HomeLayout = () => {
           setIsLocationModalOpen(false);
         }}
       />
-      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <CartModal isOpen={isCartOpen} onClose={closeCart} />
     </div>
   );
 };

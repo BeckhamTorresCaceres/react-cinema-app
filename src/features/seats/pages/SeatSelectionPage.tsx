@@ -8,6 +8,8 @@ import { SeatMap } from "../components/SeatMap";
 import { getSeatOccupancy } from "../services/seatsService";
 import { useBookingStore } from "../store/bookingStore";
 import { formatCurrency, MAX_SELECTED_SEATS, SEATS_PER_ROW, SEAT_ROWS, seatId, TICKET_PRICE } from "../utils/seatLayout";
+import { useCartStore } from "@/features/cart/store/cartStore";
+import { useAuthStore } from "@/features/auth/store/authStore";
 
 const LANGUAGE_SHORT: Record<Showtime["language"], string> = {
   Español: "DOB",
@@ -53,6 +55,8 @@ export const SeatSelectionPage = () => {
   const [isLoading, setIsLoading] = useState(hasRequiredParams);
   const [error, setError] = useState<string | null>(hasRequiredParams ? null : "Falta la película o la función.");
   const setSelection = useBookingStore((state) => state.setSelection);
+  const addTicket = useCartStore((state) => state.addTicket);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   useEffect(() => {
     let isMounted = true;
@@ -109,10 +113,15 @@ export const SeatSelectionPage = () => {
     });
   };
 
-  const continueToCheckout = () => {
-    if (!movieId || !showtimeId || selected.length === 0) return;
+  const addToCart = () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+    if (!movieId || !showtimeId || !movie || !showtime || selected.length === 0) return;
     setSelection({ movieId, showtimeId, seats: selected });
-    navigate(`/checkout?movieId=${movieId}&showtimeId=${showtimeId}&seats=${selected.join(",")}`);
+    addTicket({ movieTitle: movie.title, showtimeId, cinemaName: cinema?.nombre ?? "Cine", showtimeLabel: formatShowDate(showtime.date, showtime.time), seats: selected, unitPrice: TICKET_PRICE });
+    navigate("/");
   };
 
   if (isLoading) {
@@ -220,11 +229,11 @@ export const SeatSelectionPage = () => {
 
           <button
             type="button"
-            onClick={continueToCheckout}
+            onClick={addToCart}
             disabled={selected.length === 0 || showtime.isSoldOut}
             className="mt-5 w-full rounded-xl bg-[#2F2FE4] py-3 font-semibold text-white transition hover:bg-[#162E93] disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Continuar
+            Agregar al carrito
           </button>
         </aside>
       </div>
