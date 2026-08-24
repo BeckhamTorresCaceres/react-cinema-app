@@ -23,7 +23,6 @@ const emptyForm = {
 export const AdminShowtimesPage = () => {
     const [showtimes, setShowtimes] = useState<Showtime[]>([]);
     const [movies, setMovies] = useState<MovieRecord[]>([]);
-    // 👇 lista plana de todos los cines
     const [cinemas, setCinemas] = useState<(CinemaLocation & { cityName: string })[]>([]);
     const [editingShowtime, setEditingShowtime] = useState<Showtime | null>(null);
     const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -35,7 +34,6 @@ export const AdminShowtimesPage = () => {
         getShowtimes().then(setShowtimes).catch(console.error);
         getMovies().then(setMovies).catch(console.error);
 
-        // 👇 Aplana todos los cines de todas las ubicaciones en un solo array
         getLocations().then((countries) => {
             const allCinemas: (CinemaLocation & { cityName: string })[] = [];
             countries.forEach((country) => {
@@ -64,7 +62,6 @@ export const AdminShowtimesPage = () => {
         });
     };
 
-    // 👇 Helper para obtener el nombre del cine por su id
     const getCinemaName = (cinemaId: string) => {
         return cinemas.find((c) => c.id === cinemaId)?.nombre ?? cinemaId;
     };
@@ -221,7 +218,7 @@ export const AdminShowtimesPage = () => {
                                                     </tr>
                                                 ))}
 
-                                                {/* 👇 Botón para agregar nueva función a esta película */}
+                 
                                                 <tr className="bg-[#080616]/40">
                                                     <td colSpan={3} className="px-6 py-3 pl-16">
                                                         <button
@@ -247,7 +244,6 @@ export const AdminShowtimesPage = () => {
                 </table>
             </div>
 
-            {/* MODAL CONFIRMAR ELIMINACIÓN */}
             {deletingId && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
                     <div className="w-full max-w-sm rounded-2xl border border-rose-500/30 bg-[#080616] p-6 text-center shadow-2xl">
@@ -264,7 +260,6 @@ export const AdminShowtimesPage = () => {
                 </div>
             )}
 
-            {/* MODAL CREAR / EDITAR */}
             {editingShowtime && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
                     <div className="w-full max-w-md rounded-2xl border border-[#162E93] bg-[#080616] p-6 shadow-2xl">
@@ -278,7 +273,6 @@ export const AdminShowtimesPage = () => {
                         </div>
                         <form onSubmit={handleSave} className="space-y-3">
 
-                            {/* Solo al crear: select de película */}
                             {isCreating && (
                                 <div>
                                     <label className="text-xs text-slate-400 block mb-1">Película</label>
@@ -294,7 +288,6 @@ export const AdminShowtimesPage = () => {
                                 </div>
                             )}
 
-                            {/* 👇 Select de cine con nombres reales agrupados por ciudad */}
                             <div>
                                 <label className="text-xs text-slate-400 block mb-1">Cine</label>
                                 <select
