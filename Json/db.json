@@ -18,7 +18,7 @@
       "username": "admin",
       "email": "admin@s.com",
       "password": "admin123",
-      "roleId": 1,
+      "roleId": "1",
       "phone": "3001234567",
       "active": true,
       "avatar": "https://i.pravatar.cc/150?img=1"
@@ -29,10 +29,78 @@
       "username": "yadira",
       "email": "cliente@gmail.com",
       "password": "Cliente123*",
-      "roleId": 2,
+      "roleId": "2",
       "phone": "3042180040",
       "active": true,
       "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE05Ot6D_e7rLeGB2Da-JfR3jMvC2DEiDExir5xbUqRw&s=10"
+    }
+  ],
+  "countries": [
+    { "id": "col", "nombre": "Colombia" },
+    { "id": "mex", "nombre": "México" }
+  ],
+  "cities": [
+    { "id": "baq", "countryId": "col", "nombre": "Barranquilla", "departamento": "Atlántico" },
+    { "id": "sol", "countryId": "col", "nombre": "Soledad", "departamento": "Atlántico" },
+    { "id": "pco", "countryId": "col", "nombre": "Puerto Colombia", "departamento": "Atlántico" },
+    { "id": "med", "countryId": "col", "nombre": "Medellín", "departamento": "Antioquia" },
+    { "id": "env", "countryId": "col", "nombre": "Envigado", "departamento": "Antioquia" },
+    { "id": "bog-c", "countryId": "col", "nombre": "Bogotá", "departamento": "Cundinamarca" },
+    { "id": "cdmx-c", "countryId": "mex", "nombre": "Ciudad de México", "departamento": "Ciudad de México" }
+  ],
+  "cinemas": [
+    { "id": "cine-01", "cityId": "baq", "nombre": "Multicine Viva", "direccion": "Cra 51B #87-50" },
+    { "id": "cine-02", "cityId": "baq", "nombre": "Multicine Buenavista", "direccion": "Calle 98 #52-115" },
+    { "id": "cine-03", "cityId": "baq", "nombre": "Multicine Mallplaza", "direccion": "Calle 99 #53-40" },
+    { "id": "cine-04", "cityId": "sol", "nombre": "Multicine Plaza del Sol", "direccion": "Calle 30 #30-190" },
+    { "id": "cine-05", "cityId": "sol", "nombre": "Multicine Gran Plaza Soledad", "direccion": "Cra 32 #30-15" },
+    { "id": "cine-06", "cityId": "pco", "nombre": "Multicine Plaza Campestre", "direccion": "Autopista al Mar Km 7" },
+    { "id": "cine-07", "cityId": "med", "nombre": "Multicine El Tesoro", "direccion": "Cra 25A #1A Sur-45" },
+    { "id": "cine-08", "cityId": "med", "nombre": "Multicine Santafé", "direccion": "Carrera 43A #7 Sur-170" },
+    { "id": "cine-09", "cityId": "env", "nombre": "Multicine Viva Envigado", "direccion": "Calle 32B Sur #48-45" },
+    { "id": "cine-10", "cityId": "bog-c", "nombre": "Multicine Andino", "direccion": "Carrera 11 #82-71" },
+    { "id": "cine-11", "cityId": "bog-c", "nombre": "Multicine Titán Plaza", "direccion": "Av. Boyacá #80-94" },
+    { "id": "cine-12", "cityId": "cdmx-c", "nombre": "Multicine Perisur", "direccion": "Anillo Periférico 4690" },
+    { "id": "cine-13", "cityId": "cdmx-c", "nombre": "Multicine Santa Fe", "direccion": "Av. Vasco de Quiroga 3800" }
+  ],
+  "rooms": [
+    {
+      "id": "sala-01",
+      "cinemaId": "cine-01",
+      "nombre": "Sala 1 - MacroXE",
+      "tipoFormatos": ["2D", "3D"],
+      "capacity": 10,
+      "seatsLayout": [
+        { "id": "A1", "row": "A", "number": 1, "type": "standard" },
+        { "id": "A2", "row": "A", "number": 2, "type": "standard" },
+        { "id": "A3", "row": "A", "number": 3, "type": "standard" },
+        { "id": "A4", "row": "A", "number": 4, "type": "standard" },
+        { "id": "A5", "row": "A", "number": 5, "type": "standard" },
+        { "id": "B1", "row": "B", "number": 1, "type": "preferential" },
+        { "id": "B2", "row": "B", "number": 2, "type": "preferential" },
+        { "id": "B3", "row": "B", "number": 3, "type": "preferential" },
+        { "id": "B4", "row": "B", "number": 4, "type": "preferential" },
+        { "id": "B5", "row": "B", "number": 5, "type": "preferential" }
+      ]
+    },
+    {
+      "id": "sala-02",
+      "cinemaId": "cine-01",
+      "nombre": "Sala 2 - 2D",
+      "tipoFormatos": ["2D"],
+      "capacity": 5,
+      "seatsLayout": [
+        { "id": "A1", "row": "A", "number": 1, "type": "standard" },
+        { "id": "A2", "row": "A", "number": 2, "type": "standard" }
+      ]
+    },
+    {
+      "id": "sala-03",
+      "cinemaId": "cine-03",
+      "nombre": "Sala IMAX",
+      "tipoFormatos": ["IMAX"],
+      "capacity": 30,
+      "seatsLayout": []
     }
   ],
   "movies": [
@@ -174,393 +242,64 @@
       "id": "s5",
       "movieId": "3",
       "cinemaId": "cine-01",
-      "date": "2026-08-18",
+      "roomId": "sala-01",
+      "date": "2026-08-25",
       "time": "15:15",
       "format": "3D",
       "language": "Español",
+      "price": 18000,
       "isSoldOut": false,
-      "status": "Estreno"
+      "status": "Estreno",
+      "occupiedSeats": ["A1", "A2"]
     },
     {
       "id": "s6",
       "movieId": "3",
       "cinemaId": "cine-03",
-      "date": "2026-08-19",
+      "roomId": "sala-03",
+      "date": "2026-08-25",
       "time": "19:00",
       "format": "IMAX",
       "language": "Subtitulada",
+      "price": 25000,
       "isSoldOut": false,
-      "status": "Estreno"
+      "status": "Estreno",
+      "occupiedSeats": []
     },
     {
       "id": "s7",
       "movieId": "4",
       "cinemaId": "cine-04",
-      "date": "2026-08-20",
+      "roomId": "sala-01",
+      "date": "2026-08-26",
       "time": "17:00",
       "format": "2D",
       "language": "Subtitulada",
+      "price": 14000,
       "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s8",
-      "movieId": "4",
-      "cinemaId": "cine-04",
-      "date": "2026-08-18",
-      "time": "21:15",
-      "format": "2D",
-      "language": "Español",
-      "isSoldOut": true,
-      "status": "Estreno"
-    },
-    {
-      "id": "s9",
-      "movieId": "5",
-      "cinemaId": "cine-05",
-      "date": "2026-08-19",
-      "time": "14:30",
-      "format": "2D",
-      "language": "Español",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s10",
-      "movieId": "5",
-      "cinemaId": "cine-05",
-      "date": "2026-08-21",
-      "time": "18:45",
-      "format": "2D",
-      "language": "Español",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s11",
-      "movieId": "6",
-      "cinemaId": "cine-07",
-      "date": "2026-08-22",
-      "time": "14:00",
-      "format": "IMAX",
-      "language": "Subtitulada",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s12",
-      "movieId": "6",
-      "cinemaId": "cine-07",
-      "date": "2026-08-19",
-      "time": "17:30",
-      "format": "IMAX",
-      "language": "Subtitulada",
-      "isSoldOut": true,
-      "status": "Estreno"
-    },
-    {
-      "id": "s13",
-      "movieId": "6",
-      "cinemaId": "cine-08",
-      "date": "2026-08-20",
-      "time": "20:45",
-      "format": "2D",
-      "language": "Español",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s19",
-      "movieId": "10",
-      "cinemaId": "cine-12",
-      "date": "2026-08-22",
-      "time": "15:00",
-      "format": "IMAX",
-      "language": "Subtitulada",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s20",
-      "movieId": "10",
-      "cinemaId": "cine-12",
-      "date": "2026-08-23",
-      "time": "19:30",
-      "format": "IMAX",
-      "language": "Subtitulada",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s25",
-      "movieId": "13",
-      "cinemaId": "cine-02",
-      "date": "2026-08-18",
-      "time": "13:00",
-      "format": "3D",
-      "language": "Español",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s26",
-      "movieId": "13",
-      "cinemaId": "cine-02",
-      "date": "2026-08-19",
-      "time": "15:30",
-      "format": "2D",
-      "language": "Español",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s27",
-      "movieId": "14",
-      "cinemaId": "cine-03",
-      "date": "2026-08-19",
-      "time": "16:45",
-      "format": "2D",
-      "language": "Subtitulada",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s28",
-      "movieId": "14",
-      "cinemaId": "cine-03",
-      "date": "2026-08-20",
-      "time": "19:15",
-      "format": "2D",
-      "language": "Subtitulada",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s33",
-      "movieId": "17",
-      "cinemaId": "cine-08",
-      "date": "2026-08-22",
-      "time": "13:30",
-      "format": "3D",
-      "language": "Español",
-      "isSoldOut": false,
-      "status": "Próximamente"
-    },
-    {
-      "id": "s34",
-      "movieId": "17",
-      "cinemaId": "cine-08",
-      "date": "2026-08-23",
-      "time": "16:00",
-      "format": "2D",
-      "language": "Español",
-      "isSoldOut": false,
-      "status": "Próximamente"
-    },
-    {
-      "id": "s35",
-      "movieId": "18",
-      "cinemaId": "cine-10",
-      "date": "2026-08-23",
-      "time": "18:00",
-      "format": "IMAX",
-      "language": "Subtitulada",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s36",
-      "movieId": "18",
-      "cinemaId": "cine-10",
-      "date": "2026-08-17",
-      "time": "21:30",
-      "format": "2D",
-      "language": "Español",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s37",
-      "movieId": "19",
-      "cinemaId": "cine-12",
-      "date": "2026-08-17",
-      "time": "14:00",
-      "format": "IMAX",
-      "language": "Subtitulada",
-      "isSoldOut": false,
-      "status": "Estreno"
-    },
-    {
-      "id": "s38",
-      "movieId": "19",
-      "cinemaId": "cine-12",
-      "date": "2026-08-18",
-      "time": "18:30",
-      "format": "3D",
-      "language": "Español",
-      "isSoldOut": false,
-      "status": "Estreno"
+      "status": "Estreno",
+      "occupiedSeats": []
     }
   ],
-  "location": [
+  "tickets": [
     {
-      "id": "col",
-      "nombre": "Colombia",
-      "departamentos": [
+      "id": "tck-001",
+      "userId": "2",
+      "showtimeId": "s5",
+      "seats": ["A1", "A2"],
+      "snacks": [
         {
-          "id": "atl",
-          "nombre": "Atlántico",
-          "ciudades": [
-            {
-              "id": "baq",
-              "nombre": "Barranquilla",
-              "cines": [
-                {
-                  "id": "cine-01",
-                  "nombre": "Multicine Viva",
-                  "direccion": "Cra 51B #87-50",
-                  "salasCount": 8
-                },
-                {
-                  "id": "cine-02",
-                  "nombre": "Multicine Buenavista",
-                  "direccion": "Calle 98 #52-115",
-                  "salasCount": 6
-                },
-                {
-                  "id": "cine-03",
-                  "nombre": "Multicine Mallplaza",
-                  "direccion": "Calle 99 #53-40",
-                  "salasCount": 7
-                }
-              ]
-            },
-            {
-              "id": "sol",
-              "nombre": "Soledad",
-              "cines": [
-                {
-                  "id": "cine-04",
-                  "nombre": "Multicine Plaza del Sol",
-                  "direccion": "Calle 30 #30-190",
-                  "salasCount": 5
-                },
-                {
-                  "id": "cine-05",
-                  "nombre": "Multicine Gran Plaza Soledad",
-                  "direccion": "Cra 32 #30-15",
-                  "salasCount": 4
-                }
-              ]
-            },
-            {
-              "id": "pco",
-              "nombre": "Puerto Colombia",
-              "cines": [
-                {
-                  "id": "cine-06",
-                  "nombre": "Multicine Plaza Campestre",
-                  "direccion": "Autopista al Mar Km 7",
-                  "salasCount": 4
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "ant",
-          "nombre": "Antioquia",
-          "ciudades": [
-            {
-              "id": "med",
-              "nombre": "Medellín",
-              "cines": [
-                {
-                  "id": "cine-07",
-                  "nombre": "Multicine El Tesoro",
-                  "direccion": "Cra 25A #1A Sur-45",
-                  "salasCount": 10
-                },
-                {
-                  "id": "cine-08",
-                  "nombre": "Multicine Santafé",
-                  "direccion": "Carrera 43A #7 Sur-170",
-                  "salasCount": 8
-                }
-              ]
-            },
-            {
-              "id": "env",
-              "nombre": "Envigado",
-              "cines": [
-                {
-                  "id": "cine-09",
-                  "nombre": "Multicine Viva Envigado",
-                  "direccion": "Calle 32B Sur #48-45",
-                  "salasCount": 12
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "Cun",
-          "nombre": "Cundinamarca",
-          "ciudades": [
-            {
-              "id": "bog-c",
-              "nombre": "Bogotá",
-              "cines": [
-                {
-                  "id": "cine-10",
-                  "nombre": "Multicine Andino",
-                  "direccion": "Carrera 11 #82-71",
-                  "salasCount": 6
-                },
-                {
-                  "id": "cine-11",
-                  "nombre": "Multicine Titán Plaza",
-                  "direccion": "Av. Boyacá #80-94",
-                  "salasCount": 9
-                }
-              ]
-            }
-          ]
+          "snackId": "6",
+          "name": "Combo Pareja",
+          "quantity": 1,
+          "priceUnit": 38000
         }
-      ]
-    },
-    {
-      "id": "mex",
-      "nombre": "México",
-      "departamentos": [
-        {
-          "id": "cdmx",
-          "nombre": "Ciudad de México",
-          "ciudades": [
-            {
-              "id": "cdmx-c",
-              "nombre": "Ciudad de México",
-              "cines": [
-                {
-                  "id": "cine-12",
-                  "nombre": "Multicine Perisur",
-                  "direccion": "Anillo Periférico 4690",
-                  "salasCount": 12
-                },
-                {
-                  "id": "cine-13",
-                  "nombre": "Multicine Santa Fe",
-                  "direccion": "Av. Vasco de Quiroga 3800",
-                  "salasCount": 10
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      ],
+      "totalAmount": 74000,
+      "purchaseDate": "2026-08-24T20:00:00Z",
+      "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=tck-001-s5-A1A2",
+      "status": "COMPLETED"
     }
-  ],
-  "seats": [
   ],
   "snacks": [
     {

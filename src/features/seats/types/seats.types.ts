@@ -1,13 +1,17 @@
-export type SeatStatus = "available" | "occupied" | "selected" | "vip";
+export type SeatType = "standard" | "preferential";
 
-export interface SeatOccupancy {
-  id: string;
-  occupied: string[];
-}
-
-export interface SeatCell {
+export interface Seat {
   id: string;
   row: string;
   number: number;
-  isAisle: boolean;
+  type: SeatType;
+}
+
+export interface Room {
+  id: string;
+  cinemaId: string;
+  nombre: string;
+  tipoFormatos: string[];
+  capacity: number;
+  seatsLayout: Seat[];
 }

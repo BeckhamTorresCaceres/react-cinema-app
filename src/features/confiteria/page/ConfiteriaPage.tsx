@@ -5,6 +5,7 @@ import { ConfiteriaCategorias } from "../components/ConfiteriaCategories";
 import { ConfiteriaBuscador } from "../components/ConfiteriaBuscador";
 import type { SnackProduct } from "../types/confiteria.types";
 import { getSnacks } from "@/services/snacks";
+import { useCartStore } from "../store/cartStore";
 
 export const ConfiteriaPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
@@ -12,6 +13,7 @@ export const ConfiteriaPage = () => {
   const [products, setProducts] = useState<SnackProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const addSnackToActiveTicket = useCartStore((state) => state.addSnackToActiveTicket);
 
   useEffect(() => {
     const loadSnacks = async () => {
@@ -36,7 +38,7 @@ export const ConfiteriaPage = () => {
   
   
   const handleAddToCart = (product: SnackProduct) => {
-    console.log("Agregar al carrito:", product);
+    addSnackToActiveTicket(product);
   };
 
   return (

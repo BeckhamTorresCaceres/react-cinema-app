@@ -5,9 +5,11 @@ import { getLocations, type CinemaLocation, type CountryLocation } from "@/servi
 import { getMovieById, getShowtimeById } from "@/features/billboard/services/billboardService";
 import type { Movie, Showtime } from "@/features/billboard/types/billboard.types";
 import { SeatMap } from "../components/SeatMap";
-import { getSeatOccupancy } from "../services/seatsService";
+import { getSeatSelectionData } from "../services/seatsService";
 import { useBookingStore } from "../store/bookingStore";
-import { formatCurrency, MAX_SELECTED_SEATS, SEATS_PER_ROW, SEAT_ROWS, seatId, TICKET_PRICE } from "../utils/seatLayout";
+import { useCartStore } from "@/features/confiteria/store/cartStore";
+import type { Room } from "../types/seats.types";
+import { buildSeatLayout, formatCurrency, MAX_SELECTED_SEATS } from "../utils/seatLayout";
 
 const LANGUAGE_SHORT: Record<Showtime["language"], string> = {
   Español: "DOB",
@@ -46,6 +48,7 @@ export const SeatSelectionPage = () => {
 
   const [movie, setMovie] = useState<Movie | null>(null);
   const [showtime, setShowtime] = useState<Showtime | null>(null);
+  const [room, setRoom] = useState<Room | null>(null);
   const [cinema, setCinema] = useState<CinemaLocation | null>(null);
   const [occupied, setOccupied] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
@@ -53,6 +56,7 @@ export const SeatSelectionPage = () => {
   const [isLoading, setIsLoading] = useState(hasRequiredParams);
   const [error, setError] = useState<string | null>(hasRequiredParams ? null : "Falta la película o la función.");
   const setSelection = useBookingStore((state) => state.setSelection);
+  const addTicket = useCartStore((state) => state.addTicket);
 
   useEffect(() => {
     let isMounted = true;
@@ -62,10 +66,10 @@ export const SeatSelectionPage = () => {
     Promise.all([
       getMovieById(movieId),
       getShowtimeById(showtimeId),
-      getSeatOccupancy(showtimeId),
       getLocations(),
     ])
-      .then(([fetchedMovie, fetchedShowtime, occupancy, locations]) => {
+      .then(async ([fetchedMovie, fetchedShowtime, locations]) => {
+        const seatSelection = await getSeatSelectionData(fetchedShowtime);
         if (!isMounted) return;
         if (fetchedShowtime.movieId !== movieId) {
           setError("La función no corresponde a esta película.");
@@ -74,7 +78,8 @@ export const SeatSelectionPage = () => {
 
         setMovie(fetchedMovie);
         setShowtime(fetchedShowtime);
-        setOccupied(occupancy);
+        setRoom(seatSelection.room);
+        setOccupied(seatSelection.occupiedSeats);
         setCinema(findCinema(locations, fetchedShowtime.cinemaId) ?? null);
       })
       .catch(() => {
@@ -91,10 +96,10 @@ export const SeatSelectionPage = () => {
 
   const occupiedSeats = useMemo(() => {
     if (!showtime?.isSoldOut) return occupied;
-    return SEAT_ROWS.flatMap((row) =>
-      Array.from({ length: SEATS_PER_ROW }, (_, index) => seatId(row, index + 1))
-    );
-  }, [occupied, showtime]);
+    return room?.seatsLayout.map((seat) => seat.id) ?? [];
+  }, [occupied, room, showtime]);
+
+  const seatLayout = useMemo(() => buildSeatLayout(room?.seatsLayout ?? []), [room]);
 
   const toggleSeat = (seatId: string) => {
     if (showtime?.isSoldOut) return;
@@ -110,9 +115,18 @@ export const SeatSelectionPage = () => {
   };
 
   const continueToCheckout = () => {
-    if (!movieId || !showtimeId || selected.length === 0) return;
-    setSelection({ movieId, showtimeId, seats: selected });
-    navigate(`/checkout?movieId=${movieId}&showtimeId=${showtimeId}&seats=${selected.join(",")}`);
+    if (!movieId || !showtimeId || !movie || !room || !showtime || selected.length === 0) return;
+    setSelection({ movieId, showtimeId, roomId: room.id, ticketPrice: showtime.price, seats: selected });
+    addTicket({
+      movieId,
+      movieTitle: movie.title,
+      poster: movie.poster,
+      showtimeId,
+      roomId: room.id,
+      ticketPrice: showtime.price,
+      seats: selected,
+    });
+    navigate("/confiteria");
   };
 
   if (isLoading) {
@@ -123,7 +137,7 @@ export const SeatSelectionPage = () => {
     );
   }
 
-  if (error || !movie || !showtime) {
+  if (error || !movie || !showtime || !room) {
     return (
       <main className="min-h-screen bg-[#080616] px-6 py-20 text-center text-white">
         <h1 className="text-3xl font-bold">No encontramos esa función</h1>
@@ -135,7 +149,7 @@ export const SeatSelectionPage = () => {
     );
   }
 
-  const total = selected.length * TICKET_PRICE;
+  const total = selected.length * showtime.price;
 
   return (
     <main className="min-h-screen bg-[#080616] pb-24 text-white">
@@ -161,6 +175,7 @@ export const SeatSelectionPage = () => {
                   {cinema.nombre}
                 </span>
               )}
+              <span>{room.nombre}</span>
               <span className="inline-flex items-center gap-1.5">
                 <Clock size={15} className="text-[#8E8EFF]" />
                 {formatShowDate(showtime.date, showtime.time)}
@@ -178,6 +193,7 @@ export const SeatSelectionPage = () => {
           )}
 
           <SeatMap
+            layout={seatLayout}
             occupied={occupiedSeats}
             selected={selected}
             onToggle={toggleSeat}
@@ -193,6 +209,7 @@ export const SeatSelectionPage = () => {
           />
           <h2 className="text-lg font-bold">{movie.title}</h2>
           {cinema && <p className="mt-1 text-sm text-slate-400">{cinema.nombre}</p>}
+          <p className="mt-1 text-sm text-slate-400">{room.nombre}</p>
           <p className="mt-1 text-sm text-slate-400">{formatShowDate(showtime.date, showtime.time)}</p>
 
           <div className="mt-5 border-t border-[#162E93]/40 pt-4">

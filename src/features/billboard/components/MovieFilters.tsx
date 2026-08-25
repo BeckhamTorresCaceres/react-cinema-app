@@ -1,1 +1,0 @@
-// Panel de filtros (género, idioma, formato..)

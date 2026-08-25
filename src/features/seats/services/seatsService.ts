@@ -1,8 +1,17 @@
-import { getOccupiedSeats } from "@/services/seats";
+import type { Showtime } from "@/features/billboard/types/billboard.types";
+import type { Room } from "../types/seats.types";
+import { getRoomById } from "@/services/seats";
 
-export async function getSeatOccupancy(showtimeId: string): Promise<string[]> {
+export interface SeatSelectionData {
+  room: Room;
+  occupiedSeats: string[];
+}
+
+export async function getSeatSelectionData(showtime: Showtime): Promise<SeatSelectionData> {
   try {
-    return await getOccupiedSeats(showtimeId);
+    const room = await getRoomById(showtime.roomId);
+
+    return { room, occupiedSeats: showtime.occupiedSeats };
   } catch {
     throw new Error("No fue posible cargar los asientos.");
   }

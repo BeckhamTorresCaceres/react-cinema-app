@@ -1,12 +1,11 @@
-import type { SeatOccupancy } from "@/features/seats/types/seats.types";
+import type { Room } from "@/features/seats/types/seats.types";
 import { endpoints } from "./endpoints";
-import { requestAllowNotFound } from "./http";
+import { request } from "./http";
 
-export async function getOccupiedSeats(showtimeId: string): Promise<string[]> {
-  const data = await requestAllowNotFound<SeatOccupancy | null>(
-    endpoints.seatsByShowtime(showtimeId),
-    null,
-  );
-
-  return data?.occupied ?? [];
+export async function getRoomById(roomId: string): Promise<Room> {
+  try {
+    return await request<Room>(endpoints.roomById(roomId));
+  } catch {
+    throw new Error("No fue posible cargar la sala.");
+  }
 }

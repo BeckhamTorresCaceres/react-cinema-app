@@ -1,22 +1,20 @@
 import { useMemo } from "react";
-import type { SeatCell } from "../types/seats.types";
-import { buildSeatLayout, VIP_ROWS } from "../utils/seatLayout";
+import type { Seat } from "../types/seats.types";
 
 interface SeatMapProps {
+  layout: Seat[][];
   occupied: string[];
   selected: string[];
   onToggle: (seatId: string) => void;
   disabled?: boolean;
 }
 
-const layout = buildSeatLayout();
-
-const seatClass = (cell: SeatCell, occupied: Set<string>, selected: Set<string>, disabled: boolean) => {
-  if (occupied.has(cell.id)) {
+const seatClass = (seat: Seat, occupied: Set<string>, selected: Set<string>, disabled: boolean) => {
+  if (occupied.has(seat.id)) {
     return "cursor-not-allowed bg-slate-700 text-slate-500 border-slate-600";
   }
 
-  if (selected.has(cell.id)) {
+  if (selected.has(seat.id)) {
     return "border-[#2F2FE4] bg-[#2F2FE4] text-white shadow-md shadow-[#2F2FE4]/40";
   }
 
@@ -24,14 +22,14 @@ const seatClass = (cell: SeatCell, occupied: Set<string>, selected: Set<string>,
     return "cursor-not-allowed border-[#162E93]/40 bg-[#080616]/40 text-slate-600";
   }
 
-  if (VIP_ROWS.has(cell.row)) {
+  if (seat.type === "preferential") {
     return "border-amber-400/60 bg-amber-400/10 text-amber-200 hover:bg-amber-400/25";
   }
 
   return "border-[#162E93]/70 bg-[#1A1953]/70 text-slate-200 hover:border-[#8E8EFF] hover:bg-[#2F2FE4]/25";
 };
 
-export const SeatMap = ({ occupied, selected, onToggle, disabled = false }: SeatMapProps) => {
+export const SeatMap = ({ layout, occupied, selected, onToggle, disabled = false }: SeatMapProps) => {
   const occupiedSet = useMemo(() => new Set(occupied), [occupied]);
   const selectedSet = useMemo(() => new Set(selected), [selected]);
 
@@ -49,23 +47,19 @@ export const SeatMap = ({ occupied, selected, onToggle, disabled = false }: Seat
           {layout.map((row) => (
             <div key={row[0].row} className="flex items-center justify-center gap-1.5">
               <span className="w-5 text-center text-xs font-bold text-slate-500">{row[0].row}</span>
-              {row.map((cell) =>
-                cell.isAisle ? (
-                  <span key={cell.id} className="w-5 shrink-0" aria-hidden />
-                ) : (
+              {row.map((seat) => (
                   <button
-                    key={cell.id}
+                    key={seat.id}
                     type="button"
-                    disabled={disabled || occupiedSet.has(cell.id)}
-                    onClick={() => onToggle(cell.id)}
-                    aria-label={`Asiento ${cell.id}${occupiedSet.has(cell.id) ? " ocupado" : selectedSet.has(cell.id) ? " seleccionado" : " disponible"}`}
-                    aria-pressed={selectedSet.has(cell.id)}
-                    className={`flex h-7 w-7 items-center justify-center rounded-t-md border text-[10px] font-semibold transition active:scale-95 disabled:active:scale-100 sm:h-8 sm:w-8 ${seatClass(cell, occupiedSet, selectedSet, disabled)}`}
+                    disabled={disabled || occupiedSet.has(seat.id)}
+                    onClick={() => onToggle(seat.id)}
+                    aria-label={`Asiento ${seat.id}${occupiedSet.has(seat.id) ? " ocupado" : selectedSet.has(seat.id) ? " seleccionado" : " disponible"}`}
+                    aria-pressed={selectedSet.has(seat.id)}
+                    className={`flex h-7 w-7 items-center justify-center rounded-t-md border text-[10px] font-semibold transition active:scale-95 disabled:active:scale-100 sm:h-8 sm:w-8 ${seatClass(seat, occupiedSet, selectedSet, disabled)}`}
                   >
-                    {cell.number}
+                    {seat.number}
                   </button>
-                )
-              )}
+              ))}
               <span className="w-5 text-center text-xs font-bold text-slate-500">{row[0].row}</span>
             </div>
           ))}

@@ -4,9 +4,12 @@ export interface Showtime {
     id: string;
     movieId: string;
     cinemaId: string;
+    roomId: string;
     /** Fecha local de la función en formato ISO: YYYY-MM-DD. */
     date: string;
     time: string; // Formato de hora, por ejemplo: "14:30"
+    price: number;
+    occupiedSeats: string[];
     format: "2D" | "3D" | "IMAX" | "4DX"; // Formato de la película
     language: "Español" | "Inglés" | "Subtitulada"; // Idioma de la película    
     status: "Estreno" | "Próximamente"; // Estado de publicación de la función

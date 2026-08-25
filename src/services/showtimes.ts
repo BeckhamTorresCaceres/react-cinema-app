@@ -17,3 +17,10 @@ export async function getShowtimeById(showtimeId: string): Promise<Showtime> {
     throw new Error("No fue posible cargar la función.");
   }
 }
+
+export async function updateShowtime(id: string, updates: Partial<Showtime>): Promise<Showtime> {
+  return request<Showtime>(endpoints.showtimeById(id), {
+    method: "PATCH",
+    data: updates,
+  });
+}

@@ -12,6 +12,7 @@ import {
 import { useAuthStore } from "../../auth/store/authStore";
 import { LocationModal } from "@/components/Location/LocationModal";
 import { CartModal } from "@/components/Cart/CartModal";
+import { useCartStore } from "@/features/confiteria/store/cartStore";
 import { Popcorn } from "lucide-react";
 
 const navigationItems = [
@@ -37,6 +38,7 @@ export const HomeLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const cartItemCount = useCartStore((state) => state.tickets.length);
   const [hasLocation, setHasLocation] = useState(() =>
     Boolean(
       localStorage.getItem("lumi_pais") &&
@@ -129,6 +131,7 @@ export const HomeLayout = () => {
             >
               <ShoppingCart size={16} />
               Carrito
+              {cartItemCount > 0 && <span className="rounded-full bg-[#2F2FE4] px-1.5 py-0.5 text-xs font-bold text-white">{cartItemCount}</span>}
             </button>
           </nav>
           <div className="hidden items-center gap-3 sm:flex">
@@ -219,6 +222,7 @@ export const HomeLayout = () => {
               >
                 <ShoppingCart size={18} className="text-[#8E8EFF]" />
                 Carrito
+                {cartItemCount > 0 && <span className="rounded-full bg-[#2F2FE4] px-1.5 py-0.5 text-xs font-bold text-white">{cartItemCount}</span>}
               </button>
               <div className="mt-2 grid grid-cols-2 gap-2 border-t border-[#162E93]/30 pt-3 sm:hidden">
                 {isAuthenticated ? (
