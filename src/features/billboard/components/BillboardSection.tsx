@@ -1,31 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ALL_DATES, DateSelector } from "@/features/billboard/components/DataSelector";
 import { MovieCard } from "./MovieCard";
 import { BillboardFilters } from "./BillboardFilters";
-import { getMovies, getShowtimes } from "../services/billboardService";
-import type { Movie, MovieWithShowtimes, Showtime } from "../types/billboard.types";
-import { getLocations, type CinemaLocation, type CountryLocation } from "@/services/api";
-
-interface SelectedLocation {
-  country: string;
-  department: string;
-  city: string;
-}
-
-const getSavedLocation = (): SelectedLocation => ({
-  country: localStorage.getItem("lumi_pais") || "",
-  department: localStorage.getItem("lumi_departamento") || "",
-  city: localStorage.getItem("lumi_ciudad") || "",
-});
+import { useMovieCatalog } from "../hooks/useMovieCatalog";
+import type { MovieWithShowtimes } from "../types/billboard.types";
+import type { CinemaLocation } from "@/features/locations/types/location.types";
+import { useSelectedLocation, useLocations } from "@/features/locations/hooks";
+import { getCinemasForLocation } from "@/features/locations/utils/locationTree";
 
 export const BillboardSection = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [showtimes, setShowtimes] = useState<Showtime[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [locations, setLocations] = useState<CountryLocation[]>([]);
-  const [isLoadingLocations, setIsLoadingLocations] = useState(true);
-  const [selectedLocation, setSelectedLocation] = useState<SelectedLocation>(getSavedLocation);
+  const { movies, showtimes, isLoading, error } = useMovieCatalog();
+  const { locations, isLoading: isLoadingLocations } = useLocations();
+  const selectedLocation = useSelectedLocation();
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -49,67 +35,16 @@ export const BillboardSection = () => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
   };
 
-  useEffect(() => {
-    let isMounted = true;
-
-    getLocations()
-      .then((data) => {
-        if (isMounted) setLocations(data);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoadingLocations(false);
-      });
-
-    return () => { isMounted = false; };
-  }, []);
-
-  useEffect(() => {
-    const updateSelectedLocation = () => setSelectedLocation(getSavedLocation());
-    window.addEventListener("lumi-location-changed", updateSelectedLocation);
-    return () => window.removeEventListener("lumi-location-changed", updateSelectedLocation);
-  }, []);
-
-  const complexes = useMemo<CinemaLocation[]>(() => {
-    const country = locations.find((item) => item.nombre === selectedLocation.country);
-    const department = country?.departamentos.find((item) => item.nombre === selectedLocation.department);
-    return department?.ciudades.find((item) => item.nombre === selectedLocation.city)?.cines ?? [];
-  }, [locations, selectedLocation]);
+  const complexes = useMemo<CinemaLocation[]>(
+    () => getCinemasForLocation(locations, selectedLocation),
+    [locations, selectedLocation]
+  );
 
   const selectedComplex = filters.complex === "all" || complexes.some((complex) => complex.id === filters.complex)
     ? filters.complex
     : "all";
 
-  useEffect(() => {
-    let isMounted = true;
 
-    const loadMovies = async () => {
-      try {
-        const [movieData, showtimeData] = await Promise.all([getMovies(), getShowtimes()]);
-        if (isMounted) {
-          setMovies(movieData);
-          setShowtimes(showtimeData);
-        }
-      } catch (loadError) {
-        if (isMounted) {
-          setError(
-            loadError instanceof Error
-              ? loadError.message
-              : "No fue posible cargar la cartelera."
-          );
-        }
-      } finally {
-        if (isMounted) setIsLoading(false);
-      }
-    };
-
-    void loadMovies();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  
   const genres = useMemo(() => [...new Set(movies.map((movie) => movie.genre))].sort(), [movies]);
   const ratings = useMemo(() => [...new Set(movies.map((movie) => movie.rating))].sort(), [movies]);
   const formats = useMemo(() => [...new Set(showtimes.map((showtime) => showtime.format))].sort(), [showtimes]);

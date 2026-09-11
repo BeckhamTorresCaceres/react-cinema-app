@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Film, Users, CalendarCheck, MapPin, ShieldCheck, UserCheck } from "lucide-react";
-import { getMovies } from "@/services/movies";
-import { getShowtimes } from "@/services/showtimes";
-import { getUsers } from "@/services/users";
-import { getLocations } from "@/services/locations";
+import { getMovies, getShowtimes } from "@/features/billboard/services/billboardService";
+import { getUsers } from "@/features/users/services/userService";
+import { getLocations } from "@/features/locations/services/locationService";
+import { StatCard } from "../components/dashboard/StatCard";
 
 export const AdminPage = () => {
   const [data, setData] = useState({
@@ -29,8 +29,8 @@ export const AdminPage = () => {
         setData({
           moviesCount: movies.length,
           usersCount: users.length,
-          adminsCount: users.filter((user) => user.roleId === 1).length,
-          clientsCount: users.filter((user) => user.roleId === 2).length,
+          adminsCount: users.filter((user) => Number(user.roleId) === 1).length,
+          clientsCount: users.filter((user) => Number(user.roleId) === 2).length,
           showtimesCount: showtimes.length,
           countriesCount: locations.length,
         });
@@ -56,55 +56,49 @@ export const AdminPage = () => {
       {/* PANEL UNIFICADO DE ESTADÍSTICAS */}
       <div className="rounded-3xl border border-[#162E93]/50 bg-[#1A1953]/20 p-6 backdrop-blur-md shadow-xl">
         <div className="grid grid-cols-1 divide-y divide-[#162E93]/40 md:grid-cols-4 md:divide-x md:divide-y-0">
-          
-          {/* Bloque 1: Películas */}
-          <div className="flex items-center gap-4 py-4 md:py-0 md:px-6 first:pl-0">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#2F2FE4]/20 text-[#8E8EFF]">
-              <Film size={24} />
-            </div>
-            <div>
-              <p className="text-2xl font-black text-white">{data.moviesCount}</p>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Películas Activas</p>
-            </div>
-          </div>
+          <StatCard
+            icon={Film}
+            iconBgClass="bg-[#2F2FE4]/20"
+            iconColorClass="text-[#8E8EFF]"
+            value={data.moviesCount}
+            label="Películas Activas"
+            edge="first"
+          />
 
-          {/* Bloque 2: Usuarios */}
-          <div className="flex items-center gap-4 py-4 md:py-0 md:px-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/20 text-purple-400">
-              <Users size={24} />
+          <StatCard
+            icon={Users}
+            iconBgClass="bg-purple-500/20"
+            iconColorClass="text-purple-400"
+            value={data.usersCount}
+            label="Usuarios"
+          >
+            <div className="flex items-center gap-2 text-[11px] text-slate-400">
+              <span className="flex items-center gap-0.5">
+                <ShieldCheck size={12} /> {data.adminsCount} Admin
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-0.5">
+                <UserCheck size={12} /> {data.clientsCount} Clientes
+              </span>
             </div>
-            <div>
-              <p className="text-2xl font-black text-white">{data.usersCount}</p>
-              <div className="flex items-center gap-2 text-[11px] text-slate-400">
-                <span className="flex items-center gap-0.5"><ShieldCheck size={12}/> {data.adminsCount} Admin</span>
-                <span>•</span>
-                <span className="flex items-center gap-0.5"><UserCheck size={12}/> {data.clientsCount} Clientes</span>
-              </div>
-            </div>
-          </div>
+          </StatCard>
 
-          {/* Bloque 3: Funciones */}
-          <div className="flex items-center gap-4 py-4 md:py-0 md:px-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-400">
-              <CalendarCheck size={24} />
-            </div>
-            <div>
-              <p className="text-2xl font-black text-white">{data.showtimesCount}</p>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Funciones Programadas</p>
-            </div>
-          </div>
+          <StatCard
+            icon={CalendarCheck}
+            iconBgClass="bg-emerald-500/20"
+            iconColorClass="text-emerald-400"
+            value={data.showtimesCount}
+            label="Funciones Programadas"
+          />
 
-          {/* Bloque 4: Países */}
-          <div className="flex items-center gap-4 py-4 md:py-0 md:px-6 last:pr-0">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-400">
-              <MapPin size={24} />
-            </div>
-            <div>
-              <p className="text-2xl font-black text-white">{data.countriesCount}</p>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Países Operativos</p>
-            </div>
-          </div>
-
+          <StatCard
+            icon={MapPin}
+            iconBgClass="bg-amber-500/20"
+            iconColorClass="text-amber-400"
+            value={data.countriesCount}
+            label="Países Operativos"
+            edge="last"
+          />
         </div>
       </div>
     </div>

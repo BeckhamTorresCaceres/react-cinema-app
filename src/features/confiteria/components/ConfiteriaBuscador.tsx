@@ -1,10 +1,6 @@
 import { Search } from "lucide-react";
 
-interface ConfiteriaBuscadorProps {
-  value: string;
-  onChange: (value: string) => void;
-}
-
+import type { ConfiteriaBuscadorProps } from "../types/confiteria.types";
 export const ConfiteriaBuscador = ({ value, onChange }: ConfiteriaBuscadorProps) => {
   return (
     <div className="relative w-full max-w-sm">

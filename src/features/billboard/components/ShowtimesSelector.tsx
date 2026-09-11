@@ -1,16 +1,9 @@
 import { useMemo, useState } from "react";
+import type { ShowtimesSelectorProps } from "../types/billboard.types";
 import { ChevronDown, ChevronLeft, ChevronRight, Film, MapPin } from "lucide-react";
 import { Link } from "react-router";
 import type { Showtime } from "../types/billboard.types";
-import type { CinemaLocation } from "@/services/api";
 
-interface ShowtimesSelectorProps {
-  movieId: string;
-  showtimes: Showtime[];
-  city: string;
-  cinemas: CinemaLocation[];
-  isLoadingCinemas?: boolean;
-}
 
 const LANGUAGE_SHORT: Record<Showtime["language"], string> = {
   Español: "DOB",

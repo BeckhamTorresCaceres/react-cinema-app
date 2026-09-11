@@ -1,25 +1,7 @@
+import type { BillboardFiltersProps } from "../types/billboard.types";
 import { Search } from "lucide-react";
-import type { CinemaLocation } from "@/services/api";
 
-interface FilterState {
-  searchTerm: string;
-  genre: string;
-  format: string;
-  rating: string;
-  language: string;
-  complex: string;
-}
 
-interface BillboardFiltersProps {
-  filters: FilterState;
-  onFilterChange: (newFilters: Partial<FilterState>) => void;
-  complexes: CinemaLocation[];
-  isLoadingComplexes?: boolean;
-  genres: string[];
-  formats: string[];
-  ratings: string[];
-  languages: string[];
-}
 
 export const BillboardFilters = ({ filters, onFilterChange, complexes, isLoadingComplexes = false, genres, formats, ratings, languages }: BillboardFiltersProps) => {
   return (

@@ -1,2 +1,3 @@
-export { getMovieById, getMovies } from "@/services/movies";
-export { getShowtimeById, getShowtimes } from "@/services/showtimes";
+export { getMovieById, getMovies } from "./movieService";
+export { getShowtimeById, getShowtimes, updateShowtime } from "./showtimeService";
+export type { MovieRecord } from "../types/billboard.types";

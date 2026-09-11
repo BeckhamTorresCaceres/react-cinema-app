@@ -15,11 +15,3 @@ export function buildSeatLayout(seats: Seat[]): Seat[][] {
     .sort(([firstRow], [secondRow]) => firstRow.localeCompare(secondRow, undefined, { numeric: true }))
     .map(([, row]) => row.sort((firstSeat, secondSeat) => firstSeat.number - secondSeat.number));
 }
-
-export function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
-  }).format(value);
-}

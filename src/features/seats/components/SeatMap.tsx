@@ -1,14 +1,5 @@
 import { useMemo } from "react";
-import type { Seat } from "../types/seats.types";
-
-interface SeatMapProps {
-  layout: Seat[][];
-  occupied: string[];
-  selected: string[];
-  onToggle: (seatId: string) => void;
-  disabled?: boolean;
-}
-
+import type { Seat, SeatMapProps } from "../types/seats.types";
 const seatClass = (seat: Seat, occupied: Set<string>, selected: Set<string>, disabled: boolean) => {
   if (occupied.has(seat.id)) {
     return "cursor-not-allowed bg-slate-700 text-slate-500 border-slate-600";

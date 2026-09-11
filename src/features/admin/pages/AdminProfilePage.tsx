@@ -1,4 +1,4 @@
-import { useAuthStore } from "../../auth/store/authStore";
+import { useAuthStore } from "../../auth/hooks/useAuthStore";
 
 export const AdminProfilePage = () => {
   const { user } = useAuthStore();

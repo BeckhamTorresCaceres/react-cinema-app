@@ -1,22 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowLeft, Clock, Play, Star } from "lucide-react";
 import { Link, useParams } from "react-router";
-import { getMovies, getShowtimes } from "../services/billboardService";
-import type { Movie, Showtime } from "../types/billboard.types";
+import { useMovieCatalog } from "../hooks/useMovieCatalog";
 import { ShowtimesSelector } from "../components/ShowtimesSelector";
-import { getLocations, type CinemaLocation, type CountryLocation } from "@/services/api";
-
-interface SelectedLocation {
-  country: string;
-  department: string;
-  city: string;
-}
-
-const getSavedLocation = (): SelectedLocation => ({
-  country: localStorage.getItem("lumi_pais") || "",
-  department: localStorage.getItem("lumi_departamento") || "",
-  city: localStorage.getItem("lumi_ciudad") || "",
-});
+import type { CinemaLocation } from "@/features/locations/types/location.types";
+import { useSelectedLocation, useLocations } from "@/features/locations/hooks";
+import { getCinemasForLocation } from "@/features/locations/utils/locationTree";
 
 const getYouTubeVideoId = (url: string | undefined): string | null => {
   if (!url) return null;
@@ -28,59 +17,25 @@ const getYouTubeVideoId = (url: string | undefined): string | null => {
 
 export const MovieDetailsPage = () => {
   const { movieId } = useParams<{ movieId: string }>();
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const [showtimes, setShowtimes] = useState<Showtime[]>([]);
-  const [locations, setLocations] = useState<CountryLocation[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<SelectedLocation>(getSavedLocation);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingLocations, setIsLoadingLocations] = useState(true);
+  const { movies, showtimes: allShowtimes, isLoading } = useMovieCatalog();
+  const { locations, isLoading: isLoadingLocations } = useLocations();
+  const selectedLocation = useSelectedLocation();
   const [showTrailerModal, setShowTrailerModal] = useState(false);
 
-  useEffect(() => {
-    let isMounted = true;
+  const movie = useMemo(
+    () => movies.find((item) => item.id === movieId) ?? null,
+    [movies, movieId]
+  );
+  const showtimes = useMemo(
+    () => allShowtimes.filter((st) => st.movieId === movieId),
+    [allShowtimes, movieId]
+  );
 
-    getLocations()
-      .then((data) => {
-        if (isMounted) setLocations(data);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoadingLocations(false);
-      });
+  const cinemas = useMemo<CinemaLocation[]>(
+    () => getCinemasForLocation(locations, selectedLocation),
 
-    return () => { isMounted = false; };
-  }, []);
-
-  useEffect(() => {
-    const updateSelectedLocation = () => setSelectedLocation(getSavedLocation());
-    window.addEventListener("lumi-location-changed", updateSelectedLocation);
-    return () => window.removeEventListener("lumi-location-changed", updateSelectedLocation);
-  }, []);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    Promise.all([getMovies(), getShowtimes()])
-      .then(([movies, fetchedShowtimes]) => {
-        if (isMounted) {
-          setMovie(movies.find((item) => item.id === movieId) ?? null);
-          setShowtimes(fetchedShowtimes.filter((st) => st.movieId === movieId));
-        }
-      })
-      .catch((error) => {
-        console.error("Error al cargar la película:", error);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false);
-      });
-
-    return () => { isMounted = false; };
-  }, [movieId]);
-
-  const cinemas = useMemo<CinemaLocation[]>(() => {
-    const country = locations.find((item) => item.nombre === selectedLocation.country);
-    const department = country?.departamentos.find((item) => item.nombre === selectedLocation.department);
-    return department?.ciudades.find((item) => item.nombre === selectedLocation.city)?.cines ?? [];
-  }, [locations, selectedLocation]);
+    [locations, selectedLocation]
+  );
 
   const cityCinemaIds = useMemo(() => new Set(cinemas.map((cinema) => cinema.id)), [cinemas]);
 

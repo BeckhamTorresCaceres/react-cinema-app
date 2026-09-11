@@ -15,3 +15,16 @@ export interface Room {
   capacity: number;
   seatsLayout: Seat[];
 }
+
+export interface SeatSelectionData {
+  room: Room;
+  occupiedSeats: string[];
+}
+
+export interface SeatMapProps {
+  layout: Seat[][];
+  occupied: string[];
+  selected: string[];
+  onToggle: (seatId: string) => void;
+  disabled?: boolean;
+}

@@ -1,18 +1,9 @@
 import { ShoppingCart, Tag } from "lucide-react";
-import type { SnackProduct } from "../types/confiteria.types";
+import type { ConfiteriaCardProps } from "../types/confiteria.types";
+import { formatPrice, unitPrice } from "../utils/cartPricing";
 
-interface ConfiteriaCardProps {
-  product: SnackProduct;
-  onAddToCart: (product: SnackProduct) => void;
-}
-
-const formatPrice = (price: number) =>
-  new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(price);
-
-export const ConfiteriaCard = ({ product, onAddToCart }: ConfiteriaCardProps) => {
-  const finalPrice = product.hasPromo && product.discountPercent
-    ? product.price * (1 - product.discountPercent / 100)
-    : product.price;
+export const ConfiteriaCard = ({ product, onAdd }: ConfiteriaCardProps) => {
+  const finalPrice = unitPrice(product);
 
   return (
     <div className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-[#1A1953]/40 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:shadow-2xl ${product.isAvailable ? "border-[#162E93]/40 hover:border-[#2F2FE4]" : "border-slate-700/40 opacity-60"}`}>
@@ -60,19 +51,21 @@ export const ConfiteriaCard = ({ product, onAddToCart }: ConfiteriaCardProps) =>
             )}
           </div>
 
-          {/* Botón agregar */}
-          <button
-            disabled={!product.isAvailable}
-            onClick={() => onAddToCart(product)}
-            className={`mt-3 flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition ${
-              product.isAvailable
-                ? "bg-[#2F2FE4] text-white hover:bg-[#162E93]"
-                : "cursor-not-allowed bg-slate-800 text-slate-500"
-            }`}
-          >
-            <ShoppingCart size={15} />
-            {product.isAvailable ? "Agregar al carrito" : "No disponible"}
-          </button>
+          {/* Botón agregar (solo visible durante el proceso de compra de un ticket) */}
+          {onAdd && (
+            <button
+              disabled={!product.isAvailable}
+              onClick={() => onAdd(product)}
+              className={`mt-3 flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition ${
+                product.isAvailable
+                  ? "bg-[#2F2FE4] text-white hover:bg-[#162E93]"
+                  : "cursor-not-allowed bg-slate-800 text-slate-500"
+              }`}
+            >
+              <ShoppingCart size={15} />
+              {product.isAvailable ? "Agregar al carrito" : "No disponible"}
+            </button>
+          )}
         </div>
       </div>
     </div>

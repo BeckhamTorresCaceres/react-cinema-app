@@ -1,7 +1,7 @@
-import type { MembershipBenefit } from "../../types/membership.types";
+import type { MembershipBenefitCardProps } from "../../types/membership.types";
 import { MembershipBenefitIcon } from "./MembershipBenefitIcon";
 
-export const MembershipBenefitCard = ({ benefit }: { benefit: MembershipBenefit }) => (
+export const MembershipBenefitCard = ({ benefit }: MembershipBenefitCardProps) => (
   <article className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#162E93]/30 bg-[#1A1953]/20 p-6 shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#2F2FE4]/60 hover:bg-[#1A1953]/40">
     <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#2F2FE4]/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
     <div className="relative">

@@ -7,6 +7,7 @@ export const endpoints = {
   rooms: "/rooms",
   roomById: (id: string | number) => `/rooms/${id}`,
   tickets: "/tickets",
+  ticketsByUser: (userId: string | number) => `/tickets?userId=${userId}`,
   showtimes: "/showtimes",
   snacks: "/snacks",
   snackById: (id: string | number) => `/snacks/${id}`,

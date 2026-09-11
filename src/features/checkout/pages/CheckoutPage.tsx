@@ -1,21 +1,16 @@
 import { useState } from "react";
 import { CheckCircle2, CreditCard } from "lucide-react";
 import { Link } from "react-router";
-import { useAuthStore } from "@/features/auth/store/authStore";
-import { useCartStore, type TicketCartItem } from "@/features/confiteria/store/cartStore";
-import { useBookingStore } from "@/features/seats/store/bookingStore";
-import type { SnackProduct } from "@/features/confiteria/types/confiteria.types";
+import { useAuthStore } from "@/features/auth/hooks/useAuthStore";
+import { useCartStore } from "@/features/confiteria/hooks/useCartStore";
+import { formatPrice, ticketTotal, unitPrice } from "@/features/confiteria/utils/cartPricing";
 import { completePurchase } from "../services/checkoutService";
-
-const unitPrice = (product: SnackProduct) => product.hasPromo && product.discountPercent ? product.price * (1 - product.discountPercent / 100) : product.price;
-const ticketTotal = (ticket: TicketCartItem) => ticket.ticketPrice * ticket.seats.length + ticket.snacks.reduce((total, item) => total + unitPrice(item.product) * item.quantity, 0);
-const formatPrice = (value: number) => new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(value);
 
 export const CheckoutPage = () => {
   const user = useAuthStore((state) => state.user);
   const tickets = useCartStore((state) => state.tickets);
   const clearCart = useCartStore((state) => state.clear);
-  const clearBooking = useBookingStore((state) => state.clear);
+  const removeExpiredTickets = useCartStore((state) => state.removeExpiredTickets);
   const [isPaying, setIsPaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isComplete, setIsComplete] = useState(false);
@@ -29,11 +24,14 @@ export const CheckoutPage = () => {
     setError(null);
     try {
       for (const ticket of tickets) {
+        if (ticket.expiresAt <= Date.now()) {
+          removeExpiredTickets();
+          throw new Error("El tiempo de reserva terminó. Selecciona nuevamente tus asientos.");
+        }
         const purchaseDate = new Date().toISOString();
         await completePurchase({ userId: user.id, showtimeId: ticket.showtimeId, seats: ticket.seats, snacks: ticket.snacks.map((item) => ({ snackId: item.product.id, name: item.product.name, quantity: item.quantity, priceUnit: unitPrice(item.product) })), totalAmount: ticketTotal(ticket), purchaseDate, qrCode: `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(`${ticket.showtimeId}-${ticket.seats.join("-")}-${purchaseDate}`)}`, status: "COMPLETED" });
       }
       clearCart();
-      clearBooking();
       setIsComplete(true);
     } catch (purchaseError) {
       setError(purchaseError instanceof Error ? purchaseError.message : "No fue posible completar el pago.");

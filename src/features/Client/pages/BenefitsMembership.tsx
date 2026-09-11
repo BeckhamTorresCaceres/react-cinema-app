@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { MembershipBenefitsGrid, MembershipPurchaseCta } from "../components";
 import type { MembershipBenefit } from "../types/membership.types";
-import { getMembershipBenefits } from "@/services/membership";
+import { getMembershipBenefits } from "@/features/client/services/membershipService";
 
 const BenefitsMembership = () => {
   const navigate = useNavigate();

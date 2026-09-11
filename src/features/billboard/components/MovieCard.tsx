@@ -1,13 +1,9 @@
 // Tarjeta individual con formato / horarios
+import type { MovieCardProps } from "../types/billboard.types";
 
 import { Clock, Star } from "lucide-react";
 import { useNavigate } from "react-router";
-import type { MovieWithShowtimes } from "@/features/billboard/types/billboard.types";
 
-interface MovieCardProps {
-  movie: MovieWithShowtimes;
-  onBuyTickets?: (movieId: string, showtimeId: string) => void;
-}
 
 export const MovieCard = ({ movie, onBuyTickets }: MovieCardProps) => {
   const navigate = useNavigate();

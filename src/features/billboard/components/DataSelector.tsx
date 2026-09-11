@@ -1,9 +1,5 @@
 // Selector de 7 días
-
-interface DateSelectorProps {
-  selectedDate: string;
-  onSelectDate: (dateStr: string) => void;
-}
+import type { DateSelectorProps } from "../types/billboard.types";
 
 export const ALL_DATES = "all";
 

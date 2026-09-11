@@ -8,12 +8,29 @@ export interface MembershipCardData {
   status: MembershipStatus;
 }
 
-export type MembershipBenefitIcon = "premier" | "tickets" | "snacks" | "presale" | "events" | "community";
+export type MembershipBenefitIconName = "premier" | "tickets" | "snacks" | "presale" | "events" | "community";
 
 export interface MembershipBenefit {
   id: string;
   title: string;
   description: string;
-  icon: MembershipBenefitIcon;
+  icon: MembershipBenefitIconName;
   tag?: "Popular" | "VIP";
+}
+
+export interface MembershipBenefitIconProps {
+  name: MembershipBenefitIconName;
+  alternateColor?: boolean;
+}
+
+export interface MembershipBenefitCardProps {
+  benefit: MembershipBenefit;
+}
+
+export interface MembershipBenefitsGridProps {
+  benefits: MembershipBenefit[];
+}
+
+export interface MembershipPurchaseCtaProps {
+  onPurchase: () => void;
 }

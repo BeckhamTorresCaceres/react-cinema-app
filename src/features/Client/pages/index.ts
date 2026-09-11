@@ -1,2 +1,2 @@
 export { default as BenefitsMembership } from "./BenefitsMembership";
-export { default as MyAccount } from "./MyAcount";
+export { default as MyAccount } from "./MyAccount";

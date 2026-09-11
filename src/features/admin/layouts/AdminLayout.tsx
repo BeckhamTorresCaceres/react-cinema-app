@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, NavLink, Link, useNavigate } from "react-router";
-import { useAuthStore } from "../../auth/store/authStore";
+import { useAuthStore } from "../../auth/hooks/useAuthStore";
 import { Clapperboard, LayoutDashboard, Film, Users, ExternalLink, LogOut } from "lucide-react";
 import { getAvatarUrl } from "@/shared/utils/avatar";
 

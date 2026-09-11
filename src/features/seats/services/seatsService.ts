@@ -1,11 +1,6 @@
 import type { Showtime } from "@/features/billboard/types/billboard.types";
-import type { Room } from "../types/seats.types";
-import { getRoomById } from "@/services/seats";
-
-export interface SeatSelectionData {
-  room: Room;
-  occupiedSeats: string[];
-}
+import type { SeatSelectionData } from "../types/seats.types";
+import { getRoomById } from "@/features/seats/services/roomService";
 
 export async function getSeatSelectionData(showtime: Showtime): Promise<SeatSelectionData> {
   try {

@@ -1,3 +1,5 @@
+import type { CinemaLocation } from "@/features/locations/types/location.types";
+
 // Definicion de los tipos de datos para el componente Billboard
 
 export interface Showtime {
@@ -36,13 +38,42 @@ export type MovieWithShowtimes = Movie & {
 };
 
 
-export interface BillboardFilters {
-    date: string;
-    city: string;
-    genre: string;
-    rating: string;
-    language: string;
-    format: string;
-    cinema: string;
-    availableOnly: boolean;
+export type MovieRecord = Movie;
+
+export interface ShowtimesSelectorProps {
+  movieId: string;
+  showtimes: Showtime[];
+  city: string;
+  cinemas: CinemaLocation[];
+  isLoadingCinemas?: boolean;
+}
+
+export interface DateSelectorProps {
+  selectedDate: string;
+  onSelectDate: (dateStr: string) => void;
+}
+
+export interface MovieCardProps {
+  movie: MovieWithShowtimes;
+  onBuyTickets?: (movieId: string, showtimeId: string) => void;
+}
+
+export interface FilterState {
+  searchTerm: string;
+  genre: string;
+  format: string;
+  rating: string;
+  language: string;
+  complex: string;
+}
+
+export interface BillboardFiltersProps {
+  filters: FilterState;
+  onFilterChange: (newFilters: Partial<FilterState>) => void;
+  complexes: CinemaLocation[];
+  isLoadingComplexes?: boolean;
+  genres: string[];
+  formats: string[];
+  ratings: string[];
+  languages: string[];
 }

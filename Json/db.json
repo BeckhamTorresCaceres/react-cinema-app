@@ -36,69 +36,242 @@
     }
   ],
   "countries": [
-    { "id": "col", "nombre": "Colombia" },
-    { "id": "mex", "nombre": "México" }
+    {
+      "id": "col",
+      "nombre": "Colombia"
+    },
+    {
+      "id": "mex",
+      "nombre": "México"
+    }
   ],
   "cities": [
-    { "id": "baq", "countryId": "col", "nombre": "Barranquilla", "departamento": "Atlántico" },
-    { "id": "sol", "countryId": "col", "nombre": "Soledad", "departamento": "Atlántico" },
-    { "id": "pco", "countryId": "col", "nombre": "Puerto Colombia", "departamento": "Atlántico" },
-    { "id": "med", "countryId": "col", "nombre": "Medellín", "departamento": "Antioquia" },
-    { "id": "env", "countryId": "col", "nombre": "Envigado", "departamento": "Antioquia" },
-    { "id": "bog-c", "countryId": "col", "nombre": "Bogotá", "departamento": "Cundinamarca" },
-    { "id": "cdmx-c", "countryId": "mex", "nombre": "Ciudad de México", "departamento": "Ciudad de México" }
+    {
+      "id": "baq",
+      "countryId": "col",
+      "nombre": "Barranquilla",
+      "departamento": "Atlántico"
+    },
+    {
+      "id": "sol",
+      "countryId": "col",
+      "nombre": "Soledad",
+      "departamento": "Atlántico"
+    },
+    {
+      "id": "pco",
+      "countryId": "col",
+      "nombre": "Puerto Colombia",
+      "departamento": "Atlántico"
+    },
+    {
+      "id": "med",
+      "countryId": "col",
+      "nombre": "Medellín",
+      "departamento": "Antioquia"
+    },
+    {
+      "id": "env",
+      "countryId": "col",
+      "nombre": "Envigado",
+      "departamento": "Antioquia"
+    },
+    {
+      "id": "bog-c",
+      "countryId": "col",
+      "nombre": "Bogotá",
+      "departamento": "Cundinamarca"
+    },
+    {
+      "id": "cdmx-c",
+      "countryId": "mex",
+      "nombre": "Ciudad de México",
+      "departamento": "Ciudad de México"
+    }
   ],
   "cinemas": [
-    { "id": "cine-01", "cityId": "baq", "nombre": "Multicine Viva", "direccion": "Cra 51B #87-50" },
-    { "id": "cine-02", "cityId": "baq", "nombre": "Multicine Buenavista", "direccion": "Calle 98 #52-115" },
-    { "id": "cine-03", "cityId": "baq", "nombre": "Multicine Mallplaza", "direccion": "Calle 99 #53-40" },
-    { "id": "cine-04", "cityId": "sol", "nombre": "Multicine Plaza del Sol", "direccion": "Calle 30 #30-190" },
-    { "id": "cine-05", "cityId": "sol", "nombre": "Multicine Gran Plaza Soledad", "direccion": "Cra 32 #30-15" },
-    { "id": "cine-06", "cityId": "pco", "nombre": "Multicine Plaza Campestre", "direccion": "Autopista al Mar Km 7" },
-    { "id": "cine-07", "cityId": "med", "nombre": "Multicine El Tesoro", "direccion": "Cra 25A #1A Sur-45" },
-    { "id": "cine-08", "cityId": "med", "nombre": "Multicine Santafé", "direccion": "Carrera 43A #7 Sur-170" },
-    { "id": "cine-09", "cityId": "env", "nombre": "Multicine Viva Envigado", "direccion": "Calle 32B Sur #48-45" },
-    { "id": "cine-10", "cityId": "bog-c", "nombre": "Multicine Andino", "direccion": "Carrera 11 #82-71" },
-    { "id": "cine-11", "cityId": "bog-c", "nombre": "Multicine Titán Plaza", "direccion": "Av. Boyacá #80-94" },
-    { "id": "cine-12", "cityId": "cdmx-c", "nombre": "Multicine Perisur", "direccion": "Anillo Periférico 4690" },
-    { "id": "cine-13", "cityId": "cdmx-c", "nombre": "Multicine Santa Fe", "direccion": "Av. Vasco de Quiroga 3800" }
+    {
+      "id": "cine-01",
+      "cityId": "baq",
+      "nombre": "Multicine Viva",
+      "direccion": "Cra 51B #87-50"
+    },
+    {
+      "id": "cine-02",
+      "cityId": "baq",
+      "nombre": "Multicine Buenavista",
+      "direccion": "Calle 98 #52-115"
+    },
+    {
+      "id": "cine-03",
+      "cityId": "baq",
+      "nombre": "Multicine Mallplaza",
+      "direccion": "Calle 99 #53-40"
+    },
+    {
+      "id": "cine-04",
+      "cityId": "sol",
+      "nombre": "Multicine Plaza del Sol",
+      "direccion": "Calle 30 #30-190"
+    },
+    {
+      "id": "cine-05",
+      "cityId": "sol",
+      "nombre": "Multicine Gran Plaza Soledad",
+      "direccion": "Cra 32 #30-15"
+    },
+    {
+      "id": "cine-06",
+      "cityId": "pco",
+      "nombre": "Multicine Plaza Campestre",
+      "direccion": "Autopista al Mar Km 7"
+    },
+    {
+      "id": "cine-07",
+      "cityId": "med",
+      "nombre": "Multicine El Tesoro",
+      "direccion": "Cra 25A #1A Sur-45"
+    },
+    {
+      "id": "cine-08",
+      "cityId": "med",
+      "nombre": "Multicine Santafé",
+      "direccion": "Carrera 43A #7 Sur-170"
+    },
+    {
+      "id": "cine-09",
+      "cityId": "env",
+      "nombre": "Multicine Viva Envigado",
+      "direccion": "Calle 32B Sur #48-45"
+    },
+    {
+      "id": "cine-10",
+      "cityId": "bog-c",
+      "nombre": "Multicine Andino",
+      "direccion": "Carrera 11 #82-71"
+    },
+    {
+      "id": "cine-11",
+      "cityId": "bog-c",
+      "nombre": "Multicine Titán Plaza",
+      "direccion": "Av. Boyacá #80-94"
+    },
+    {
+      "id": "cine-12",
+      "cityId": "cdmx-c",
+      "nombre": "Multicine Perisur",
+      "direccion": "Anillo Periférico 4690"
+    },
+    {
+      "id": "cine-13",
+      "cityId": "cdmx-c",
+      "nombre": "Multicine Santa Fe",
+      "direccion": "Av. Vasco de Quiroga 3800"
+    }
   ],
   "rooms": [
     {
       "id": "sala-01",
       "cinemaId": "cine-01",
       "nombre": "Sala 1 - MacroXE",
-      "tipoFormatos": ["2D", "3D"],
+      "tipoFormatos": [
+        "2D",
+        "3D"
+      ],
       "capacity": 10,
       "seatsLayout": [
-        { "id": "A1", "row": "A", "number": 1, "type": "standard" },
-        { "id": "A2", "row": "A", "number": 2, "type": "standard" },
-        { "id": "A3", "row": "A", "number": 3, "type": "standard" },
-        { "id": "A4", "row": "A", "number": 4, "type": "standard" },
-        { "id": "A5", "row": "A", "number": 5, "type": "standard" },
-        { "id": "B1", "row": "B", "number": 1, "type": "preferential" },
-        { "id": "B2", "row": "B", "number": 2, "type": "preferential" },
-        { "id": "B3", "row": "B", "number": 3, "type": "preferential" },
-        { "id": "B4", "row": "B", "number": 4, "type": "preferential" },
-        { "id": "B5", "row": "B", "number": 5, "type": "preferential" }
+        {
+          "id": "A1",
+          "row": "A",
+          "number": 1,
+          "type": "standard"
+        },
+        {
+          "id": "A2",
+          "row": "A",
+          "number": 2,
+          "type": "standard"
+        },
+        {
+          "id": "A3",
+          "row": "A",
+          "number": 3,
+          "type": "standard"
+        },
+        {
+          "id": "A4",
+          "row": "A",
+          "number": 4,
+          "type": "standard"
+        },
+        {
+          "id": "A5",
+          "row": "A",
+          "number": 5,
+          "type": "standard"
+        },
+        {
+          "id": "B1",
+          "row": "B",
+          "number": 1,
+          "type": "preferential"
+        },
+        {
+          "id": "B2",
+          "row": "B",
+          "number": 2,
+          "type": "preferential"
+        },
+        {
+          "id": "B3",
+          "row": "B",
+          "number": 3,
+          "type": "preferential"
+        },
+        {
+          "id": "B4",
+          "row": "B",
+          "number": 4,
+          "type": "preferential"
+        },
+        {
+          "id": "B5",
+          "row": "B",
+          "number": 5,
+          "type": "preferential"
+        }
       ]
     },
     {
       "id": "sala-02",
       "cinemaId": "cine-01",
       "nombre": "Sala 2 - 2D",
-      "tipoFormatos": ["2D"],
+      "tipoFormatos": [
+        "2D"
+      ],
       "capacity": 5,
       "seatsLayout": [
-        { "id": "A1", "row": "A", "number": 1, "type": "standard" },
-        { "id": "A2", "row": "A", "number": 2, "type": "standard" }
+        {
+          "id": "A1",
+          "row": "A",
+          "number": 1,
+          "type": "standard"
+        },
+        {
+          "id": "A2",
+          "row": "A",
+          "number": 2,
+          "type": "standard"
+        }
       ]
     },
     {
       "id": "sala-03",
       "cinemaId": "cine-03",
       "nombre": "Sala IMAX",
-      "tipoFormatos": ["IMAX"],
+      "tipoFormatos": [
+        "IMAX"
+      ],
       "capacity": 30,
       "seatsLayout": []
     }
@@ -125,7 +298,7 @@
       "rating": "PG-13",
       "duration": 152,
       "director": "Christopher Nolan",
-      "score": 9.0,
+      "score": 9,
       "isActive": true
     },
     {
@@ -235,6 +408,306 @@
       "director": "Anthony y Joe Russo",
       "score": 8.4,
       "isActive": true
+    },
+    {
+      "id": "20",
+      "title": "Dune: Part Two",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/5/52/Dune_Part_Two_poster.jpeg",
+      "trailer": "https://www.youtube.com/embed/Way9Dexny3w",
+      "genre": "Ciencia ficción",
+      "rating": "PG-13",
+      "duration": 166,
+      "director": "Denis Villeneuve",
+      "score": 8.6,
+      "isActive": true
+    },
+    {
+      "id": "21",
+      "title": "Oppenheimer",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/4/4a/Oppenheimer_%28film%29.jpg",
+      "trailer": "https://www.youtube.com/embed/uYPbbksJxIg",
+      "genre": "Drama",
+      "rating": "R",
+      "duration": 180,
+      "director": "Christopher Nolan",
+      "score": 8.6,
+      "isActive": true
+    },
+    {
+      "id": "22",
+      "title": "Spider-Man: Across the Spider-Verse",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/f/f3/Spider-Man_Across_the_Spider-Verse_poster.jpg",
+      "trailer": "https://www.youtube.com/embed/cqGjhVJWtEg",
+      "genre": "Animación",
+      "rating": "PG",
+      "duration": 140,
+      "director": "Joaquim Dos Santos, Kemp Powers y Justin K. Thompson",
+      "score": 8.6,
+      "isActive": true
+    },
+    {
+      "id": "23",
+      "title": "Inside Out 2",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/f/f7/Inside_Out_2_poster.jpg",
+      "trailer": "https://www.youtube.com/embed/LEjhY15eCx0",
+      "genre": "Animación",
+      "rating": "PG",
+      "duration": 96,
+      "director": "Kelsey Mann",
+      "score": 7.6,
+      "isActive": true
+    },
+    {
+      "id": "24",
+      "title": "Avatar: The Way of Water",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/5/5f/Avatar_The_Way_of_Water_poster.jpg",
+      "trailer": "https://www.youtube.com/embed/d9MyW72ELq0",
+      "genre": "Aventura",
+      "rating": "PG-13",
+      "duration": 192,
+      "director": "James Cameron",
+      "score": 7.6,
+      "isActive": true
+    },
+    {
+      "id": "25",
+      "title": "The Matrix",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg",
+      "trailer": "https://www.youtube.com/embed/vKQi3bBA1y8",
+      "genre": "Ciencia ficción",
+      "rating": "R",
+      "duration": 136,
+      "director": "Lana y Lilly Wachowski",
+      "score": 8.7,
+      "isActive": true
+    },
+    {
+      "id": "26",
+      "title": "Gladiator",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/8/8d/Gladiator_%282000_film%29.png",
+      "trailer": "https://www.youtube.com/embed/P5ieIbInFpg",
+      "genre": "Acción",
+      "rating": "R",
+      "duration": 155,
+      "director": "Ridley Scott",
+      "score": 8.5,
+      "isActive": true
+    },
+    {
+      "id": "27",
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/0/0c/The_Lord_of_the_Rings_-_The_Fellowship_of_the_Ring_%282001%29.jpg",
+      "trailer": "https://www.youtube.com/embed/V75dMMIW2B4",
+      "genre": "Aventura",
+      "rating": "PG-13",
+      "duration": 178,
+      "director": "Peter Jackson",
+      "score": 8.8,
+      "isActive": true
+    },
+    {
+      "id": "28",
+      "title": "Parasite",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/5/53/Parasite_%282019_film%29.png",
+      "trailer": "https://www.youtube.com/embed/SEUXfv87Wpk",
+      "genre": "Drama",
+      "rating": "R",
+      "duration": 132,
+      "director": "Bong Joon-ho",
+      "score": 8.5,
+      "isActive": true
+    },
+    {
+      "id": "29",
+      "title": "The Grand Budapest Hotel",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/1/1c/The_Grand_Budapest_Hotel.png",
+      "trailer": "https://www.youtube.com/embed/1Fg5iWmQjwk",
+      "genre": "Comedia",
+      "rating": "R",
+      "duration": 100,
+      "director": "Wes Anderson",
+      "score": 8.1,
+      "isActive": true
+    },
+    {
+      "id": "30",
+      "title": "Mad Max: Fury Road",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/6/6e/Mad_Max_Fury_Road.jpg",
+      "trailer": "https://www.youtube.com/embed/hEJnMQG9ev8",
+      "genre": "Acción",
+      "rating": "R",
+      "duration": 120,
+      "director": "George Miller",
+      "score": 8.1,
+      "isActive": true
+    },
+    {
+      "id": "31",
+      "title": "The Shawshank Redemption",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/8/81/ShawshankRedemptionMoviePoster.jpg",
+      "trailer": "https://www.youtube.com/embed/6hB3S9bIaco",
+      "genre": "Drama",
+      "rating": "R",
+      "duration": 142,
+      "director": "Frank Darabont",
+      "score": 9.3,
+      "isActive": true
+    },
+    {
+      "id": "32",
+      "title": "Toy Story",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg",
+      "trailer": "https://www.youtube.com/embed/v-PjgYDrg70",
+      "genre": "Animación",
+      "rating": "G",
+      "duration": 81,
+      "director": "John Lasseter",
+      "score": 8.3,
+      "isActive": true
+    },
+    {
+      "id": "33",
+      "title": "La La Land",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/a/ab/La_La_Land_%28film%29.png",
+      "trailer": "https://www.youtube.com/embed/0pdqf4P9MB8",
+      "genre": "Musical",
+      "rating": "PG-13",
+      "duration": 128,
+      "director": "Damien Chazelle",
+      "score": 8,
+      "isActive": true
+    },
+    {
+      "id": "34",
+      "title": "Get Out",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/a/a3/Get_Out_poster.png",
+      "trailer": "https://www.youtube.com/embed/DzfpyUB60YY",
+      "genre": "Terror",
+      "rating": "R",
+      "duration": 104,
+      "director": "Jordan Peele",
+      "score": 7.7,
+      "isActive": true
+    },
+    {
+      "id": "35",
+      "title": "The Departed",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/5/50/Departed234.jpg",
+      "trailer": "https://www.youtube.com/embed/iojhqm0JTW4",
+      "genre": "Crimen",
+      "rating": "R",
+      "duration": 151,
+      "director": "Martin Scorsese",
+      "score": 8.5,
+      "isActive": true
+    },
+    {
+      "id": "36",
+      "title": "Arrival",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/d/df/Arrival%2C_Movie_Poster.jpg",
+      "trailer": "https://www.youtube.com/embed/tFMo3UJ4B4g",
+      "genre": "Ciencia ficción",
+      "rating": "PG-13",
+      "duration": 116,
+      "director": "Denis Villeneuve",
+      "score": 7.9,
+      "isActive": true
+    },
+    {
+      "id": "37",
+      "title": "The Prestige",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/d/d2/Prestige_poster.jpg",
+      "trailer": "https://www.youtube.com/embed/o4gHCmTQDVI",
+      "genre": "Misterio",
+      "rating": "PG-13",
+      "duration": 130,
+      "director": "Christopher Nolan",
+      "score": 8.5,
+      "isActive": true
+    },
+    {
+      "id": "38",
+      "title": "The Truman Show",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/1/1f/Trumanshow.jpg",
+      "trailer": "https://www.youtube.com/embed/dlnmQbPGuls",
+      "genre": "Drama",
+      "rating": "PG",
+      "duration": 103,
+      "director": "Peter Weir",
+      "score": 8.2,
+      "isActive": true
+    },
+    {
+      "id": "39",
+      "title": "The Incredibles",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/2/27/The_Incredibles.jpg",
+      "trailer": "https://www.youtube.com/embed/-UaGUdNJdRQ",
+      "genre": "Animación",
+      "rating": "PG",
+      "duration": 115,
+      "director": "Brad Bird",
+      "score": 8,
+      "isActive": true
+    },
+    {
+      "id": "40",
+      "title": "A Quiet Place",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/a/a0/A_Quiet_Place_film_poster.png",
+      "trailer": "https://www.youtube.com/embed/WR7cc5t7tv8",
+      "genre": "Terror",
+      "rating": "PG-13",
+      "duration": 90,
+      "director": "John Krasinski",
+      "score": 7.5,
+      "isActive": true
+    },
+    {
+      "id": "41",
+      "title": "Knives Out",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/1/1f/Knives_Out_poster.jpeg",
+      "trailer": "https://www.youtube.com/embed/qGqiHJTsRkQ",
+      "genre": "Misterio",
+      "rating": "PG-13",
+      "duration": 130,
+      "director": "Rian Johnson",
+      "score": 7.9,
+      "isActive": true
+    },
+    {
+      "id": "42",
+      "title": "Everything Everywhere All at Once",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/1/1b/Everything_Everywhere_All_at_Once.jpg",
+      "trailer": "https://www.youtube.com/embed/wxN1T1uxQ2g",
+      "genre": "Acción",
+      "rating": "R",
+      "duration": 139,
+      "director": "Daniel Kwan y Daniel Scheinert",
+      "score": 7.8,
+      "isActive": true
+    },
+    {
+      "id": "43",
+      "title": "Top Gun: Maverick",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/1/13/Top_Gun_Maverick_Poster.jpg",
+      "trailer": "https://www.youtube.com/embed/giXco2jaZ_4",
+      "genre": "Acción",
+      "rating": "PG-13",
+      "duration": 131,
+      "director": "Joseph Kosinski",
+      "score": 8.2,
+      "isActive": true
+    },
+    {
+      "id": "44",
+      "title": "How to Train Your Dragon",
+      "poster": "https://upload.wikimedia.org/wikipedia/en/9/99/How_to_Train_Your_Dragon_Poster.jpg",
+      "trailer": "https://www.youtube.com/embed/oKiYuIsPxYk",
+      "genre": "Animación",
+      "rating": "PG",
+      "duration": 98,
+      "director": "Chris Sanders y Dean DeBlois",
+      "score": 8.1,
+      "isActive": true
     }
   ],
   "showtimes": [
@@ -250,7 +723,10 @@
       "price": 18000,
       "isSoldOut": false,
       "status": "Estreno",
-      "occupiedSeats": ["A1", "A2"]
+      "occupiedSeats": [
+        "A1",
+        "A2"
+      ]
     },
     {
       "id": "s6",
@@ -278,28 +754,468 @@
       "price": 14000,
       "isSoldOut": false,
       "status": "Estreno",
+      "occupiedSeats": [
+        "A5",
+        "B5"
+      ]
+    },
+    {
+      "id": "s8",
+      "movieId": "20",
+      "cinemaId": "cine-01",
+      "roomId": "sala-01",
+      "date": "2026-09-11",
+      "time": "16:00",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 18000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": [
+        "A1",
+        "A5",
+        "B5"
+      ]
+    },
+    {
+      "id": "s9",
+      "movieId": "20",
+      "cinemaId": "cine-03",
+      "roomId": "sala-03",
+      "date": "2026-09-12",
+      "time": "20:00",
+      "format": "IMAX",
+      "language": "Español",
+      "price": 28000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s10",
+      "movieId": "21",
+      "cinemaId": "cine-01",
+      "roomId": "sala-01",
+      "date": "2026-09-11",
+      "time": "19:30",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 16000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": [
+        "B2",
+        "B3",
+        "A5",
+        "B5"
+      ]
+    },
+    {
+      "id": "s11",
+      "movieId": "22",
+      "cinemaId": "cine-02",
+      "roomId": "sala-02",
+      "date": "2026-09-13",
+      "time": "14:30",
+      "format": "3D",
+      "language": "Español",
+      "price": 20000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s12",
+      "movieId": "23",
+      "cinemaId": "cine-04",
+      "roomId": "sala-01",
+      "date": "2026-09-12",
+      "time": "12:00",
+      "format": "2D",
+      "language": "Español",
+      "price": 14000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": [
+        "A4"
+      ]
+    },
+    {
+      "id": "s13",
+      "movieId": "24",
+      "cinemaId": "cine-03",
+      "roomId": "sala-03",
+      "date": "2026-09-14",
+      "time": "17:00",
+      "format": "IMAX",
+      "language": "Subtitulada",
+      "price": 28000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s14",
+      "movieId": "25",
+      "cinemaId": "cine-01",
+      "roomId": "sala-01",
+      "date": "2026-09-11",
+      "time": "13:00",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 15000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s15",
+      "movieId": "26",
+      "cinemaId": "cine-02",
+      "roomId": "sala-02",
+      "date": "2026-09-11",
+      "time": "18:00",
+      "format": "2D",
+      "language": "Español",
+      "price": 16000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": [
+        "A2"
+      ]
+    },
+    {
+      "id": "s16",
+      "movieId": "27",
+      "cinemaId": "cine-03",
+      "roomId": "sala-03",
+      "date": "2026-09-11",
+      "time": "20:30",
+      "format": "IMAX",
+      "language": "Subtitulada",
+      "price": 28000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s17",
+      "movieId": "28",
+      "cinemaId": "cine-04",
+      "roomId": "sala-01",
+      "date": "2026-09-12",
+      "time": "15:00",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 15000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s18",
+      "movieId": "29",
+      "cinemaId": "cine-05",
+      "roomId": "sala-02",
+      "date": "2026-09-12",
+      "time": "17:30",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 14000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s19",
+      "movieId": "30",
+      "cinemaId": "cine-06",
+      "roomId": "sala-01",
+      "date": "2026-09-12",
+      "time": "19:00",
+      "format": "3D",
+      "language": "Español",
+      "price": 21000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": [
+        "B1",
+        "B2"
+      ]
+    },
+    {
+      "id": "s20",
+      "movieId": "31",
+      "cinemaId": "cine-07",
+      "roomId": "sala-01",
+      "date": "2026-09-13",
+      "time": "14:00",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 16000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s21",
+      "movieId": "32",
+      "cinemaId": "cine-08",
+      "roomId": "sala-02",
+      "date": "2026-09-13",
+      "time": "11:30",
+      "format": "2D",
+      "language": "Español",
+      "price": 13000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s22",
+      "movieId": "33",
+      "cinemaId": "cine-09",
+      "roomId": "sala-01",
+      "date": "2026-09-13",
+      "time": "16:30",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 15000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s23",
+      "movieId": "34",
+      "cinemaId": "cine-10",
+      "roomId": "sala-01",
+      "date": "2026-09-14",
+      "time": "20:00",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 17000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": [
+        "A3"
+      ]
+    },
+    {
+      "id": "s24",
+      "movieId": "35",
+      "cinemaId": "cine-11",
+      "roomId": "sala-02",
+      "date": "2026-09-14",
+      "time": "18:30",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 16000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s25",
+      "movieId": "36",
+      "cinemaId": "cine-12",
+      "roomId": "sala-01",
+      "date": "2026-09-15",
+      "time": "15:30",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 18000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s26",
+      "movieId": "37",
+      "cinemaId": "cine-13",
+      "roomId": "sala-02",
+      "date": "2026-09-15",
+      "time": "19:30",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 16000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s27",
+      "movieId": "38",
+      "cinemaId": "cine-01",
+      "roomId": "sala-01",
+      "date": "2026-09-16",
+      "time": "16:00",
+      "format": "2D",
+      "language": "Español",
+      "price": 14000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s28",
+      "movieId": "39",
+      "cinemaId": "cine-02",
+      "roomId": "sala-02",
+      "date": "2026-09-16",
+      "time": "12:30",
+      "format": "3D",
+      "language": "Español",
+      "price": 19000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s29",
+      "movieId": "40",
+      "cinemaId": "cine-03",
+      "roomId": "sala-03",
+      "date": "2026-09-16",
+      "time": "21:00",
+      "format": "IMAX",
+      "language": "Subtitulada",
+      "price": 26000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s30",
+      "movieId": "41",
+      "cinemaId": "cine-04",
+      "roomId": "sala-01",
+      "date": "2026-09-17",
+      "time": "18:00",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 15000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s31",
+      "movieId": "42",
+      "cinemaId": "cine-05",
+      "roomId": "sala-02",
+      "date": "2026-09-17",
+      "time": "20:30",
+      "format": "3D",
+      "language": "Subtitulada",
+      "price": 22000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": [
+        "A1",
+        "A2"
+      ]
+    },
+    {
+      "id": "s32",
+      "movieId": "43",
+      "cinemaId": "cine-06",
+      "roomId": "sala-01",
+      "date": "2026-09-18",
+      "time": "17:00",
+      "format": "2D",
+      "language": "Español",
+      "price": 18000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s33",
+      "movieId": "44",
+      "cinemaId": "cine-07",
+      "roomId": "sala-01",
+      "date": "2026-09-18",
+      "time": "14:00",
+      "format": "3D",
+      "language": "Español",
+      "price": 19000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s34",
+      "movieId": "25",
+      "cinemaId": "cine-08",
+      "roomId": "sala-02",
+      "date": "2026-09-19",
+      "time": "19:00",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 16000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s35",
+      "movieId": "30",
+      "cinemaId": "cine-09",
+      "roomId": "sala-01",
+      "date": "2026-09-19",
+      "time": "21:30",
+      "format": "3D",
+      "language": "Subtitulada",
+      "price": 21000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s36",
+      "movieId": "33",
+      "cinemaId": "cine-10",
+      "roomId": "sala-01",
+      "date": "2026-09-20",
+      "time": "15:00",
+      "format": "2D",
+      "language": "Subtitulada",
+      "price": 15000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s37",
+      "movieId": "39",
+      "cinemaId": "cine-11",
+      "roomId": "sala-02",
+      "date": "2026-09-20",
+      "time": "13:30",
+      "format": "3D",
+      "language": "Español",
+      "price": 19000,
+      "isSoldOut": false,
+      "status": "Estreno",
+      "occupiedSeats": []
+    },
+    {
+      "id": "s38",
+      "movieId": "43",
+      "cinemaId": "cine-12",
+      "roomId": "sala-01",
+      "date": "2026-09-20",
+      "time": "18:30",
+      "format": "IMAX",
+      "language": "Subtitulada",
+      "price": 28000,
+      "isSoldOut": false,
+      "status": "Estreno",
       "occupiedSeats": []
     }
   ],
   "tickets": [
-    {
-      "id": "tck-001",
-      "userId": "2",
-      "showtimeId": "s5",
-      "seats": ["A1", "A2"],
-      "snacks": [
-        {
-          "snackId": "6",
-          "name": "Combo Pareja",
-          "quantity": 1,
-          "priceUnit": 38000
-        }
-      ],
-      "totalAmount": 74000,
-      "purchaseDate": "2026-08-24T20:00:00Z",
-      "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=tck-001-s5-A1A2",
-      "status": "COMPLETED"
-    }
   ],
   "snacks": [
     {

@@ -1,32 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Clock, MapPin } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router";
-import { getLocations, type CinemaLocation, type CountryLocation } from "@/services/api";
+import { getLocations } from "@/features/locations/services/locationService";
+import type { CinemaLocation } from "@/features/locations/types/location.types";
+import { findCinema } from "@/features/locations/utils/locationTree";
 import { getMovieById, getShowtimeById } from "@/features/billboard/services/billboardService";
 import type { Movie, Showtime } from "@/features/billboard/types/billboard.types";
 import { SeatMap } from "../components/SeatMap";
+import { ConfirmSnacksPrompt } from "../components/ConfirmSnacksPrompt";
 import { getSeatSelectionData } from "../services/seatsService";
-import { useBookingStore } from "../store/bookingStore";
-import { useCartStore } from "@/features/confiteria/store/cartStore";
+import { useCartStore } from "@/features/confiteria/hooks/useCartStore";
+import { formatPrice } from "@/features/confiteria/utils/cartPricing";
 import type { Room } from "../types/seats.types";
-import { buildSeatLayout, formatCurrency, MAX_SELECTED_SEATS } from "../utils/seatLayout";
+import { buildSeatLayout, MAX_SELECTED_SEATS } from "../utils/seatLayout";
 
 const LANGUAGE_SHORT: Record<Showtime["language"], string> = {
   Español: "DOB",
   Inglés: "ENG",
   Subtitulada: "SUB",
-};
-
-const findCinema = (locations: CountryLocation[], cinemaId: string): CinemaLocation | undefined => {
-  for (const country of locations) {
-    for (const department of country.departamentos) {
-      for (const city of department.ciudades) {
-        const cinema = city.cines.find((item) => item.id === cinemaId);
-        if (cinema) return cinema;
-      }
-    }
-  }
-  return undefined;
 };
 
 const formatShowDate = (date: string, time: string) => {
@@ -55,8 +46,9 @@ export const SeatSelectionPage = () => {
   const hasRequiredParams = Boolean(movieId && showtimeId);
   const [isLoading, setIsLoading] = useState(hasRequiredParams);
   const [error, setError] = useState<string | null>(hasRequiredParams ? null : "Falta la película o la función.");
-  const setSelection = useBookingStore((state) => state.setSelection);
+  const [showSnackPrompt, setShowSnackPrompt] = useState(false);
   const addTicket = useCartStore((state) => state.addTicket);
+  const openConfiteriaModal = useCartStore((state) => state.openConfiteriaModal);
 
   useEffect(() => {
     let isMounted = true;
@@ -116,7 +108,6 @@ export const SeatSelectionPage = () => {
 
   const continueToCheckout = () => {
     if (!movieId || !showtimeId || !movie || !room || !showtime || selected.length === 0) return;
-    setSelection({ movieId, showtimeId, roomId: room.id, ticketPrice: showtime.price, seats: selected });
     addTicket({
       movieId,
       movieTitle: movie.title,
@@ -126,7 +117,17 @@ export const SeatSelectionPage = () => {
       ticketPrice: showtime.price,
       seats: selected,
     });
-    navigate("/confiteria");
+    setShowSnackPrompt(true);
+  };
+
+  const confirmAddSnacks = () => {
+    setShowSnackPrompt(false);
+    openConfiteriaModal();
+  };
+
+  const skipSnacks = () => {
+    setShowSnackPrompt(false);
+    navigate("/checkout");
   };
 
   if (isLoading) {
@@ -232,7 +233,7 @@ export const SeatSelectionPage = () => {
 
           <div className="mt-5 flex items-center justify-between text-sm">
             <span className="text-slate-400">{selected.length} entrada{selected.length === 1 ? "" : "s"}</span>
-            <span className="text-lg font-bold text-white">{formatCurrency(total)}</span>
+            <span className="text-lg font-bold text-white">{formatPrice(total)}</span>
           </div>
 
           <button
@@ -245,6 +246,8 @@ export const SeatSelectionPage = () => {
           </button>
         </aside>
       </div>
+
+      <ConfirmSnacksPrompt isOpen={showSnackPrompt} onConfirm={confirmAddSnacks} onSkip={skipSnacks} />
     </main>
   );
 };

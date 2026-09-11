@@ -15,3 +15,14 @@ export interface TicketPurchase {
   qrCode: string;
   status: "COMPLETED";
 }
+
+/** Ticket ya persistido en el servidor (incluye el id asignado). */
+export interface PurchasedTicket extends TicketPurchase {
+  id: string;
+}
+
+/** Ticket comprado, enriquecido con datos de la película/función para mostrar en el historial. */
+export interface PurchaseHistoryItem extends PurchasedTicket {
+  movieTitle: string;
+  poster: string;
+}

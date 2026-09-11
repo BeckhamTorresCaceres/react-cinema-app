@@ -79,13 +79,29 @@
   animation: modal-overlay-fade-in 0.35s ease-out both;
 }
 
+@keyframes toast-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-enter {
+  animation: toast-fade-in 0.3s ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .electric-border--cinema .electric-border__canvas {
     animation: none;
     opacity: 0;
   }
   .modal-content-enter,
-  .modal-overlay-enter {
+  .modal-overlay-enter,
+  .toast-enter {
     animation: none;
   }
   .modal-shake {

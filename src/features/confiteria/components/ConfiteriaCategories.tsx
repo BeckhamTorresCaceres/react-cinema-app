@@ -1,9 +1,4 @@
-interface ConfiteriaCategoriasProps {
-  categories: string[];
-  selected: string;
-  onSelect: (category: string) => void;
-}
-
+import type { ConfiteriaCategoriasProps } from "../types/confiteria.types";
 export const ConfiteriaCategorias = ({ categories, selected, onSelect }: ConfiteriaCategoriasProps) => {
   return (
     <div className="flex flex-wrap gap-2">

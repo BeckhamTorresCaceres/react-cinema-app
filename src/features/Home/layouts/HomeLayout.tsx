@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import {
   CalendarClock,
+  Clock3,
   MapPin,
   Menu,
   ShoppingCart,
@@ -9,11 +10,14 @@ import {
   User,
   X,
 } from "lucide-react";
-import { useAuthStore } from "../../auth/store/authStore";
-import { LocationModal } from "@/components/Location/LocationModal";
-import { CartModal } from "@/components/Cart/CartModal";
-import { useCartStore } from "@/features/confiteria/store/cartStore";
+import { useAuthStore } from "../../auth/hooks/useAuthStore";
+import { LocationModal } from "@/features/locations/components/LocationModal";
+import { hasSelectedLocation, useSelectedLocation } from "@/features/locations/hooks/useSelectedLocation";
+import { CartModal } from "@/features/confiteria/components/CartModal";
+import { ConfiteriaModal } from "@/features/confiteria/components/ConfiteriaModal";
+import { useCartStore } from "@/features/confiteria/hooks/useCartStore";
 import { Popcorn } from "lucide-react";
+import { ReservationWarningModal } from "@/shared/components/ReservationWarningModal";
 
 const navigationItems = [
   {
@@ -31,6 +35,16 @@ const navigationItems = [
   { label: "Confitería", to: "/confiteria", icon: Popcorn },
 ];
 
+const isTicketFlowPath = (pathname: string) =>
+  pathname === "/asientos" || pathname === "/checkout" || pathname === "/confiteria";
+
+const formatReservationTime = (milliseconds: number) => {
+  const totalSeconds = Math.max(0, Math.ceil(milliseconds / 1000));
+  const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+  const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${seconds}`;
+};
+
 export const HomeLayout = () => {
   const { isAuthenticated, user, logout } = useAuthStore();
   const navigate = useNavigate();
@@ -38,19 +52,24 @@ export const HomeLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const cartItemCount = useCartStore((state) => state.tickets.length);
-  const [hasLocation, setHasLocation] = useState(() =>
-    Boolean(
-      localStorage.getItem("lumi_pais") &&
-      localStorage.getItem("lumi_departamento") &&
-      localStorage.getItem("lumi_ciudad"),
-    ),
-  );
-  const [selectedCity, setSelectedCity] = useState(
-    () => localStorage.getItem("lumi_ciudad") || "",
-  );
+  const [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
+  const tickets = useCartStore((state) => state.tickets);
+  const removeExpiredTickets = useCartStore((state) => state.removeExpiredTickets);
+  const clearCart = useCartStore((state) => state.clear);
+  const [now, setNow] = useState(() => Date.now());
+  const cartItemCount = tickets.length;
+  const nextExpiration = tickets.reduce<number | null>((earliest, ticket) => (
+    earliest === null ? ticket.expiresAt : Math.min(earliest, ticket.expiresAt)
+  ), null);
+  const selectedLocation = useSelectedLocation();
+  const hasLocation = hasSelectedLocation(selectedLocation);
+  const selectedCity = selectedLocation.city;
   const closeMenu = () => setIsMenuOpen(false);
   const logoutUser = () => {
+    if (cartItemCount > 0) {
+      setPendingNavigation("/login");
+      return;
+    }
     logout();
     navigate("/login");
   };
@@ -60,6 +79,10 @@ export const HomeLayout = () => {
   };
   const scrollToSection = (sectionId: string) => {
     closeMenu();
+    if (cartItemCount > 0) {
+      setPendingNavigation(`/#${sectionId}`);
+      return;
+    }
     if (location.pathname !== "/") {
       navigate(`/#${sectionId}`);
       return;
@@ -67,6 +90,60 @@ export const HomeLayout = () => {
     document
       .getElementById(sectionId)
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  useEffect(() => {
+    removeExpiredTickets();
+    if (!tickets.length) return;
+
+    const expirationTimer = window.setInterval(() => {
+      setNow(Date.now());
+      removeExpiredTickets();
+    }, 1000);
+    return () => window.clearInterval(expirationTimer);
+  }, [removeExpiredTickets, tickets.length]);
+
+  useEffect(() => {
+    if (!cartItemCount) return;
+
+    const handleLinkClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const target = event.target instanceof Element ? event.target.closest("a") : null;
+      const href = target?.getAttribute("href");
+      if (!target || !href || target.target === "_blank" || href.startsWith("#")) return;
+
+      const destination = new URL(href, window.location.origin);
+      if (destination.origin !== window.location.origin || isTicketFlowPath(destination.pathname)) return;
+
+      event.preventDefault();
+      setPendingNavigation(`${destination.pathname}${destination.search}${destination.hash}`);
+    };
+
+    document.addEventListener("click", handleLinkClick, true);
+    return () => document.removeEventListener("click", handleLinkClick, true);
+  }, [cartItemCount]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!cartItemCount) return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [cartItemCount]);
+
+  const confirmNavigation = () => {
+    if (!pendingNavigation) return;
+    const destination = pendingNavigation;
+    setPendingNavigation(null);
+    clearCart();
+    if (destination === "/login") {
+      logout();
+    }
+    navigate(destination);
   };
 
   useEffect(() => {
@@ -265,6 +342,17 @@ export const HomeLayout = () => {
           </nav>
         )}
       </header>
+      {nextExpiration !== null && (
+        <button
+          type="button"
+          onClick={() => setIsCartOpen(true)}
+          className={`fixed right-4 top-20 z-30 inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-bold shadow-lg backdrop-blur-md transition hover:scale-[1.02] sm:right-6 ${nextExpiration - now <= 60_000 ? "border-red-400/60 bg-red-950/90 text-red-200" : "border-[#8E8EFF]/50 bg-[#0A071E]/95 text-[#C7C7FF]"}`}
+          aria-label="Ver tiempo restante de la reserva"
+        >
+          <Clock3 size={15} />
+          Reserva: {formatReservationTime(nextExpiration - now)}
+        </button>
+      )}
       <main className="flex-1 pt-16">
         <Outlet />
       </main>
@@ -286,13 +374,15 @@ export const HomeLayout = () => {
         isOpen={!hasLocation || isLocationModalOpen}
         required={!hasLocation}
         onClose={() => setIsLocationModalOpen(false)}
-        onLocationSelected={() => {
-          setHasLocation(true);
-          setSelectedCity(localStorage.getItem("lumi_ciudad") || "");
-          setIsLocationModalOpen(false);
-        }}
+        onLocationSelected={() => setIsLocationModalOpen(false)}
       />
       <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <ConfiteriaModal />
+      <ReservationWarningModal
+        isOpen={Boolean(pendingNavigation)}
+        onConfirm={confirmNavigation}
+        onCancel={() => setPendingNavigation(null)}
+      />
     </div>
   );
 };

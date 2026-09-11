@@ -1,32 +1,58 @@
 # Lumi Films
 
-Aplicación web de cartelera de cine desarrollada con React, TypeScript y Vite. Permite explorar películas, consultar funciones y acceder a secciones según el tipo de usuario.
+Lumi Films es una aplicación web de cine construida con React y TypeScript. Permite consultar la cartelera, elegir una función, seleccionar asientos, agregar productos de confitería y completar un checkout simulado. También incluye autenticación, membresías y un panel de administración.
 
-## Características
+## Funcionalidades implementadas
 
-- Cartelera obtenida desde una API local con películas, horarios, idiomas y formatos.
-- Película destacada y navegación entre títulos desde la página de inicio.
-- Filtros de cartelera para encontrar películas por sus características.
-- Registro e inicio de sesión simulados.
-- Sesión persistente en el navegador mediante `localStorage`.
-- Rutas protegidas para usuarios autenticados.
-- Panel y perfil exclusivos para administradores.
-- Diseño responsive con Tailwind CSS y componentes visuales reutilizables.
+### Experiencia del cliente
 
-## Tecnologías
+- Página de inicio con película destacada y cartelera.
+- Filtros de películas por fecha, idioma, formato y características disponibles.
+- Vista de detalle de cada película y selector de funciones.
+- Selector de ubicación con países, ciudades y complejos de cine.
+- Selección visual de asientos según la sala y su distribución.
+- Confitería con búsqueda, categorías, productos disponibles y carrito.
+- Flujo de compra que reúne entradas y productos antes del checkout.
+- Cuenta de usuario con información del perfil.
+- Página de beneficios de la membresía.
+- Notificaciones y modales reutilizables para confirmar acciones o advertir sobre reservas.
 
-- React 19
-- TypeScript
-- Vite 8
-- React Router 8
-- Zustand
-- Tailwind CSS 4
-- JSON Server
+### Autenticación y permisos
+
+- Inicio de sesión y registro conectados a la API mock.
+- Sesión persistente con Zustand y `localStorage`.
+- Rutas públicas exclusivas para usuarios sin sesión (`/login` y `/register`).
+- Rutas protegidas para clientes autenticados.
+- Rutas de administración restringidas al rol `admin`.
+- Token simulado generado a partir del identificador del usuario.
+
+### Administración
+
+- Dashboard administrativo.
+- Listado y gestión de películas.
+- Modal para crear o editar películas.
+- Modal de detalle y confirmación de eliminación.
+- Listado de usuarios.
+- Perfil del administrador.
+
+## Tecnologías y librerías
+
+- React 19 y React DOM.
+- TypeScript 6.
+- Vite 8.
+- React Router 8 para la navegación.
+- Zustand para el estado global de autenticación y sesión.
+- Axios para las peticiones HTTP.
+- Tailwind CSS 4 para los estilos.
+- Lucide React para iconos.
+- GSAP y Three.js para componentes y efectos visuales.
+- JSON Server como API REST local de prueba.
+- ESLint para revisión estática del código.
 
 ## Requisitos
 
 - Node.js 22.18 o superior. Se recomienda una versión LTS reciente.
-- npm (incluido con Node.js).
+- npm, incluido con Node.js.
 
 ## Instalación y ejecución
 
@@ -42,14 +68,16 @@ Aplicación web de cartelera de cine desarrollada con React, TypeScript y Vite. 
    npm run dev
    ```
 
-3. Abre la dirección indicada por Vite, normalmente [http://localhost:5173](http://localhost:5173).
+3. Abre la URL mostrada por Vite, normalmente [http://localhost:5173](http://localhost:5173).
 
-El comando de desarrollo inicia dos procesos a la vez:
+El script de desarrollo ejecuta `server.ts`, que inicia dos procesos coordinados:
 
-- Vite sirve la interfaz web en el puerto `5173`.
-- JSON Server sirve los datos de prueba en el puerto `3001` (o el siguiente disponible).
+- Vite sirve la interfaz web.
+- JSON Server publica `Json/db.json` como API REST.
+- La API intenta usar el puerto `3001`; si está ocupado, busca automáticamente el siguiente puerto disponible.
+- La variable `VITE_API_URL` se comparte con la aplicación para que Axios utilice el puerto elegido.
 
-En Windows, si PowerShell muestra un error de política de ejecución para `npm.ps1`, usa:
+En Windows, si PowerShell muestra un error de política de ejecución para `npm.ps1`, ejecuta:
 
 ```powershell
 npm.cmd run dev
@@ -59,58 +87,98 @@ npm.cmd run dev
 
 | Comando | Descripción |
 | --- | --- |
-| `npm run dev` | Inicia la interfaz y la API local de datos. |
-| `npm run build` | Comprueba TypeScript y genera la versión de producción en `dist/`. |
+| `npm run dev` | Inicia Vite y JSON Server mediante `server.ts`. |
+| `npm run build` | Ejecuta la comprobación de TypeScript y genera `dist/`. |
+| `npm run lint` | Ejecuta ESLint en el proyecto. |
 | `npm run preview` | Sirve localmente la compilación de producción. |
-| `npm run lint` | Ejecuta las reglas de ESLint. |
 
-## Cómo funciona
-
-Los datos de películas, roles y usuarios están en [`Json/db.json`](Json/db.json). JSON Server los publica como una API REST local. La aplicación consulta, entre otros, estos recursos:
-
-- `GET /movies`: películas y sus horarios.
-- `GET /users?email=...`: usuario usado durante el inicio de sesión.
-- `GET /roles`: roles disponibles.
-
-La URL de la API se establece automáticamente al iniciar el proyecto mediante la variable `VITE_API_URL`. El archivo `server.ts` busca un puerto disponible para JSON Server y lo comparte con Vite.
-
-El inicio de sesión es únicamente demostrativo: compara las credenciales con los usuarios de `db.json`, genera un token simulado y guarda la sesión en `localStorage`. No debe usarse como sistema de autenticación en producción.
-
-## Rutas principales
+## Rutas de la aplicación
 
 | Ruta | Acceso | Descripción |
 | --- | --- | --- |
-| `/` | Público | Página principal y cartelera. |
+| `/` | Público | Inicio y cartelera. |
 | `/login` | Sin sesión | Inicio de sesión. |
-| `/register` | Sin sesión | Registro simulado. |
-| `/perfil` | Usuario autenticado | Perfil de cliente. |
-| `/checkout` | Usuario autenticado | Pantalla de compras de ejemplo. |
-| `/admin` | Administrador | Panel de administración. |
+| `/register` | Sin sesión | Registro de cliente. |
+| `/Movie/:movieId` | Público | Detalle de una película y sus funciones. |
+| `/confiteria` | Público | Catálogo de productos de confitería. |
+| `/benefits-membership` | Público | Beneficios de la membresía. |
+| `/perfil` | Cliente autenticado | Perfil y cuenta del usuario. |
+| `/asientos` | Cliente autenticado | Selección de asientos. |
+| `/checkout` | Cliente autenticado | Resumen y finalización de la compra. |
+| `/admin` | Administrador | Dashboard administrativo. |
+| `/admin/movies` | Administrador | Gestión de películas. |
+| `/admin/users` | Administrador | Gestión y consulta de usuarios. |
 | `/admin/perfil` | Administrador | Perfil del administrador. |
 
-Las rutas privadas redirigen a quienes no tengan sesión. Las rutas de administración requieren un usuario con rol `admin`.
+Cualquier ruta desconocida redirige a `/`. Las rutas privadas redirigen a los usuarios que no tienen sesión y las rutas administrativas validan el rol `admin`.
+
+## API local y datos de prueba
+
+La información inicial está en [`Json/db.json`](Json/db.json). JSON Server expone estos recursos:
+
+| Recurso | Uso |
+| --- | --- |
+| `/roles` | Roles de administrador y cliente. |
+| `/users` | Usuarios, credenciales y perfiles. |
+| `/countries` | Países disponibles. |
+| `/cities` | Ciudades relacionadas con cada país. |
+| `/cinemas` | Complejos de cine y direcciones. |
+| `/rooms` | Salas, formatos y distribución de asientos. |
+| `/movies` | Películas y su información de cartelera. |
+| `/showtimes` | Funciones, horarios y relación con películas y salas. |
+| `/tickets` | Entradas y compras asociadas al usuario. |
+| `/snacks` | Productos de confitería y categorías. |
+| `/membershipBenefits` | Beneficios de membresía. |
+
+La capa de servicios centraliza los endpoints en `src/services/endpoints.ts` y las peticiones en `src/services/http.ts`. La URL base usa `VITE_API_URL` y, si no existe, utiliza `http://localhost:3001`.
+
+Al modificar `Json/db.json`, JSON Server detecta los cambios automáticamente. Para cerrar Vite y JSON Server, presiona `Ctrl + C` en la terminal donde ejecutaste el comando de desarrollo.
 
 ## Usuarios de prueba
 
-Los datos iniciales están definidos en `Json/db.json`:
+Los usuarios iniciales están definidos en `Json/db.json`:
 
 | Rol | Correo | Contraseña |
 | --- | --- | --- |
 | Administrador | `admin@s.com` | `admin123` |
 | Cliente | `cliente@gmail.com` | `Cliente123*` |
 
-## Estructura del proyecto
+El registro crea usuarios nuevos con el rol `client` y estado activo.
+
+## Arquitectura del proyecto
+
+El código está organizado por funcionalidades para mantener juntas las páginas, componentes, hooks, servicios y tipos de cada dominio:
 
 ```text
 src/
-  features/       # Módulos: inicio, autenticación, cartelera, cliente y admin
-  components/     # Componentes visuales reutilizables
-  services/       # Cliente de API y endpoints
-  shared/         # Interfaces y protección de rutas
-Json/db.json      # Base de datos mock
-server.ts         # Arranque coordinado de Vite y JSON Server
+  features/
+    admin/          # Dashboard, películas, usuarios y perfil administrativo
+    auth/           # Login, registro y estado de autenticación
+    billboard/      # Cartelera, filtros, funciones y detalle de películas
+    checkout/       # Resumen y finalización de compra
+    client/         # Cuenta y beneficios de membresía
+    confiteria/     # Catálogo y carrito de productos
+    home/           # Página principal y layout general
+    locations/      # Selección de país, ciudad y cine
+    seats/          # Mapa y selección de asientos
+    users/          # Servicios y tipos de usuarios
+  services/         # Configuración, endpoints y cliente HTTP común
+  shared/           # Componentes, hooks, interfaces y utilidades compartidas
+  components/       # Componentes visuales reutilizables
+  appRouter.tsx     # Definición de rutas y protecciones
+  App.tsx           # Providers y RouterProvider
+Json/db.json        # Base de datos mock
+server.ts           # Arranque coordinado de Vite y JSON Server
 ```
 
-## Nota de desarrollo
+Los componentes visuales compartidos incluyen `DriftWall`, `ElectricBorder`, `MagicRings` y `StrokeText`. La aplicación también incorpora un `ToastProvider` global para mostrar mensajes de operación.
 
-Al modificar `Json/db.json`, JSON Server detecta los cambios automáticamente. Para cerrar ambos servidores, presiona `Ctrl + C` en la terminal donde ejecutaste `npm run dev`.
+## Limitaciones del entorno demostrativo
+
+- La autenticación no cifra contraseñas ni genera tokens reales.
+- Las credenciales están almacenadas en el archivo de datos local.
+- El checkout y la reserva no procesan pagos reales.
+- JSON Server reemplaza a un backend persistente y multiusuario.
+- `localStorage` se utiliza únicamente para conservar la sesión en el navegador local.
+
+Para producción sería necesario incorporar un backend real, autenticación segura, base de datos, control de concurrencia para asientos, pasarela de pagos y validaciones del lado del servidor.
