@@ -33,6 +33,54 @@
       "phone": "3042180040",
       "active": true,
       "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE05Ot6D_e7rLeGB2Da-JfR3jMvC2DEiDExir5xbUqRw&s=10"
+    },
+    {
+      "name": "Josseth torres",
+      "email": "josseth@gmail.com",
+      "password": "katerine123",
+      "roleId": "2",
+      "active": true,
+      "id": "7rbLdWcayvA"
+    },
+    {
+      "name": "Jhon Bolviar",
+      "email": "oneb@elpujhon.com",
+      "password": "12345678",
+      "roleId": "2",
+      "active": true,
+      "id": "WoM9G83JQfA"
+    },
+    {
+      "name": "nicolas alimaña",
+      "email": "nico@examen.com",
+      "password": "nico12344",
+      "roleId": "2",
+      "active": true,
+      "id": "Mzl2YEYVrX4"
+    },
+    {
+      "name": "Mau Aragón",
+      "email": "mau123@gmail.com",
+      "password": "mau12345",
+      "roleId": "2",
+      "active": true,
+      "id": "ekTL4vXSKAQ"
+    },
+    {
+      "name": "isac david",
+      "email": "isac@gmail.com",
+      "password": "12345678",
+      "roleId": "2",
+      "active": true,
+      "id": "nVXGxteZeuM"
+    },
+    {
+      "name": "Carlos el mejor",
+      "email": "carlos@appmalacom",
+      "password": "12345678",
+      "roleId": "2",
+      "active": true,
+      "id": "jiMrJeJbcwU"
     }
   ],
   "countries": [
@@ -273,7 +321,188 @@
         "IMAX"
       ],
       "capacity": 30,
-      "seatsLayout": []
+      "seatsLayout": [
+        {
+          "id": "A1",
+          "row": "A",
+          "number": 1,
+          "type": "standard"
+        },
+        {
+          "id": "A2",
+          "row": "A",
+          "number": 2,
+          "type": "standard"
+        },
+        {
+          "id": "A3",
+          "row": "A",
+          "number": 3,
+          "type": "standard"
+        },
+        {
+          "id": "A4",
+          "row": "A",
+          "number": 4,
+          "type": "standard"
+        },
+        {
+          "id": "A5",
+          "row": "A",
+          "number": 5,
+          "type": "standard"
+        },
+        {
+          "id": "A6",
+          "row": "A",
+          "number": 6,
+          "type": "standard"
+        },
+        {
+          "id": "A7",
+          "row": "A",
+          "number": 7,
+          "type": "standard"
+        },
+        {
+          "id": "A8",
+          "row": "A",
+          "number": 8,
+          "type": "standard"
+        },
+        {
+          "id": "A9",
+          "row": "A",
+          "number": 9,
+          "type": "standard"
+        },
+        {
+          "id": "A10",
+          "row": "A",
+          "number": 10,
+          "type": "standard"
+        },
+        {
+          "id": "B1",
+          "row": "B",
+          "number": 1,
+          "type": "preferential"
+        },
+        {
+          "id": "B2",
+          "row": "B",
+          "number": 2,
+          "type": "preferential"
+        },
+        {
+          "id": "B3",
+          "row": "B",
+          "number": 3,
+          "type": "preferential"
+        },
+        {
+          "id": "B4",
+          "row": "B",
+          "number": 4,
+          "type": "preferential"
+        },
+        {
+          "id": "B5",
+          "row": "B",
+          "number": 5,
+          "type": "preferential"
+        },
+        {
+          "id": "B6",
+          "row": "B",
+          "number": 6,
+          "type": "preferential"
+        },
+        {
+          "id": "B7",
+          "row": "B",
+          "number": 7,
+          "type": "preferential"
+        },
+        {
+          "id": "B8",
+          "row": "B",
+          "number": 8,
+          "type": "preferential"
+        },
+        {
+          "id": "B9",
+          "row": "B",
+          "number": 9,
+          "type": "preferential"
+        },
+        {
+          "id": "B10",
+          "row": "B",
+          "number": 10,
+          "type": "preferential"
+        },
+        {
+          "id": "C1",
+          "row": "C",
+          "number": 1,
+          "type": "preferential"
+        },
+        {
+          "id": "C2",
+          "row": "C",
+          "number": 2,
+          "type": "preferential"
+        },
+        {
+          "id": "C3",
+          "row": "C",
+          "number": 3,
+          "type": "preferential"
+        },
+        {
+          "id": "C4",
+          "row": "C",
+          "number": 4,
+          "type": "preferential"
+        },
+        {
+          "id": "C5",
+          "row": "C",
+          "number": 5,
+          "type": "preferential"
+        },
+        {
+          "id": "C6",
+          "row": "C",
+          "number": 6,
+          "type": "preferential"
+        },
+        {
+          "id": "C7",
+          "row": "C",
+          "number": 7,
+          "type": "preferential"
+        },
+        {
+          "id": "C8",
+          "row": "C",
+          "number": 8,
+          "type": "preferential"
+        },
+        {
+          "id": "C9",
+          "row": "C",
+          "number": 9,
+          "type": "preferential"
+        },
+        {
+          "id": "C10",
+          "row": "C",
+          "number": 10,
+          "type": "preferential"
+        }
+      ]
     }
   ],
   "movies": [
@@ -460,7 +689,7 @@
     {
       "id": "24",
       "title": "Avatar: The Way of Water",
-      "poster": "https://upload.wikimedia.org/wikipedia/en/5/5f/Avatar_The_Way_of_Water_poster.jpg",
+      "poster": "https://imgs.search.brave.com/4VUrDRFRB29ohaSAe0MhkgkqS-LBghtNJN0FEuG7MwE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2FiLzY4/L2RlL2FiNjhkZTc5/MDMwMGQ5NjBkYjkz/YzgxZjlmYmNmZDJk/LmpwZw",
       "trailer": "https://www.youtube.com/embed/d9MyW72ELq0",
       "genre": "Aventura",
       "rating": "PG-13",
@@ -756,7 +985,11 @@
       "status": "Estreno",
       "occupiedSeats": [
         "A5",
-        "B5"
+        "B5",
+        "B3",
+        "A3",
+        "B1",
+        "B2"
       ]
     },
     {
@@ -789,7 +1022,12 @@
       "price": 28000,
       "isSoldOut": false,
       "status": "Estreno",
-      "occupiedSeats": []
+      "occupiedSeats": [
+        "B5",
+        "C5",
+        "C6",
+        "C7"
+      ]
     },
     {
       "id": "s10",
@@ -807,7 +1045,9 @@
         "B2",
         "B3",
         "A5",
-        "B5"
+        "B5",
+        "A2",
+        "B4"
       ]
     },
     {
@@ -1097,7 +1337,10 @@
       "price": 15000,
       "isSoldOut": false,
       "status": "Estreno",
-      "occupiedSeats": []
+      "occupiedSeats": [
+        "A2",
+        "A5"
+      ]
     },
     {
       "id": "s31",
@@ -1216,6 +1459,186 @@
     }
   ],
   "tickets": [
+    {
+      "id": "TjOfk8JUYCs",
+      "userId": "WoM9G83JQfA",
+      "showtimeId": "s7",
+      "seats": [
+        "B3"
+      ],
+      "snacks": [
+        {
+          "snackId": "6",
+          "name": "Combo Pareja",
+          "quantity": 1,
+          "priceUnit": 26600
+        },
+        {
+          "snackId": "8",
+          "name": "Kit Kat",
+          "quantity": 1,
+          "priceUnit": 7500
+        }
+      ],
+      "totalAmount": 48100,
+      "purchaseDate": "2026-09-11T14:39:51.671Z",
+      "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=s7-B3-2026-09-11T14%3A39%3A51.671Z",
+      "status": "COMPLETED"
+    },
+    {
+      "id": "PRfC8ws886I",
+      "userId": "WoM9G83JQfA",
+      "showtimeId": "s7",
+      "seats": [
+        "A3"
+      ],
+      "snacks": [
+        {
+          "snackId": "3",
+          "name": "Coca-Cola 500ml",
+          "quantity": 1,
+          "priceUnit": 8000
+        }
+      ],
+      "totalAmount": 22000,
+      "purchaseDate": "2026-09-11T14:41:54.124Z",
+      "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=s7-A3-2026-09-11T14%3A41%3A54.124Z",
+      "status": "COMPLETED"
+    },
+    {
+      "id": "AvZV1caKIQo",
+      "userId": "Mzl2YEYVrX4",
+      "showtimeId": "s9",
+      "seats": [
+        "B5",
+        "C5"
+      ],
+      "snacks": [
+        {
+          "snackId": "1",
+          "name": "Combo Familiar",
+          "quantity": 9,
+          "priceUnit": 36000
+        }
+      ],
+      "totalAmount": 380000,
+      "purchaseDate": "2026-09-11T14:49:44.153Z",
+      "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=s9-B5-C5-2026-09-11T14%3A49%3A44.153Z",
+      "status": "COMPLETED"
+    },
+    {
+      "id": "uUSuXJASVm0",
+      "userId": "ekTL4vXSKAQ",
+      "showtimeId": "s9",
+      "seats": [
+        "C6",
+        "C7"
+      ],
+      "snacks": [
+        {
+          "snackId": "6",
+          "name": "Combo Pareja",
+          "quantity": 1,
+          "priceUnit": 26600
+        },
+        {
+          "snackId": "3",
+          "name": "Coca-Cola 500ml",
+          "quantity": 1,
+          "priceUnit": 8000
+        },
+        {
+          "snackId": "7",
+          "name": "Agua Cristal",
+          "quantity": 1,
+          "priceUnit": 5000
+        },
+        {
+          "snackId": "8",
+          "name": "Kit Kat",
+          "quantity": 1,
+          "priceUnit": 7500
+        }
+      ],
+      "totalAmount": 103100,
+      "purchaseDate": "2026-09-11T15:24:55.282Z",
+      "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=s9-C6-C7-2026-09-11T15%3A24%3A55.282Z",
+      "status": "COMPLETED"
+    },
+    {
+      "id": "ATIp905n27k",
+      "userId": "nVXGxteZeuM",
+      "showtimeId": "s10",
+      "seats": [
+        "A2",
+        "B4"
+      ],
+      "snacks": [
+        {
+          "snackId": "1",
+          "name": "Combo Familiar",
+          "quantity": 1,
+          "priceUnit": 36000
+        },
+        {
+          "snackId": "6",
+          "name": "Combo Pareja",
+          "quantity": 1,
+          "priceUnit": 26600
+        }
+      ],
+      "totalAmount": 94600,
+      "purchaseDate": "2026-09-11T15:35:08.081Z",
+      "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=s10-A2-B4-2026-09-11T15%3A35%3A08.081Z",
+      "status": "COMPLETED"
+    },
+    {
+      "id": "tKwpLZ1617Q",
+      "userId": "jiMrJeJbcwU",
+      "showtimeId": "s30",
+      "seats": [
+        "A2",
+        "A5"
+      ],
+      "snacks": [
+        {
+          "snackId": "1",
+          "name": "Combo Familiar",
+          "quantity": 1,
+          "priceUnit": 36000
+        },
+        {
+          "snackId": "3",
+          "name": "Coca-Cola 500ml",
+          "quantity": 1,
+          "priceUnit": 8000
+        },
+        {
+          "snackId": "8",
+          "name": "Kit Kat",
+          "quantity": 1,
+          "priceUnit": 7500
+        }
+      ],
+      "totalAmount": 81500,
+      "purchaseDate": "2026-09-11T16:23:33.578Z",
+      "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=s30-A2-A5-2026-09-11T16%3A23%3A33.578Z",
+      "status": "COMPLETED"
+    },
+    {
+      "id": "cqiGeQg3HiA",
+      "userId": "jiMrJeJbcwU",
+      "showtimeId": "s7",
+      "seats": [
+        "B1",
+        "B2"
+      ],
+      "snacks": [],
+      "totalAmount": 28000,
+      "purchaseDate": "2026-09-11T16:24:36.564Z",
+      "qrCode": "https://api.qrserver.com/v1/create-qr-code/?data=s7-B1-B2-2026-09-11T16%3A24%3A36.564Z",
+      "status": "COMPLETED"
+    }
   ],
   "snacks": [
     {
@@ -1344,5 +1767,6 @@
       "description": "Acceso a ciclos de cine independiente y debates mensuales organizados exclusivamente para miembros Platinum.",
       "icon": "community"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

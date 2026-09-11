@@ -4,6 +4,7 @@ import type { User, LoginCredentials, RegisterCredentials } from "../types/auth.
 import { fetchUserByEmail } from "../services/userAuthService";
 import type { RawAuthUser } from "../types/auth.types";
 import { createUser, getUserById } from "@/features/users/services/userService";
+import { useCartStore } from "@/features/confiteria/hooks/useCartStore";
 
 import type { AuthState } from "../types/auth.types";
 const normalizeUser = (user: RawAuthUser): User => ({
@@ -71,6 +72,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       localStorage.setItem("token", token);
       persistUser(normalizedUser);
+      useCartStore.getState().setUserScope(normalizedUser.id);
 
       set({
         token,
@@ -95,11 +97,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         throw new Error("El correo ya se encuentra registrado.");
       }
 
+      const normalizedEmail = credentials.email.toLowerCase().trim();
       await createUser({
         name: `${credentials.firstName} ${credentials.lastName}`.trim(),
-        email: credentials.email,
+        email: normalizedEmail,
         password: credentials.password,
-        roleId: 2, // cliente
+        roleId: "2", // cliente
         active: true,
       });
 
@@ -132,6 +135,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: () => {
+    useCartStore.getState().clear();
+    useCartStore.getState().setUserScope(null);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     set({ user: null, token: null, isAuthenticated: false });

@@ -49,6 +49,7 @@ export interface CartState {
   openConfiteriaModal: () => void;
   closeConfiteriaModal: () => void;
   clear: () => void;
+  setUserScope: (userId: string | null) => void;
 }
 
 export interface ConfiteriaCategoriasProps {

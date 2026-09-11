@@ -19,5 +19,5 @@ export const endpoints = {
   showtimeById: (id: string | number) => `/showtimes/${id}`,
   userWithRoles: "/users?_expand=role",
   userById: (id: string | number) => `/users/${id}`,
-  usersByEmail: (email: string) => `/users?email=${encodeURIComponent(email)}`,
+  usersByEmail: (email: string) => `/users?email=${encodeURIComponent(email.toLowerCase().trim())}`,
 } as const;

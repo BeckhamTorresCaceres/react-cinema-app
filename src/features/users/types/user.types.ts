@@ -4,7 +4,7 @@ export interface ServerUser {
   username?: string;
   email?: string;
   password?: string;
-  roleId?: number;
+  roleId?: string;
   phone?: string;
   active?: boolean;
   avatar?: string;

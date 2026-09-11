@@ -1,7 +1,10 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { TICKET_RESERVATION_DURATION_MS, type CartState, type NewTicketCartItem, type SnackProduct, type TicketCartItem } from "../types/confiteria.types";
 
+
+let cartUserId: string | null = null;
+const cartStorageKey = () => cartUserId ? `lumi-cart-${cartUserId}` : "lumi-cart-guest";
 
 const updateTicket = (
   tickets: TicketCartItem[],
@@ -76,10 +79,29 @@ export const useCartStore = create<CartState>()(persist((set) => ({
     };
   }),
   clear: () => set({ tickets: [], activeTicketId: null }),
+  setUserScope: (userId) => {
+    cartUserId = userId ? String(userId) : null;
+    try {
+      const raw = localStorage.getItem(cartStorageKey());
+      if (!raw) {
+        set({ tickets: [], activeTicketId: null });
+        return;
+      }
+      const parsed = JSON.parse(raw) as { state?: Partial<CartState> };
+      set({ tickets: parsed.state?.tickets ?? [], activeTicketId: parsed.state?.activeTicketId ?? null });
+    } catch {
+      set({ tickets: [], activeTicketId: null });
+    }
+  },
   openConfiteriaModal: () => set({ isConfiteriaModalOpen: true }),
   closeConfiteriaModal: () => set({ isConfiteriaModalOpen: false }),
 }), {
   name: "lumi-cart",
+  storage: createJSONStorage(() => ({
+    getItem: (name) => localStorage.getItem(cartStorageKey()),
+    setItem: (_name, value) => localStorage.setItem(cartStorageKey(), value),
+    removeItem: (_name) => localStorage.removeItem(cartStorageKey()),
+  })),
   version: 3,
   migrate: (persistedState) => {
     const state = persistedState as CartState;

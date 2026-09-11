@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUsers, updateUser } from "@/features/users/services/userService";
+import { useAuthStore } from "@/features/auth/hooks/useAuthStore";
 import { UsersTable } from "../components/users/UsersTable";
 
 import type { AdminUser } from "../types/admin.types";
@@ -13,8 +14,9 @@ export const AdminUsersPage = () => {
         id: String(user.id ?? ""),
         name: String(user.name ?? user.username ?? ""),
         email: String(user.email ?? ""),
-        roleId: Number(user.roleId ?? 2),
+        roleId: String(user.roleId ?? "2"),
         avatar: user.avatar,
+        active: user.active !== false,
       })),
     );
   };
@@ -26,16 +28,32 @@ export const AdminUsersPage = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // Cambiar rol de usuario en db.json (1 = Admin, 2 = Cliente)
-  const handleRoleChange = async (userId: string | number, newRoleId: number) => {
+  // Cambiar rol de usuario en db.json ("1" = Admin, "2" = Cliente)
+  const handleRoleChange = async (userId: string | number, newRoleId: string) => {
+    const targetId = String(userId);
+    const currentUser = useAuthStore.getState().user;
+    const currentTarget = users.find((u) => String(u.id) === targetId);
+
+    if (!currentTarget || String(currentTarget.roleId) === newRoleId) return;
+
+    if (currentUser?.id === targetId && newRoleId === "2") {
+      const activeAdmins = users.filter((u) => String(u.roleId) === "1" && u.active !== false);
+      if (activeAdmins.length <= 1) {
+        window.alert("No puedes quitarte el rol de administrador porque eres el último administrador.");
+        return;
+      }
+      if (!window.confirm("¿Seguro que quieres cambiar tu propia cuenta a Cliente? Perderás el acceso al panel de administración.")) return;
+    }
+
     try {
       await updateUser(userId, { roleId: newRoleId });
-
-      setUsers((prev) =>
-        prev.map((u) => (u.id === userId ? { ...u, roleId: newRoleId } : u))
-      );
+      setUsers((prev) => prev.map((u) => (String(u.id) === targetId ? { ...u, roleId: newRoleId } : u)));
+      if (currentUser?.id === targetId && newRoleId === "2") {
+        useAuthStore.getState().logout();
+      }
     } catch (err) {
       console.error("Error al actualizar rol:", err);
+      window.alert("No fue posible actualizar el rol. Inténtalo de nuevo.");
     }
   };
 

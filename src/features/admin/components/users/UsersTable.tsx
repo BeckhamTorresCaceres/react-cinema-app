@@ -3,7 +3,7 @@ import type { AdminUser } from "../../types/admin.types";
 
 interface UsersTableProps {
   users: AdminUser[];
-  onRoleChange: (userId: string | number, newRoleId: number) => void;
+  onRoleChange: (userId: string | number, newRoleId: string) => void;
 }
 
 export const UsersTable = ({ users, onRoleChange }: UsersTableProps) => {
@@ -35,7 +35,7 @@ export const UsersTable = ({ users, onRoleChange }: UsersTableProps) => {
                 </span>
               </td>
               <td className="px-6 py-4">
-                {user.roleId === 1 ? (
+                {Number(user.roleId) === 1 ? (
                   <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/10 px-2.5 py-1 text-xs font-semibold text-purple-400 border border-purple-500/20">
                     <Shield size={12} /> Administrador
                   </span>
@@ -48,7 +48,7 @@ export const UsersTable = ({ users, onRoleChange }: UsersTableProps) => {
               <td className="px-6 py-4 text-right">
                 <select
                   value={user.roleId}
-                  onChange={(e) => onRoleChange(user.id, Number(e.target.value))}
+                  onChange={(e) => onRoleChange(user.id, e.target.value)}
                   className="rounded-xl border border-[#162E93] bg-[#080616] px-3 py-1.5 text-xs text-slate-200 outline-none focus:border-[#2F2FE4]"
                 >
                   <option value={2}>Cliente</option>

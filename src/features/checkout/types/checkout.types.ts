@@ -6,6 +6,7 @@ export interface TicketSnack {
 }
 
 export interface TicketPurchase {
+  id: string;
   userId: string;
   showtimeId: string;
   seats: string[];

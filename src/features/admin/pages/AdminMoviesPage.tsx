@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { createMovie, deleteMovie, getMovies, updateMovie } from "@/features/billboard/services/movieService";
+import { getShowtimes } from "@/features/billboard/services/showtimeService";
 import type { MovieRecord } from "@/features/billboard/types/billboard.types";
 import type { MovieFormValues } from "../types/admin.types";
 import { MoviesTable } from "../components/movies/MoviesTable";
@@ -26,6 +27,7 @@ export const AdminMoviesPage = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null); // Modal Confirmar Eliminar
 
   const [formData, setFormData] = useState<MovieFormValues>(emptyFormData);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     getMovies()
@@ -64,6 +66,7 @@ export const AdminMoviesPage = () => {
   // Crear o Editar Película
   const handleSaveMovie = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
     const isEdit = Boolean(editingMovie?.id);
 
     const payload = isEdit
@@ -73,22 +76,41 @@ export const AdminMoviesPage = () => {
           isActive: true,
         };
 
-    if (isEdit && editingMovie?.id) {
-      await updateMovie(editingMovie.id, payload);
-    } else {
-      await createMovie(payload);
+    try {
+      if (isEdit && editingMovie?.id) {
+        await updateMovie(editingMovie.id, payload);
+      } else {
+        await createMovie(payload);
+      }
+      await fetchMovies();
+      setEditingMovie(null);
+    } catch (error) {
+      console.error("Error al guardar película:", error);
+      setErrorMessage(error instanceof Error ? error.message : "No fue posible guardar la película.");
     }
-
-    fetchMovies();
-    setEditingMovie(null);
   };
 
   // Confirmar y Eliminar
   const confirmDelete = async () => {
     if (!deletingId) return;
-    await deleteMovie(deletingId);
-    setMovies(movies.filter((m) => m.id !== deletingId));
-    setDeletingId(null);
+    setErrorMessage(null);
+    try {
+      const showtimes = await getShowtimes();
+      const activeDependencies = showtimes.filter(
+        (showtime) => String(showtime.movieId) === String(deletingId) && !showtime.isSoldOut && showtime.status !== "Finalizada"
+      );
+      if (activeDependencies.length > 0) {
+        setErrorMessage("No puedes eliminar esta película porque tiene funciones activas asociadas.");
+        setDeletingId(null);
+        return;
+      }
+      await deleteMovie(deletingId);
+      setMovies((current) => current.filter((m) => m.id !== deletingId));
+      setDeletingId(null);
+    } catch (error) {
+      console.error("Error al eliminar película:", error);
+      setErrorMessage(error instanceof Error ? error.message : "No fue posible eliminar la película.");
+    }
   };
 
   return (
@@ -105,6 +127,8 @@ export const AdminMoviesPage = () => {
           <Plus size={18} /> Nueva Película
         </button>
       </div>
+
+      {errorMessage && <div role="alert" className="rounded-xl border border-red-500/30 bg-red-950/30 px-4 py-3 text-sm text-red-200">{errorMessage}</div>}
 
       <MoviesTable
         movies={movies}

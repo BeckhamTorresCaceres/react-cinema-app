@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { MembershipCard } from "../components";
-import { getUserById, replaceUser } from "@/features/users/services/userService";
+import { getUserById, updateUser } from "@/features/users/services/userService";
 import { useAuthStore } from "@/features/auth/hooks/useAuthStore";
 import type { AccountUser } from "../types/account.types";
 const MyAccount = () => {
-  const { user: authUser } = useAuthStore();
+  const { user: authUser, refreshProfile } = useAuthStore();
   const [user, setUser] = useState<AccountUser | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   
@@ -24,7 +24,7 @@ const MyAccount = () => {
     if (!authUser?.id) return;
 
     getUserById(authUser.id)
-      .then((data) => {
+      .then(async (data) => {
         const mappedUser: AccountUser = {
           id: Number(data.id),
           name: String(data.name ?? ""),
@@ -58,16 +58,17 @@ const MyAccount = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!user) return;
 
-    replaceUser(user.id, { ...user, ...formData })
-      .then((data) => {
+    updateUser(user.id, { ...formData, email: formData.email.toLowerCase().trim() })
+      .then(async (data) => {
         setUser({
           ...user,
           ...formData,
           id: Number(data.id ?? user.id),
         });
+        await refreshProfile();
         setIsEditing(false);
       })
       .catch((error) => console.error("Error al actualizar:", error));

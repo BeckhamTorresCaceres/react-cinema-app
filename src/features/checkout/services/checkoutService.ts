@@ -4,6 +4,9 @@ import { getMovieById, getShowtimeById, updateShowtime } from "@/features/billbo
 import type { PurchaseHistoryItem, PurchasedTicket, TicketPurchase } from "../types/checkout.types";
 
 export async function completePurchase(ticket: TicketPurchase): Promise<void> {
+  const existing = await request<TicketPurchase[]>(`${endpoints.tickets}?id=${encodeURIComponent(ticket.id)}`);
+  if (existing.length > 0) return;
+
   const showtime = await getShowtimeById(ticket.showtimeId);
   const unavailableSeats = ticket.seats.filter((seat) => showtime.occupiedSeats.includes(seat));
 
@@ -12,10 +15,17 @@ export async function completePurchase(ticket: TicketPurchase): Promise<void> {
   }
 
   const occupiedSeats = [...new Set([...showtime.occupiedSeats, ...ticket.seats])];
-  await updateShowtime(showtime.id, {
-    occupiedSeats,
-  });
-  await request<TicketPurchase>(endpoints.tickets, { method: "POST", data: ticket });
+  await updateShowtime(showtime.id, { occupiedSeats });
+  try {
+    await request<TicketPurchase>(endpoints.tickets, { method: "POST", data: ticket });
+  } catch (error) {
+    try {
+      await updateShowtime(showtime.id, { occupiedSeats: showtime.occupiedSeats });
+    } catch {
+      // Si el rollback falla, la siguiente validación de disponibilidad evita una compra duplicada.
+    }
+    throw error;
+  }
 }
 
 /** Historial de compras ya pagadas de un usuario, con título y póster de la película. */

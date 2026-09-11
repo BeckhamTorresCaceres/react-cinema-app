@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useAuthStore } from "../hooks/useAuthStore";
 import { LoginForm } from "../components/LoginForm";
 import type { LoginFormValues } from "../types/auth.types";
@@ -10,6 +10,7 @@ import { getMovies } from "@/features/billboard/services/billboardService";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -55,11 +56,9 @@ export const LoginPage = () => {
     try {
       await login(formValues);
       const { user } = useAuthStore.getState();
-      if (user?.role === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
+      const from = location.state?.from as { pathname?: string; search?: string; hash?: string } | undefined;
+      const destination = from?.pathname ? `${from.pathname}${from.search ?? ""}${from.hash ?? ""}` : user?.role === "admin" ? "/admin" : "/";
+      navigate(destination, { replace: true });
     } catch (error: unknown) {
       setErrorMessage(
         error instanceof Error ? error.message : "No se pudo iniciar sesión"

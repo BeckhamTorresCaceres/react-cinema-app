@@ -22,20 +22,58 @@ export const CheckoutPage = () => {
     if (!user?.id) return;
     setIsPaying(true);
     setError(null);
+    const successfulIds = new Set<string>();
+
     try {
+      // Se procesa de forma secuencial para evitar que dos tickets de la misma función
+      // lean el mismo estado de asientos y se pisen entre sí. Un fallo no detiene los demás.
       for (const ticket of tickets) {
-        if (ticket.expiresAt <= Date.now()) {
-          removeExpiredTickets();
-          throw new Error("El tiempo de reserva terminó. Selecciona nuevamente tus asientos.");
+        try {
+          if (ticket.expiresAt <= Date.now()) {
+            throw new Error("El tiempo de reserva terminó. Selecciona nuevamente tus asientos.");
+          }
+
+          const purchaseDate = new Date().toISOString();
+          await completePurchase({
+            id: ticket.id,
+            userId: user.id,
+            showtimeId: ticket.showtimeId,
+            seats: ticket.seats,
+            snacks: ticket.snacks.map((item) => ({
+              snackId: item.product.id,
+              name: item.product.name,
+              quantity: item.quantity,
+              priceUnit: unitPrice(item.product),
+            })),
+            totalAmount: ticketTotal(ticket),
+            purchaseDate,
+            qrCode: `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(`${ticket.showtimeId}-${ticket.seats.join("-")}-${purchaseDate}`)}`,
+            status: "COMPLETED",
+          });
+          successfulIds.add(ticket.id);
+        } catch (ticketError) {
+          console.error(`Error procesando ticket ${ticket.id}:`, ticketError);
         }
-        const purchaseDate = new Date().toISOString();
-        await completePurchase({ userId: user.id, showtimeId: ticket.showtimeId, seats: ticket.seats, snacks: ticket.snacks.map((item) => ({ snackId: item.product.id, name: item.product.name, quantity: item.quantity, priceUnit: unitPrice(item.product) })), totalAmount: ticketTotal(ticket), purchaseDate, qrCode: `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(`${ticket.showtimeId}-${ticket.seats.join("-")}-${purchaseDate}`)}`, status: "COMPLETED" });
       }
-      clearCart();
-      setIsComplete(true);
+
+      if (successfulIds.size === tickets.length) {
+        clearCart();
+        setIsComplete(true);
+        return;
+      }
+
+      successfulIds.forEach((id) => useCartStore.getState().removeTicket(id));
+      removeExpiredTickets();
+      throw new Error(
+        successfulIds.size > 0
+          ? `Se procesaron ${successfulIds.size} de ${tickets.length} tickets. Los restantes siguen en tu carrito para reintentar.`
+          : "No fue posible completar el pago. Revisa la disponibilidad e inténtalo nuevamente."
+      );
     } catch (purchaseError) {
       setError(purchaseError instanceof Error ? purchaseError.message : "No fue posible completar el pago.");
-    } finally { setIsPaying(false); }
+    } finally {
+      setIsPaying(false);
+    }
   };
 
   if (isComplete) return <main className="mx-auto max-w-xl px-4 py-16 text-center text-white"><CheckCircle2 size={56} className="mx-auto text-emerald-400" /><h1 className="mt-5 text-3xl font-bold">Compra confirmada</h1><p className="mt-3 text-slate-400">Se registraron {tickets.length} ticket(s) correctamente.</p><Link to="/" className="mt-6 inline-block rounded-lg bg-[#2F2FE4] px-5 py-3 font-semibold">Volver al inicio</Link></main>;
