@@ -1,7 +1,7 @@
 import { Shield, UserCheck, Mail } from "lucide-react";
 import type { AdminUser } from "../../types/admin.types";
 
-interface UsersTableProps {
+export interface UsersTableProps {
   users: AdminUser[];
   onRoleChange: (userId: string | number, newRoleId: string) => void;
 }

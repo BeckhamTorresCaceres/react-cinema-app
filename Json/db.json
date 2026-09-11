@@ -1767,6 +1767,5 @@
       "description": "Acceso a ciclos de cine independiente y debates mensuales organizados exclusivamente para miembros Platinum.",
       "icon": "community"
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }

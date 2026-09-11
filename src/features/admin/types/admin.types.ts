@@ -19,3 +19,4 @@ export interface MovieFormValues {
   director: string;
   score: number;
 }
+

@@ -7,7 +7,7 @@ import { AdminOnlyRoute, ProtectedRoute, PublicOnlyRoute } from "./shared/compon
 import { AdminPage } from "./features/admin/pages/AdminPage";
 import { AdminProfilePage } from "./features/admin/pages/AdminProfilePage";
 import { AdminLayout } from "./features/admin/layouts/AdminLayout.tsx";
-import MyAccount from "./features/client/pages/MyAccount.tsx";
+import   MyAccount from "./features/client/pages/MyAccount.tsx";
 import { ConfiteriaPage } from "./features/confiteria/pages/ConfiteriaPage.tsx";
 import { MovieDetailsPage } from "./features/billboard/pages/MovieDetailsPage.tsx";
 import { SeatSelectionPage } from "./features/seats/pages/SeatSelectionPage.tsx";
