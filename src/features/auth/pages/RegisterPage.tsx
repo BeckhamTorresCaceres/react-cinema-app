@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useAuthStore } from "../hooks/useAuthStore";
 import { RegisterForm } from "../components/RegisterForm";
 import type { RegisterFormValues } from "../types/auth.types";
-import MagicRings from "@/components/MagicRings/MagicRings";
+import MagicRings from "@/shared/components/MagicRings/MagicRings";
 
 const INITIAL_VALUES: RegisterFormValues = {
   firstName: "",

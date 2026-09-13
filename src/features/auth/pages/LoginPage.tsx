@@ -3,9 +3,9 @@ import { useNavigate } from "react-router";
 import { useAuthStore } from "../hooks/useAuthStore";
 import { LoginForm } from "../components/LoginForm";
 import type { LoginFormValues } from "../types/auth.types";
-import StrokeText from "@/components/StrokeText/StrokeText";
-import DriftWall from "@/components/DriftWall/DriftWall";
-import type { DriftWallItem } from "@/components/DriftWall/DriftWall";
+import StrokeText from "@/shared/components/StrokeText/StrokeText";
+import DriftWall from "@/shared/components/DriftWall/DriftWall";
+import type { DriftWallItem } from "@/shared/components/DriftWall/DriftWall";
 import { getMovies } from "@/features/billboard/services/billboardService";
 
 export const LoginPage = () => {
